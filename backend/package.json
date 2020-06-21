@@ -1,0 +1,49 @@
+{
+  "name": "serverless-todo-app",
+  "version": "1.0.0",
+  "description": "Serverless TODO image app",
+  "main": "handler.js",
+  "scripts": {
+    "test": "jest",
+    "debug": "export SLS_DEBUG=* && node --inspect ~/.nvm/versions/node/v12.16.3/bin/serverless offline start -s test",
+    "local": "export SLS_DEBUG=* && node ~/.nvm/versions/node/v12.16.3/bin/serverless offline start -s test",    
+    "deploy": "export SLS_DEBUG=* && sls deploy -v"
+  },
+  "dependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/http-errors": "^1.6.1",
+    "axios": "^0.19.0",
+    "http-errors": "^1.7.2",
+    "jsonwebtoken": "^8.5.1",
+    "jwks-rsa": "^1.8.0",
+    "middy": "^0.27.0",
+    "source-map-support": "^0.5.11",
+    "uuid": "^3.3.2",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.28",
+    "@types/jest": "^24.0.15",
+    "@types/jsonwebtoken": "^8.3.2",
+    "@types/node": "^10.14.12",
+    "aws-sdk": "^2.492.0",
+    "jest": "^24.8.0",
+    "serverless-aws-documentation": "^1.1.0",
+    "serverless-dynamodb-local": "^0.2.30",
+    "serverless-iam-roles-per-function": "^1.0.4",
+    "serverless-offline": "^6.4.0",
+    "serverless-plugin-canary-deployments": "^0.4.7",
+    "serverless-reqvalidator-plugin": "^1.0.3",
+    "serverless-s3-local": "^0.6.1",
+    "serverless-webpack": "^5.3.1",
+    "ts-jest": "^24.0.2",
+    "ts-loader": "^5.4.5",
+    "typescript": "^3.5.3",
+    "webpack": "^4.35.3"
+  },
+  "resolutions": {
+    "serverless-dynamodb-local/dynamodb-localhost": "0.0.7"
+  },
+  "author": "Ivan Mushketyk",
+  "license": "MIT"
+}

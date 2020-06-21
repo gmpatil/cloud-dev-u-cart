@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "es2017"
+    ],
+    "moduleResolution": "node",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "sourceMap": true,
+    "target": "es2017",
+    "outDir": "lib"    
+    // "sourceRoot": "${workspaceRoot}/src",
+    // "outDir": "${workspaceRoot}/lib",
+    // "mapRoot": "compiled"  
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
