@@ -23,9 +23,11 @@ provider:
     # apiGateway: true
 
   environment:
-    TODOS_TABLE: Todo-${self:provider.stage}
+    STORE_TABLE: store-${self:provider.stage}  
+    ITEM_TABLE: item-${self:provider.stage}
     TODOS_USR_INDEX: TodoUsrIndex-${self:provider.stage}
-    IMAGES_S3_BUCKET: gmp-todo-images-${self:provider.stage}
+    ORDER_TABLE: order-${self:provider.stage}    
+    IMAGES_S3_BUCKET: gmp-ucart-images-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
   #   THUMBNAILS_S3_BUCKET: serverless-udagram-thumbnail-${self:provider.stage}
   #   AUTH_0_SECRET_ID: Auth0Secret-${self:provider.stage}
@@ -212,9 +214,30 @@ resources:
         ValidateRequestBody: true
         ValidateRequestParameters: false          
 
-    TodosTable:
+    StoreTable:
       Type: AWS::DynamoDB::Table
       Properties:
+        TableName: ${self:provider.environment.STORE_TABLE}        
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: N
+          - AttributeName: name
+            AttributeType: S
+          - AttributeName: desc
+            AttributeType: S
+          - AttributeName: imageURL
+            AttributeType: S            
+          - AttributeName: createdAt
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+
+    ItemTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.ITEM_TABLE}        
         AttributeDefinitions:
           - AttributeName: userId
             AttributeType: S
@@ -228,7 +251,6 @@ resources:
           - AttributeName: todoId
             KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
-        TableName: ${self:provider.environment.TODOS_TABLE}
         LocalSecondaryIndexes:
           - IndexName: ${self:provider.environment.TODOS_USR_INDEX}
             KeySchema:

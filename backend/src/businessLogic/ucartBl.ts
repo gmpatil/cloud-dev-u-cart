@@ -1,3 +1,6 @@
+import { CreateStoreRequest } from '../requests/CreateStoreRequest';
+import { Store } from '../models/Store';
+
 import { CreateTodoRequest } from '../requests/CreateItemRequest';
 import { UpdateTodoRequest } from '../requests/UpdateItemRequest';
 import * as uuid from 'uuid';
@@ -8,17 +11,10 @@ import * as s3Svc from '../dataLayer/imageS3';
 import { TodoUpdate } from '../models/ItemUpdate';
 
 
-const logger = createLogger("todoDb");
+const logger = createLogger("ucartBl");
 
-export async function getTodosForUser(userId: string): Promise<TodoItem[]> {
-    logger.debug("todoBl.getTodosForUser - in");
-    const items: TodoItem[] = await ddb.getTodoByUser(userId);
-    logger.debug("todoBl.getTodosForUser - out");
-    return items;
-}
-
-export async function createTodoItem(userId: string, todoBus: CreateTodoRequest): Promise<TodoItem> {
-    logger.debug("todoBl.createTodoItem - in");
+export async function createStore(storeReq: CreateStoreRequest): Promise<Store> {
+    logger.debug("ucartBl.createStore - in");
 
     const todoId = uuid.v4();
     const todoDb: TodoItem = {
@@ -31,21 +27,46 @@ export async function createTodoItem(userId: string, todoBus: CreateTodoRequest)
     }
 
     const item: TodoItem = await ddb.createTodo(todoDb);
-    logger.debug("todoBl.createTodoItem - out");
+    logger.debug("ucartBl.createTodoItem - out");
+    return item;
+}
+
+export async function getItemsForStore(userId: string): Promise<TodoItem[]> {
+    logger.debug("ucartBl.getTodosForUser - in");
+    const items: TodoItem[] = await ddb.getTodoByUser(userId);
+    logger.debug("ucartBl.getTodosForUser - out");
+    return items;
+}
+
+export async function createTodoItem(userId: string, todoBus: CreateTodoRequest): Promise<TodoItem> {
+    logger.debug("ucartBl.createTodoItem - in");
+
+    const todoId = uuid.v4();
+    const todoDb: TodoItem = {
+        todoId: todoId,
+        userId: userId,
+        createdAt: new Date().toISOString(),
+        name: todoBus.name,
+        done: false,
+        ...todoBus
+    }
+
+    const item: TodoItem = await ddb.createTodo(todoDb);
+    logger.debug("ucartBl.createTodoItem - out");
     return item;
 }
 
 export async function updateTodoItem(userId: string, todoId: string, todoBus: UpdateTodoRequest)
     : Promise<TodoUpdate> {
-    logger.debug("todoBl.updateTodoItem - in");
+    logger.debug("ucartBl.updateTodoItem - in");
     const updItem: TodoUpdate = await ddb.updateTodo(userId, todoId, todoBus);
-    logger.debug("todoBl.updateTodoItem - out");
+    logger.debug("ucartBl.updateTodoItem - out");
     return updItem;
 }
 
 export async function deleteTodoItem(userId: string, todoId: string)
     : Promise<void> {
-    logger.debug("todoBl.deleteTodoItem - in");
+    logger.debug("ucartBl.deleteTodoItem - in");
 
     const todoItm: TodoItem = await ddb.getTodo(userId, todoId);
     if (todoItm) {
@@ -58,13 +79,13 @@ export async function deleteTodoItem(userId: string, todoId: string)
         await ddb.deleteTodo(userId, todoId);        
     }
 
-    logger.debug("todoBl.deleteTodoItem - out");
+    logger.debug("ucartBl.deleteTodoItem - out");
     return;
 }
 
 export async function getSignedUrl(userId: string, todoId: string)
     :Promise<string> {
-    logger.debug("todoBl.getSignedUrl - in");
+    logger.debug("ucartBl.getSignedUrl - in");
     const todoItm: TodoItem = await ddb.getTodo(userId, todoId);
     
     //record/overwrite as a new attachment URL or update to existing one.    
@@ -75,10 +96,10 @@ export async function getSignedUrl(userId: string, todoId: string)
 
         // get signed/upload URL from S3
         const uploadUrl :string = await s3Svc.getAttachementUploadUrl(userId, todoId);        
-        logger.debug("todoBl.getSignedUrl - out 1");        
+        logger.debug("ucartBl.getSignedUrl - out 1");        
         return uploadUrl;
     } else {
-        logger.debug("todoBl.getSignedUrl - out 2");        
+        logger.debug("ucartBl.getSignedUrl - out 2");        
         return null;
     }
 }

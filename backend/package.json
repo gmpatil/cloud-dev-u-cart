@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "debug": "export SLS_DEBUG=* && node --inspect ~/.nvm/versions/node/v12.16.3/bin/serverless offline start -s test",
-    "local": "export SLS_DEBUG=* && node ~/.nvm/versions/node/v12.16.3/bin/serverless offline start -s test",    
+    "local": "export SLS_DEBUG=* && node ~/.nvm/versions/node/v12.16.3/bin/serverless offline start -s test",
     "deploy": "export SLS_DEBUG=* && sls deploy -v"
   },
   "dependencies": {

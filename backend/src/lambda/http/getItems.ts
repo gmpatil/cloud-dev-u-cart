@@ -14,7 +14,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
 
   if (userId) {
     
-    const items = await bld.getTodosForUser(userId);
+    const items = await bld.getItemsForStore(userId);
 
     logger.debug("getTodos.handler 1 - out");       
     return {
