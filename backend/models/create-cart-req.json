@@ -1,0 +1,30 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "create-cart-req",
+    "type": "object",
+    "properties": {
+      "storeId": {"type": "integer"},
+      "itms": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "itemId" : { "type": "integer"},
+            "unitType": {
+              "type": "string",
+              "enum": ["num", "gm", "oz", "lbs", "kg"]
+            },      
+            "qty" : { "type": "integer"},
+            "price" : {"type" : "number"}
+          }
+        }
+      },
+      "totalAmt" : { "type": "number"}
+    },
+    "required": [
+      "storeId",      
+      "itms",
+      "totalAmt"
+    ],
+    "additionalProperties": false
+  }

@@ -1,0 +1,32 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "create-order-req",
+    "type": "object",
+    "properties": {
+      "storeId": {"type": "integer"},
+      "itms": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "item_id" : { "type": "integer"},
+            "unitType": {
+              "type": "string",
+              "enum": ["num", "gm", "oz", "lbs", "kg"]
+            },      
+            "qty" : { "type": "integer"},
+            "price" : {"type" : "number"}
+          }
+        }
+      },
+      "totalAmt" : { "type": "number"},
+      "status": { "type": "string", "enum": ["created", "processing", "ready", "pickedUp", "delivered"]},
+      "completedAt": { "type": "string"}
+    },
+    "required": [
+      "storeId",
+      "itms",
+      "totalAmt"
+    ],
+    "additionalProperties": false
+  }

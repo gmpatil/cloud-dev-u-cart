@@ -1,9 +1,11 @@
-export interface TodoItem {
-  userId: string
-  todoId: string
-  createdAt: string
+export interface Item {
+  storeId: number
+  itemId?: number
   name: string
-  dueDate: string
-  done: boolean
-  attachmentUrl?: string
+  desc: string
+  unitType: string
+  minIncrement: number
+  maxUnit?: number
+  price: number
+  imageUploaded?: boolean
 }

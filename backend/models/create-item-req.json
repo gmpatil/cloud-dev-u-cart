@@ -3,31 +3,25 @@
     "title": "create-item-req",
     "type": "object",
     "properties": {
-      "name": {
-        "type": "string"
-      },
-      "desc": {
-        "type": "string"
-      },
+      "storeId" : {"type": "integer"},
+      "name": { "type": "string" },
+      "desc": {"type": "string"},
       "unitType": {
         "type": "string",
-        "enum": ["number", "gm", "oz", "lbs", "kg"]
+        "enum": ["num", "gm", "oz", "lbs", "kg"]
       },
-      "minIncreament": {
-        "type" : "integer"
-      },
-      "maxUnits": {
-        "type" : "integer"
-      },
-      "imagetUrl": {
-        "type": "string"
-      }
+      "minIncreament": {"type" : "integer"},
+      "maxUnits": { "type" : "integer"},
+      "price": {"type": "number"},
+      "imageUploaded": { "type": "boolean" }
     },
     "required": [
+      "storeId",
       "name",
       "desc",
       "unitType",
-      "minIncrement"
+      "minIncrement",
+      "price"
     ],
     "additionalProperties": false
   }
