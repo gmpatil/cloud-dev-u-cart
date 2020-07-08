@@ -23,11 +23,15 @@ provider:
     # apiGateway: true
 
   environment:
-    STORE_TABLE: store-${self:provider.stage}  
-    ITEM_TABLE: item-${self:provider.stage}
-    TODOS_USR_INDEX: TodoUsrIndex-${self:provider.stage}
+    CART_TABLE: cart-${self:provider.stage}      
+    ITEM_TABLE: item-${self:provider.stage}    
     ORDER_TABLE: order-${self:provider.stage}    
-    IMAGES_S3_BUCKET: gmp-ucart-images-${self:provider.stage}
+    SEQ_TABLE: seq-${self:provider.stage}                  
+    STORE_TABLE: store-${self:provider.stage}  
+    USR_TABLE: user-${self:provider.stage}      
+    USR_INDEX: user-index-${self:provider.stage}
+    ITEM_IMG_S3_BUCKET: gmp-ucart-img-${self:provider.stage}
+    ITEM_IMG_S_S3_BUCKET: gmp-ucart-img-s-${self:provider.stage}    
     SIGNED_URL_EXPIRATION: 300
   #   THUMBNAILS_S3_BUCKET: serverless-udagram-thumbnail-${self:provider.stage}
   #   AUTH_0_SECRET_ID: Auth0Secret-${self:provider.stage}
@@ -66,10 +70,10 @@ custom:
       inMemory: true
       migrate: true
     seed:
-      Todo:
+      seqTable:
         sources:
-          - table: ${self:provider.environment.TODOS_TABLE}
-            sources: [./tst/seed-todo.json]
+          - table: seq-${self:provider.stage}
+            sources: [./tst/seed-seq.json]
     stages:
       - test 
       - dev        

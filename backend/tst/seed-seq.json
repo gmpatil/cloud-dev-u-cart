@@ -1,0 +1,22 @@
+[
+    {
+        "entity": "cart",
+        "seq": 0
+    },
+    {
+        "entity": "item",
+        "seq": 0
+    },
+    {
+        "entity": "order",
+        "seq": 0
+    },
+    {
+        "entity": "store",
+        "seq": 0
+    },
+    {
+        "entity": "user",
+        "seq": 0
+    }
+]
