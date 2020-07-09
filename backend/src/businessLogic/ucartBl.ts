@@ -6,7 +6,7 @@ import { UpdateTodoRequest } from '../requests/UpdateItemRequest';
 import * as uuid from 'uuid';
 import { createLogger } from '../utils/logger';
 import { TodoItem } from '../models/Item';
-import * as ddb from '../dataLayer/ucartDb';
+import * as ddb from '../dataLayer/cartTbl';
 import * as s3Svc from '../dataLayer/imageS3';
 import { TodoUpdate } from '../models/ItemUpdate';
 
@@ -59,7 +59,7 @@ export async function createTodoItem(userId: string, todoBus: CreateTodoRequest)
 export async function updateTodoItem(userId: string, todoId: string, todoBus: UpdateTodoRequest)
     : Promise<TodoUpdate> {
     logger.debug("ucartBl.updateTodoItem - in");
-    const updItem: TodoUpdate = await ddb.updateTodo(userId, todoId, todoBus);
+    const updItem: TodoUpdate = await ddb.updateCart(userId, todoId, todoBus);
     logger.debug("ucartBl.updateTodoItem - out");
     return updItem;
 }
@@ -76,7 +76,7 @@ export async function deleteTodoItem(userId: string, todoId: string)
         }
 
         // Delete TodoItem from DynamoDB
-        await ddb.deleteTodo(userId, todoId);        
+        await ddb.deleteCart(userId, todoId);        
     }
 
     logger.debug("ucartBl.deleteTodoItem - out");

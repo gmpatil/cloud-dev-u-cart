@@ -9,7 +9,9 @@ export enum OrderStatus {
 } 
 
 export interface Order {
-    storeId: number
+    userId: string
+    storeNum: number
+    orderNum: number
     items : Array<OrderItem>
     totalPrice: number
     status?: OrderStatus

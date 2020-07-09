@@ -1,7 +1,8 @@
 import { OrderItem  } from "./OrderItem";
 
 export interface Cart {
-    storeId: number
+    userId: string
+    storeNum: number
     items : Array<OrderItem>
     totalPrice: number
 }

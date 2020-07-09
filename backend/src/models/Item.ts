@@ -1,6 +1,6 @@
 export interface Item {
-  storeId: number
-  itemId?: number
+  storeNum: number
+  itemNum?: number
   name: string
   desc: string
   unitType: string
