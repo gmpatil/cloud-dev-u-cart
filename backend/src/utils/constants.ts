@@ -19,3 +19,4 @@ export const ENT_USER :string = `user` ;
 // For S3 buckets
 export const S3_BUCKET_ITEM_IMG :string = `gmp-ucart-img-${process.env.STAGE}`
 export const S3_BUCKET_ITEM_IMG_S :string = `gmp-ucart-img-s-${process.env.STAGE}`
+export const S3_SIGNED_URL_EXPIRATION :number = 3000

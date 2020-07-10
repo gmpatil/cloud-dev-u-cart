@@ -6,8 +6,8 @@ import { UpdateTodoRequest } from '../requests/UpdateItemRequest';
 import * as uuid from 'uuid';
 import { createLogger } from '../utils/logger';
 import { TodoItem } from '../models/Item';
-import * as ddb from '../dataLayer/cartTbl';
-import * as s3Svc from '../dataLayer/imageS3';
+import * as ddb from '../dataLayer/CartTbl';
+import * as s3Svc from '../dataLayer/ImageS3';
 import { TodoUpdate } from '../models/ItemUpdate';
 
 

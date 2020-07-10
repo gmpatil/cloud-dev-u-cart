@@ -3,60 +3,72 @@ import { Store } from '../models/Store';
 import { TBL_STORE, LOCAL_DYNAMODB_EP } from '../utils/constants';
 import { createLogger } from '../utils/logger';
 
-const logger = createLogger("todoDb");
+export class CartTbl {
+    constructor(private readonly dbDocClient: AWS.DynamoDB.DocumentClient = createDynamoDBClient(),
+        private readonly logger = createLogger("storeTbl")) { }
 
-let dbDocClient: AWS.DynamoDB.DocumentClient;
 
-if (process.env.IS_OFFLINE) {
-    dbDocClient = new AWS.DynamoDB.DocumentClient({ endpoint: LOCAL_DYNAMODB_EP });
-} else {
-    dbDocClient = new AWS.DynamoDB.DocumentClient();
+    async createStore(store: Store): Promise<Store> {
+        this.logger.debug("storeTbl.createStore - in");
+
+        await this.dbDocClient.put({
+            TableName: TBL_STORE,
+            Item: store,
+            ConditionExpression: 'attribute_not_exists(storeNum)'
+        }).promise();
+
+        this.logger.debug("storeTbl.createStore - out");
+        return store;
+    }
+
+    async updateStore(store: Store): Promise<Store> {
+        this.logger.debug("storeTbl.updateStore - in");
+
+        await this.dbDocClient.put({
+            TableName: TBL_STORE,
+            Item: store
+        }).promise();
+
+        this.logger.debug("storeTbl.updateStore - out");
+        return store;
+    }
+
+    async getStore(storeNum: number): Promise<Store> {
+        this.logger.debug("storeTbl.getStore - in");
+
+        const result = await this.dbDocClient.get({
+            TableName: TBL_STORE,
+            Key: {
+                storeNum: storeNum
+            }
+        }).promise();
+
+        this.logger.debug("storeTbl.getStore - out");
+        return result.Item as Store;
+    }
+
+    // Once created, can not be deleted.
+    // async deleteStore(storeNum: number): Promise<void> {
+    //     this.logger.debug("storeTbl.deleteStore - in");
+
+    //     await this.dbDocClient.delete({ TableName: TBL_STORE, Key: { storeNum: storeNum } }).promise();
+
+    //     this.logger.debug("storeTbl.deleteStore - out");
+    // }
+
 }
 
-export async function createStore(store: Store): Promise<Store> {
-    logger.debug("storeTbl.createStore - in");
+function createDynamoDBClient() {
+    // const AWSXRay = require('aws-xray-sdk');
+    // const AWS = AWSXRay.captureAWS(AWSb)
 
-    await dbDocClient.put({
-        TableName: TBL_STORE,
-        Item: store,
-        ConditionExpression: 'attribute_not_exists(storeNum)'
-    }).promise();
-
-    logger.debug("storeTbl.createStore - out");
-    return store;
+    let dbDocClient: AWS.DynamoDB.DocumentClient;
+    if (process.env.IS_OFFLINE) {
+        return dbDocClient = new AWS.DynamoDB.DocumentClient({
+            region: 'localhost',
+            endpoint: LOCAL_DYNAMODB_EP
+        });
+    } else {
+        return dbDocClient = new AWS.DynamoDB.DocumentClient();
+    }
 }
-
-export async function updateStore(store: Store): Promise<Store> {
-    logger.debug("storeTbl.updateStore - in");
-
-    await dbDocClient.put({
-        TableName: TBL_STORE,
-        Item: store
-    }).promise();
-
-    logger.debug("storeTbl.updateStore - out");
-    return store;
-}
-
-export async function getStore(storeNum: number): Promise<Store> {
-    logger.debug("storeTbl.getStore - in");
-
-    const result = await dbDocClient.get({
-        TableName: TBL_STORE,
-        Key: {
-            storeNum: storeNum
-        }
-    }).promise();
-
-    logger.debug("storeTbl.getStore - out");
-    return result.Item as Store;
-}
-
-// Once created, can not be deleted.
-// export async function deleteStore(storeNum: number): Promise<void> {
-//     logger.debug("storeTbl.deleteStore - in");
-
-//     await dbDocClient.delete({ TableName: TBL_STORE, Key: { storeNum: storeNum } }).promise();
-
-//     logger.debug("storeTbl.deleteStore - out");
-// }
