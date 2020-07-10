@@ -20,3 +20,6 @@ export const ENT_USER :string = `user` ;
 export const S3_BUCKET_ITEM_IMG :string = `gmp-ucart-img-${process.env.STAGE}`
 export const S3_BUCKET_ITEM_IMG_S :string = `gmp-ucart-img-s-${process.env.STAGE}`
 export const S3_SIGNED_URL_EXPIRATION :number = 3000
+
+// Elastic search
+export const ES_EP :string = process.env.ES_ENDPOINT

@@ -223,18 +223,16 @@ resources:
       Properties:
         TableName: ${self:provider.environment.STORE_TABLE}        
         AttributeDefinitions:
-          - AttributeName: id
+          - AttributeName: storeNum
             AttributeType: N
           - AttributeName: name
             AttributeType: S
           - AttributeName: desc
             AttributeType: S
-          - AttributeName: imageURL
-            AttributeType: S            
           - AttributeName: createdAt
             AttributeType: S
         KeySchema:
-          - AttributeName: id
+          - AttributeName: storeNum
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
 
@@ -243,16 +241,18 @@ resources:
       Properties:
         TableName: ${self:provider.environment.ITEM_TABLE}        
         AttributeDefinitions:
-          - AttributeName: userId
+          - AttributeName: storeNum
+            AttributeType: N
+          - AttributeName: itemNum
+            AttributeType: N            
+          - AttributeName: name
             AttributeType: S
-          - AttributeName: todoId
-            AttributeType: S
-          - AttributeName: dueDate
+          - AttributeName: desc
             AttributeType: S
         KeySchema:
-          - AttributeName: userId
+          - AttributeName: storeNum
             KeyType: HASH
-          - AttributeName: todoId
+          - AttributeName: itemNum
             KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
         LocalSecondaryIndexes:
