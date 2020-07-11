@@ -11,13 +11,23 @@ export class SeqTbl {
         const upd = await this.dbClient.update({
             TableName: c.TBL_SEQ,
             Key: { entity: entityName},
-            UpdateExpression: "set seq = seq + 1",
+            UpdateExpression: "set seq = if_not_exists(seq, 0) + 1",
             ReturnValues: "UPDATED_NEW"
         }).promise();
     
         this.logger.debug("seqTbl.getNextSeqForEntity - out");
         return upd.seq;
-    }        
+    } 
+    
+    //s-00001-item
+    async getNextSeqForStoreItem(storeNum: number): Promise<number> {
+        return this.getNextSeqForEntity( `s-${String(storeNum).padStart(5)}-item`);
+    }    
+
+    //u-0000000001-order
+    async getNextSeqForUserOrder(userNum: number): Promise<number> {
+        return this.getNextSeqForEntity( `u-${String(userNum).padStart(10)}-order`);
+    }    
 }
 
 function createDynamoDBClient() {

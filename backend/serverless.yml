@@ -33,7 +33,6 @@ provider:
     ITEM_IMG_S3_BUCKET: gmp-ucart-img-${self:provider.stage}
     ITEM_IMG_S_S3_BUCKET: gmp-ucart-img-s-${self:provider.stage}    
     SIGNED_URL_EXPIRATION: 300
-  #   THUMBNAILS_S3_BUCKET: serverless-udagram-thumbnail-${self:provider.stage}
   #   AUTH_0_SECRET_ID: Auth0Secret-${self:provider.stage}
   #   AUTH_0_SECRET_FIELD: auth0Secret
 
@@ -72,7 +71,7 @@ custom:
     seed:
       seqTable:
         sources:
-          - table: seq-${self:provider.stage}
+          - table: ${self:provider.environment.SEQ_TABLE}
             sources: [./tst/seed-seq.json]
     stages:
       - test 
@@ -218,24 +217,24 @@ resources:
         ValidateRequestBody: true
         ValidateRequestParameters: false          
 
-    StoreTable:
+    CartTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:provider.environment.STORE_TABLE}        
+        TableName: ${self:provider.environment.CART_TABLE}        
         AttributeDefinitions:
+          - AttributeName: userNum
+            AttributeType: N
           - AttributeName: storeNum
             AttributeType: N
-          - AttributeName: name
-            AttributeType: S
-          - AttributeName: desc
-            AttributeType: S
           - AttributeName: createdAt
             AttributeType: S
         KeySchema:
+          - AttributeName: userNum
+            KeyType: HASH
           - AttributeName: storeNum
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
-
+    
     ItemTable:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -265,6 +264,24 @@ resources:
             Projection:
               ProjectionType: ALL # What attributes will be copied to an index
 
+    StoreTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.STORE_TABLE}        
+        AttributeDefinitions:
+          - AttributeName: storeNum
+            AttributeType: N
+          - AttributeName: name
+            AttributeType: S
+          - AttributeName: desc
+            AttributeType: S
+          - AttributeName: createdAt
+            AttributeType: S
+        KeySchema:
+          - AttributeName: storeNum
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+          
     AttachmentsBucket:
       Type: AWS::S3::Bucket
       Properties:
