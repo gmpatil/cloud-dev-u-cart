@@ -9,6 +9,7 @@ export enum OrderStatus {
 } 
 
 export interface Order {
+    orderId?: string //storeNum(5)-ordernum(10)
     userId: string
     storeNum: number
     orderNum: number

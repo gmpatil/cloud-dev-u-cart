@@ -87,12 +87,21 @@ custom:
         title: Todo API
         description: Serverless application for Todo API
     models:
-      - name: CreateTodoReq
+      - name: CartReq
         contentType: application/json
-        schema: ${file(models/create-todo-req.json)}
-      - name: UpdateTodoReq
+        schema: ${file(models/create-cart-req.json)}
+      - name: ItemReq
         contentType: application/json
-        schema: ${file(models/update-todo-req.json)}
+        schema: ${file(models/create-item-req.json)}
+      - name: OrderReq
+        contentType: application/json
+        schema: ${file(models/create-order-req.json)}
+      - name: StoreReq
+        contentType: application/json
+        schema: ${file(models/create-store-req.json)}
+      - name: UserReq
+        contentType: application/json
+        schema: ${file(models/create-user-req.json)}
 
 functions:
   Auth:
@@ -119,7 +128,7 @@ functions:
       - Effect: Allow
         Action:
           - s3:GetObject
-        Resource: arn:aws:s3:::${self:provider.environment.IMAGES_S3_BUCKET}/*
+        Resource: arn:aws:s3:::${self:provider.environment.ITEM_IMG_S3_BUCKET}/*
       - Effect: Allow
         Action:
           - xray:PutTraceSegments
@@ -193,7 +202,7 @@ functions:
       - Effect: Allow
         Action:
           - s3:PutObject
-        Resource: arn:aws:s3:::${self:provider.environment.IMAGES_S3_BUCKET}/*
+        Resource: arn:aws:s3:::${self:provider.environment.ITEM_IMG_S3_BUCKET}/*
           
 resources:
   Resources:   
@@ -232,7 +241,7 @@ resources:
           - AttributeName: userNum
             KeyType: HASH
           - AttributeName: storeNum
-            KeyType: HASH
+            KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
     
     ItemTable:
@@ -240,6 +249,8 @@ resources:
       Properties:
         TableName: ${self:provider.environment.ITEM_TABLE}        
         AttributeDefinitions:
+          - AttributeName: itemId
+            AttributeType: S
           - AttributeName: storeNum
             AttributeType: N
           - AttributeName: itemNum
@@ -249,10 +260,28 @@ resources:
           - AttributeName: desc
             AttributeType: S
         KeySchema:
-          - AttributeName: storeNum
+          - AttributeName: itemId
             KeyType: HASH
-          - AttributeName: itemNum
-            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+
+    OrderTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.ORDER_TABLE}        
+        AttributeDefinitions:
+          - AttributeName: orderId
+            AttributeType: S
+          - AttributeName: storeNum
+            AttributeType: N
+          - AttributeName: orderNum
+            AttributeType: N            
+          - AttributeName: userNum
+            AttributeType: N
+          - AttributeName: createdAt
+            AttributeType: S
+        KeySchema:
+          - AttributeName: orderId
+            KeyType: HASH
         BillingMode: PAY_PER_REQUEST
         LocalSecondaryIndexes:
           - IndexName: ${self:provider.environment.TODOS_USR_INDEX}
@@ -281,11 +310,36 @@ resources:
           - AttributeName: storeNum
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
+
+    UserTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.USER_TABLE}        
+        AttributeDefinitions:
+          - AttributeName: userNum
+            AttributeType: N
+          - AttributeName: userId
+            AttributeType: S
+          - AttributeName: name
+            AttributeType: S         
+          - AttributeName: createdAt
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userNum
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+        GlobalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.USER_UID_GIDX}
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL # What attributes will be copied to an index
           
-    AttachmentsBucket:
+    ItemImageBucket:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: ${self:provider.environment.IMAGES_S3_BUCKET}
+        BucketName: ${self:provider.environment.ITEM_IMG_S3_BUCKET}
         CorsConfiguration:
           CorsRules:
             -
@@ -300,7 +354,26 @@ resources:
                 - DELETE
                 - HEAD
               MaxAge: 3000    
-    BucketPolicy:
+    ItemImageSBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:provider.environment.ITEM_IMG_S_S3_BUCKET}
+        CorsConfiguration:
+          CorsRules:
+            -
+              AllowedOrigins:
+                - '*'
+              AllowedHeaders:
+                - '*'
+              AllowedMethods:
+                - GET
+                - PUT
+                - POST
+                - DELETE
+                - HEAD
+              MaxAge: 3000    
+
+    BucketPolicy1:
       Type: AWS::S3::BucketPolicy
       Properties:
         PolicyDocument:
@@ -311,5 +384,19 @@ resources:
               Effect: Allow
               Principal: '*'
               Action: 's3:GetObject'
-              Resource: 'arn:aws:s3:::${self:provider.environment.IMAGES_S3_BUCKET}/*'
-        Bucket: !Ref AttachmentsBucket              
+              Resource: 'arn:aws:s3:::${self:provider.environment.ITEM_IMG_S3_BUCKET}/*'
+        Bucket: !Ref ItemImageBucket              
+
+    BucketPolicy2:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        PolicyDocument:
+          Id: MyPolicy
+          Version: "2012-10-17"
+          Statement:
+            - Sid: PublicReadForGetBucketObjects
+              Effect: Allow
+              Principal: '*'
+              Action: 's3:GetObject'
+              Resource: 'arn:aws:s3:::${self:provider.environment.ITEM_IMG_S_S3_BUCKET}/*'
+        Bucket: !Ref ItemImageSBucket                      

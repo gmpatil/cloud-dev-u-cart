@@ -19,13 +19,13 @@ export class CartTbl {
         return cart;
     }
 
-    async getCart(userId: string, storeNum: number): Promise<Cart> {
+    async getCart(userNum: number, storeNum: number): Promise<Cart> {
         this.logger.debug("cartTbl.getCart - in");
     
         const result = await this.dbDocClient.get({
             TableName: c.TBL_CART,
             Key: {
-                userId: userId,
+                userId: userNum,
                 storeNum: storeNum
             }
         }).promise();
@@ -35,10 +35,10 @@ export class CartTbl {
     }
     
     
-    async deleteCart(userId: string, storeNum: number): Promise<void> {
+    async deleteCart(userNum: number, storeNum: number): Promise<void> {
         this.logger.debug("cartTbl.deleteCart - in");
     
-        await this.dbDocClient.delete({ TableName: c.TBL_CART, Key: { userId: userId, storeNum: storeNum } }).promise();
+        await this.dbDocClient.delete({ TableName: c.TBL_CART, Key: { userNum: userNum, storeNum: storeNum } }).promise();
     
         this.logger.debug("cartTbl.deleteCart - out");
     }

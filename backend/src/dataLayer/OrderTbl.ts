@@ -3,14 +3,21 @@ import { createLogger } from '../utils/logger';
 import * as c from '../utils/constants';
 import { Order } from '../models/Order'
 
-export class CartTbl {
+export class OrderTbl {
 
     constructor(private readonly dbDocClient: AWS.DynamoDB.DocumentClient = createDynamoDBClient(),
         private readonly logger = createLogger("orderTbl")) { 
     }
 
+    getOrderId(storeNum: number, orderNum: number): string {
+        //storeNum(5)-ordernum(10)
+        return `${String(storeNum).padStart(5)}-${String(orderNum).padStart(10)}`;
+    }
+
     async createOrder(order: Order): Promise<Order> {
         this.logger.debug("orderTbl.createOrder - in");
+
+        order.orderId = this.getOrderId(order.storeNum, order.orderNum);
 
         await this.dbDocClient.put({
             TableName: c.TBL_ORDER,
@@ -26,6 +33,8 @@ export class CartTbl {
     async updateOrder(order: Order): Promise<Order> {
         this.logger.debug("orderTbl.updateOrder - in");
 
+        order.orderId = this.getOrderId(order.storeNum, order.orderNum);
+
         await this.dbDocClient.update({
             TableName: c.TBL_ORDER,
             Key: { userId: order.userId, storeNum: order.storeNum, orderNum: order.orderNum },
@@ -40,15 +49,15 @@ export class CartTbl {
         return order;
     }
 
-    async getOrder(userId: string, storeNum: number, orderNum: number): Promise<Order> {
+    async getOrder(storeNum: number, orderNum: number): Promise<Order> {
         this.logger.debug("orderTbl.getOrder - in");
+
+        const orderId = this.getOrderId(storeNum, orderNum);
 
         const result = await this.dbDocClient.get({
             TableName: c.TBL_ORDER,
             Key: {
-                userId: userId,
-                storeId: storeNum,
-                oderNum: orderNum
+                orderId: orderId
             }
         }).promise();
 

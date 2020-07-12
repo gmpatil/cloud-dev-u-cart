@@ -24,9 +24,9 @@ export class SeqTbl {
         return this.getNextSeqForEntity( `s-${String(storeNum).padStart(5)}-item`);
     }    
 
-    //u-0000000001-order
-    async getNextSeqForUserOrder(userNum: number): Promise<number> {
-        return this.getNextSeqForEntity( `u-${String(userNum).padStart(10)}-order`);
+    //s-00001-order
+    async getNextSeqForStoreOrder(storeNum: number): Promise<number> {
+        return this.getNextSeqForEntity( `s-${String(storeNum).padStart(5)}-order`);
     }    
 }
 

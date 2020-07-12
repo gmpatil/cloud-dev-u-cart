@@ -7,9 +7,13 @@ export class ItemTbl {
     constructor( private readonly dbDocClient: AWS.DynamoDB.DocumentClient = createDynamoDBClient(),
         private readonly logger = createLogger("itemTble") ) {}
 
+    getItemId(storeNum: number, itemNum: number): string {
+        return `i-${String(storeNum).padStart(5)}-${String(itemNum).padStart(10)}` ;
+    }
+    
     async createItem(item :Item): Promise<Item> {
         this.logger.debug("itemTble.createItem - in");
-    
+
         await this.dbDocClient.put({
             TableName: c.TBL_ITEM,
             Item: item
@@ -33,31 +37,37 @@ export class ItemTbl {
     }
     
     async getItem(storeNum: number, itemNum: number): Promise<Item> {
+        const itemId = this.getItemId(storeNum, itemNum);
+        return this.getItemById(itemId);        
+    }
+
+    async getItemById(itemId: string): Promise<Item> {
         this.logger.debug("itemTble.getItem - in");
-    
+
         const result = await this.dbDocClient.get({
             TableName: c.TBL_ITEM,
             Key: {
-                storeNum: storeNum,
-                itemNum: itemNum            
+                itemId: itemId            
             }
         }).promise();
     
         this.logger.debug("itemTble.getItem - out");
         return result.Item as Item;
     }    
-    
+
     async deleteItem(storeNum: number, itemNum: number): Promise<void> {
+        const itemId = this.getItemId(storeNum, itemNum);
+        return this.deleteItemById(itemId);
+    }
+
+    async deleteItemById(itemId: string): Promise<void> {
         this.logger.debug("itemTble.deleteItem - in");
     
-        await this.dbDocClient.delete({ TableName: c.TBL_ITEM, Key: { storeNum: storeNum, itemNum: itemNum } }).promise();
+        await this.dbDocClient.delete({ TableName: c.TBL_ITEM, Key: { itemId: itemId } }).promise();
     
         this.logger.debug("itemTble.deleteItem - out");
     }
-        
 }
-
-
 
 function createDynamoDBClient() {
     // const AWSXRay = require('aws-xray-sdk');

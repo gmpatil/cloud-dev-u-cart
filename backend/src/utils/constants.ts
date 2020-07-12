@@ -7,7 +7,7 @@ export const TBL_ORDER :string  = `order-${process.env.STAGE}`
 export const TBL_SEQ :string  = `seq-${process.env.STAGE}`
 export const TBL_STORE :string  = `store-${process.env.STAGE}`
 export const TBL_USER :string = `user-${process.env.STAGE}`
-export const TBL_USER_IDX :string = `user-index-${process.env.STAGE}`
+export const TBL_USER_IDX :string = `user-index-${process.env.STAGE}` 
 
 // For sequences
 export const ENT_CART :string = `cart` ;

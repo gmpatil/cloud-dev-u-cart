@@ -3,7 +3,7 @@ import { Store } from '../models/Store';
 import { TBL_STORE, LOCAL_DYNAMODB_EP } from '../utils/constants';
 import { createLogger } from '../utils/logger';
 
-export class CartTbl {
+export class StoreTbl {
     constructor(private readonly dbDocClient: AWS.DynamoDB.DocumentClient = createDynamoDBClient(),
         private readonly logger = createLogger("storeTbl")) { }
 
