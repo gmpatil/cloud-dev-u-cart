@@ -26,19 +26,27 @@ export const handler: DynamoDBStreamHandler = async (event: DynamoDBStreamEvent)
     const itemNum = newItem.itemNum.N
     const storeNum = newItem.storeNum.N
 
-    const body = {
-      storeNum: newItem.storeNum.N,      
-      itemNum: newItem.itemNum.N,
-      name: newItem.name.S,
-      desc: newItem.desc.S,
+    // If active, add to or update index
+    if (newItem.active) {
+      const body = {
+        storeNum: newItem.storeNum.N,      
+        itemNum: newItem.itemNum.N,
+        name: newItem.name.S,
+        desc: newItem.desc.S,
+      }
+
+      await es.index({
+        index: `s-${storeNum}-item-index`,
+        type: 'item',            
+        id: itemNum,
+        body
+      })
+    } else {     // If not active, delete from the index
+      await es.delete ( {
+        index: `s-${storeNum}-item-index`,
+        type: 'item',            
+        id: itemNum
+      })
     }
-
-    await es.index({
-      index: `s-${storeNum}-item-index`,
-      type: 'item',            
-      id: itemNum,
-      body
-    })
-
   }
 }

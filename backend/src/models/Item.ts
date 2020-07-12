@@ -8,5 +8,6 @@ export interface Item {
   minIncrement: number
   maxUnit?: number
   price: number
+  active: boolean
   imageUploaded?: boolean
 }

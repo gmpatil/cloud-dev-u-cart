@@ -19,13 +19,16 @@
     "middy": "^0.27.0",
     "source-map-support": "^0.5.11",
     "uuid": "^3.3.2",
-    "winston": "^3.2.1"
+    "winston": "^3.2.1",
+    "@elastic/elasticsearch": "^7.8.0",
+    "http-aws-es": "^6.0.0"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.28",
     "@types/jest": "^24.0.15",
     "@types/jsonwebtoken": "^8.3.2",
     "@types/node": "^10.14.12",
+    "@types/elasticsearch":"^5.0.23",    
     "aws-sdk": "^2.492.0",
     "jest": "^24.8.0",
     "serverless-aws-documentation": "^1.1.0",
@@ -44,6 +47,6 @@
   "resolutions": {
     "serverless-dynamodb-local/dynamodb-localhost": "0.0.7"
   },
-  "author": "Ivan Mushketyk",
+  "author": "Girish Patil",
   "license": "MIT"
 }
