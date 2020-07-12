@@ -5,6 +5,10 @@ import * as httpAwsEs from 'http-aws-es'
 import { ES_EP} from '../../utils/constants'
 import {createLogger } from '../../utils/logger'
 
+// ******
+// Original code/template from https://github.com/udacity/cloud-developer
+// ******
+
 const es = new elasticsearch.Client({
   hosts: [ ES_EP ],
   connectionClass: httpAwsEs

@@ -10,7 +10,12 @@ plugins:
   # - serverless-plugin-tracing  
   - serverless-dynamodb-local  
   - serverless-s3-local
-  - serverless-offline  
+  - serverless-offline
+
+# Uncomment to enable individual packaging
+# package:
+#   individually: true  
+
 provider:
   name: aws
   runtime: nodejs12.x
@@ -26,10 +31,11 @@ provider:
     CART_TABLE: cart-${self:provider.stage}      
     ITEM_TABLE: item-${self:provider.stage}    
     ORDER_TABLE: order-${self:provider.stage}    
+    ORDER_UID_GIDX: order-uid-gidx-${self:provider.stage}    
     SEQ_TABLE: seq-${self:provider.stage}                  
     STORE_TABLE: store-${self:provider.stage}  
-    USR_TABLE: user-${self:provider.stage}      
-    USR_INDEX: user-index-${self:provider.stage}
+    USER_TABLE: user-${self:provider.stage}      
+    USER_UID_GIDX: user-uid-gidx-${self:provider.stage}
     ITEM_IMG_S3_BUCKET: gmp-ucart-img-${self:provider.stage}
     ITEM_IMG_S_S3_BUCKET: gmp-ucart-img-s-${self:provider.stage}    
     SIGNED_URL_EXPIRATION: 300
@@ -79,6 +85,8 @@ custom:
   s3:
     host: localhost
     directory: /tmp
+
+  itemImageS3TopicName: item-image-topic-${self:provider.stage}    
 
   documentation:
     api:
@@ -203,7 +211,20 @@ functions:
         Action:
           - s3:PutObject
         Resource: arn:aws:s3:::${self:provider.environment.ITEM_IMG_S3_BUCKET}/*
-          
+
+  # ResizeImage:
+  #   handler: src/lambda/s3/resizeImage.handler
+  #   events:
+  #     - sns:
+  #         arn:
+  #           Fn::Join:
+  #             - ':'
+  #             - - arn:aws:sns
+  #               - Ref: AWS::Region
+  #               - Ref: AWS::AccountId
+  #               - ${self:custom.itemImageS3TopicName}
+  #         topicName: ${self:custom.itemImageS3TopicName}
+
 resources:
   Resources:   
     GatewayResponseDefault4XX:
@@ -283,16 +304,17 @@ resources:
           - AttributeName: orderId
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
-        LocalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.TODOS_USR_INDEX}
+        GlobalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.ORDER_UID_GIDX}
             KeySchema:
               - AttributeName: userId
                 KeyType: HASH
-              - AttributeName: dueDate
+              - AttributeName: createdAt
                 KeyType: RANGE
             Projection:
-              ProjectionType: ALL # What attributes will be copied to an index
-
+              ProjectionType: INCLUDE 
+              NonKeyAttributes:
+                - orderId
     StoreTable:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -340,6 +362,10 @@ resources:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: ${self:provider.environment.ITEM_IMG_S3_BUCKET}
+        # NotificationConfiguration:
+        #   TopicConfigurations:
+        #     - Event: s3:ObjectCreated:Put
+        #       Topic: !Ref ItemImagesTopic        
         CorsConfiguration:
           CorsRules:
             -
@@ -354,7 +380,47 @@ resources:
                 - DELETE
                 - HEAD
               MaxAge: 3000    
-    ItemImageSBucket:
+
+    # ItemImagesTopic:
+    #   Type: AWS::SNS::Topic
+    #   Properties:
+    #     DisplayName: Item Image bucket topic
+    #     TopicName: ${self:custom.itemImageS3TopicName}
+
+    BucketPolicy1:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        PolicyDocument:
+          Id: MyPolicy
+          Version: "2012-10-17"
+          Statement:
+            - Sid: PublicReadForGetBucketObjects
+              Effect: Allow
+              Principal: '*'
+              Action: 's3:GetObject'
+              Resource: 'arn:aws:s3:::${self:provider.environment.ITEM_IMG_S3_BUCKET}/*'
+        Bucket: !Ref ItemImageBucket 
+
+
+    # SNSTopicPolicy:
+    #   Type: AWS::SNS::TopicPolicy
+    #   Properties:
+    #     PolicyDocument:
+    #       Version: "2012-10-17"
+    #       Statement:
+    #         - Effect: Allow
+    #           Principal:
+    #             AWS: "*"
+    #           Action: sns:Publish
+    #           Resource:
+    #             !Ref ItemImagesTopic
+    #           Condition:
+    #             ArnLike:
+    #               AWS:SourceArn: arn:aws:s3:::${self:provider.environment.ITEM_IMG_S3_BUCKET}
+    #     Topics:
+    #       - !Ref ItemImagesTopic
+
+    ItemImageThumbNailBucket:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: ${self:provider.environment.ITEM_IMG_S_S3_BUCKET}
@@ -373,20 +439,6 @@ resources:
                 - HEAD
               MaxAge: 3000    
 
-    BucketPolicy1:
-      Type: AWS::S3::BucketPolicy
-      Properties:
-        PolicyDocument:
-          Id: MyPolicy
-          Version: "2012-10-17"
-          Statement:
-            - Sid: PublicReadForGetBucketObjects
-              Effect: Allow
-              Principal: '*'
-              Action: 's3:GetObject'
-              Resource: 'arn:aws:s3:::${self:provider.environment.ITEM_IMG_S3_BUCKET}/*'
-        Bucket: !Ref ItemImageBucket              
-
     BucketPolicy2:
       Type: AWS::S3::BucketPolicy
       Properties:
@@ -399,4 +451,5 @@ resources:
               Principal: '*'
               Action: 's3:GetObject'
               Resource: 'arn:aws:s3:::${self:provider.environment.ITEM_IMG_S_S3_BUCKET}/*'
-        Bucket: !Ref ItemImageSBucket                      
+        Bucket: !Ref ItemImageThumbNailBucket      
+
