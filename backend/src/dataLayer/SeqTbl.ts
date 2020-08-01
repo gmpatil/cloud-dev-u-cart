@@ -6,6 +6,8 @@ export class SeqTbl {
     constructor( private readonly dbClient: AWS.DynamoDB.DocumentClient = createDynamoDBClient(),
         private readonly logger = createLogger("seqTbl") ) {}
 
+    // All entity except StoreItem, StoreOrder
+    // For Entities like StoreNum, and UseNum
     async getNextSeqForEntity(entityName: string): Promise<number> {
         this.logger.debug("seqTbl.getNextSeqForEntity - in");
         const upd = await this.dbClient.update({

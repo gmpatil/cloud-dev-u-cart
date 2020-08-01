@@ -3,6 +3,12 @@ import { createLogger } from '../utils/logger';
 import * as c from '../utils/constants';
 import {User} from '../models/User'
 
+/*
+UserTbl:
+PK: userNum
+GlobalIndex Key: userId: (from 0Auth)
+*/
+
 export class UserTbl {
     constructor( private readonly dbDocClient: AWS.DynamoDB.DocumentClient = createDynamoDBClient(),
         private readonly logger = createLogger("userTbl") ) {}

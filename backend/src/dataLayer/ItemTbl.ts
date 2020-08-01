@@ -3,6 +3,11 @@ import { createLogger } from '../utils/logger';
 import * as c from '../utils/constants';
 import {Item} from '../models/Item'
 
+/*
+ItemTbl:
+PK: ItemId (storeNum+ItemNum, see getItemId())
+
+*/
 export class ItemTbl {
     constructor( private readonly dbDocClient: AWS.DynamoDB.DocumentClient = createDynamoDBClient(),
         private readonly logger = createLogger("itemTble") ) {}

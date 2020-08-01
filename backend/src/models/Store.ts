@@ -1,5 +1,5 @@
 export interface Store {
-  storeNum:number
+  storeNum: number
   name: string
   desc: string
   createdAt: string

@@ -3,6 +3,12 @@ import { createLogger } from '../utils/logger';
 import * as c from '../utils/constants';
 import {Cart} from '../models/Cart'
 
+/*
+Cart table.
+PK UserNum
+SortKey StoreNum
+
+*/
 export class CartTbl {
     constructor( private readonly dbDocClient: AWS.DynamoDB.DocumentClient = createDynamoDBClient(),
         private readonly logger = createLogger("cartTbl") ) {}
@@ -49,14 +55,14 @@ function createDynamoDBClient() {
     // const AWSXRay = require('aws-xray-sdk');
     // const AWS = AWSXRay.captureAWS(AWSb)
 
-    let dbDocClient: AWS.DynamoDB.DocumentClient;
+    //let dbDocClient: AWS.DynamoDB.DocumentClient;
     if (process.env.IS_OFFLINE) {
-        return dbDocClient = new AWS.DynamoDB.DocumentClient({ 
+        return  new AWS.DynamoDB.DocumentClient({ 
             region: 'localhost', 
             endpoint: c.LOCAL_DYNAMODB_EP
         });
     } else {
-        return dbDocClient = new AWS.DynamoDB.DocumentClient();
+        return new AWS.DynamoDB.DocumentClient();
     }
 }
   

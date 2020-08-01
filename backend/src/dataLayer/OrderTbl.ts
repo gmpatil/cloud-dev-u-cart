@@ -3,6 +3,11 @@ import { createLogger } from '../utils/logger';
 import * as c from '../utils/constants';
 import { Order } from '../models/Order'
 
+/*
+OrderTbl:
+Pk: orderId (storeNum + orderNum, see getOrderId() )
+*/
+
 export class OrderTbl {
 
     constructor(private readonly dbDocClient: AWS.DynamoDB.DocumentClient = createDynamoDBClient(),
@@ -62,6 +67,20 @@ export class OrderTbl {
         }).promise();
 
         this.logger.debug("orderTbl.getOrder - out");
+        return result.Order as Order;
+    }
+
+    async getOrderById(orderId: string): Promise<Order> {
+       this.logger.debug("orderTbl.getOrderById - in");
+
+       const result = await this.dbDocClient.get({
+            TableName: c.TBL_ORDER,
+            Key: {
+                orderId: orderId
+            }
+        }).promise();
+
+        this.logger.debug("orderTbl.getOrderById - out");
         return result.Order as Order;
     }
 
