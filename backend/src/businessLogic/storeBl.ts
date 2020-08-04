@@ -8,7 +8,7 @@ import { createLogger } from '../utils/logger';
 const logger = createLogger("storeBl");
 
 export async function createStore(storeReq: CreateStoreRequest): Promise<Store> {
-    logger.debug("storeBlcreateStore - in");
+    logger.debug("storeBl.createStore - in");
 
     const storeNum: number = await new SeqTbl().getNextSeqForEntity(ENT_STORE);
 
@@ -20,12 +20,12 @@ export async function createStore(storeReq: CreateStoreRequest): Promise<Store> 
     }
 
     const item: Store = await new StoreTbl().createStore(store);
-    logger.debug("storeBlcreateTodoItem - out");
+    logger.debug("storeBl.createStore - out");
     return item;
 }
 
 export async function updateStore(storeReq: CreateStoreRequest): Promise<Store> {
-    logger.debug("storeBlupdateStore - in");
+    logger.debug("sstoreBl.createStore - in");
 
     const store: Store = {
         storeNum: storeReq.storeNum,
@@ -35,6 +35,6 @@ export async function updateStore(storeReq: CreateStoreRequest): Promise<Store> 
     }
 
     const item: Store = await new StoreTbl().createStore(store);
-    logger.debug("storeBlupdateStore - out");
+    logger.debug("storeBl.createStore - out");
     return item;
 }

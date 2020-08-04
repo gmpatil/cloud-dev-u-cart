@@ -10,4 +10,5 @@ export interface Item {
   price: number
   active: boolean
   imageUploaded?: boolean
+  createdAt?:string
 }

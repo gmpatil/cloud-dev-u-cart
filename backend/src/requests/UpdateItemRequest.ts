@@ -1,8 +1,16 @@
 /**
- * Fields in a request to update a single TODO item.
+ * Fields in a request to update a single store catalog Item.
  */
-export interface UpdateTodoRequest {
+export interface UpdateItemRequest {
+  itemId?: string // i-storeNum(5)-itemNum(10)  
+  storeNum: number
+  itemNum: number
   name: string
-  dueDate: string
-  done: boolean
+  desc: string
+  unitType: string
+  minIncrement: number
+  maxUnit?: number
+  price: number
+  active: boolean
+  imageUploaded?: boolean  
 }

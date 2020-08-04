@@ -3,7 +3,8 @@
     "title": "create-item-req",
     "type": "object",
     "properties": {
-      "storeId" : {"type": "integer"},
+      "storeNum" : {"type": "integer"},
+      "itemNum" : {"type": "integer"},      
       "name": { "type": "string" },
       "desc": {"type": "string"},
       "unitType": {
@@ -13,10 +14,11 @@
       "minIncreament": {"type" : "integer"},
       "maxUnits": { "type" : "integer"},
       "price": {"type": "number"},
+      "acive": {"type": "boolean"},      
       "imageUploaded": { "type": "boolean" }
     },
     "required": [
-      "storeId",
+      "storeNum",
       "name",
       "desc",
       "unitType",
@@ -25,3 +27,4 @@
     ],
     "additionalProperties": false
   }
+}
