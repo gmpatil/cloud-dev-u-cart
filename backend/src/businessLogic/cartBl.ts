@@ -1,52 +1,58 @@
-import { CreateItemRequest } from '../requests/CreateCartRequest';
-import { UpdateItemRequest } from '../requests/UpdateItemRequest';
-import { Item } from '../models/Item';
-import { ItemTbl } from '../dataLayer/ItemTbl';
-import { SeqTbl } from '../dataLayer/SeqTbl';
-import { ENT_ITEM} from '../utils/constants'
+import { UpdateCartRequest } from '../requests/UpdateCartRequest';
+import { Cart } from '../models/Cart';
+import { CartTbl } from '../dataLayer/CartTbl';
 import { createLogger } from '../utils/logger';
 
 const logger = createLogger("CartBl");
 // Can not delete Item once created, only deactivation allowed.
 
-export async function createItem(itemReq: CreateItemRequest): Promise<Item> {
+export async function createCart(cartReq: UpdateCartRequest): Promise<Cart> {
     logger.debug("createItem - in");
 
-    const ItemNum: number = await new SeqTbl().getNextSeqForEntity(ENT_ITEM);
-
-    const itm: Item = {
-        storeNum: itemReq.storeNum,
-        itemNum: ItemNum,
-        name: itemReq.name,
-        desc: itemReq.desc,
-        unitType: itemReq.unitType, 
-        minIncrement: itemReq.minIncrement, 
-        price: itemReq.price, 
-        active: itemReq.active,
-        createdAt: new Date().toISOString(),        
+    const cart: Cart = {
+        userNum: cartReq.userNum,        
+        storeNum: cartReq.storeNum,
+        items: cartReq.itms,
+        totalPrice: cartReq.totalAmt,
+        lastUpdatedAt: new Date().toISOString(),        
     }
 
-    const item: Item = await new ItemTbl().createItem(itm);
+    const cart1: Cart = await new CartTbl().upsertCart(cart);
     logger.debug("createItem - out");
-    return item;
+    return cart1;
 }
 
-export async function updateItem(itemReq: UpdateItemRequest): Promise<Item> {
+export async function updateCart(cartReq: UpdateCartRequest): Promise<Cart> {
     logger.debug("updateItem - in");
 
-    const itm: Item = {
-        storeNum: itemReq.storeNum,
-        itemNum: itemReq.itemNum,
-        name: itemReq.name,
-        desc: itemReq.desc,
-        unitType: itemReq.unitType, 
-        minIncrement: itemReq.minIncrement, 
-        price: itemReq.price, 
-        active: itemReq.active,
-        createdAt: new Date().toISOString(),        
+    const cart: Cart = {
+        userNum: cartReq.userNum,        
+        storeNum: cartReq.storeNum,
+        items: cartReq.itms,
+        totalPrice: cartReq.totalAmt,
+        lastUpdatedAt: new Date().toISOString(),        
     }
 
-    const item: Item = await new ItemTbl().createItem(itm);
+
+    const cart1: Cart = await new CartTbl().upsertCart(cart);
     logger.debug("updateItem - out");
-    return item;
+    return cart1;
+}
+
+export async function getCart(userNum: number, storeNum: number): Promise<Cart> {
+    logger.debug("updateItem - in");
+    var cart1: Cart = await new CartTbl().getCart(userNum, storeNum);
+
+    if (cart1 == null) {
+        cart1 = {
+            userNum: userNum,        
+            storeNum: storeNum,
+            items: null,
+            totalPrice: 0,
+            lastUpdatedAt: new Date().toISOString(),        
+        }
+    }
+
+    logger.debug("updateItem - out");
+    return cart1;
 }

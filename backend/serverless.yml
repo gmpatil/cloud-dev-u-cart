@@ -252,6 +252,7 @@ resources:
       Properties:
         TableName: ${self:provider.environment.CART_TABLE}        
         AttributeDefinitions:
+          # TODO: use UserId for better hash distributed or move table to RDBMS
           - AttributeName: userNum
             AttributeType: N
           - AttributeName: storeNum
@@ -329,6 +330,7 @@ resources:
           - AttributeName: createdAt
             AttributeType: S
         KeySchema:
+          # TODO make key better hash distributed  or move table to RDBMS       
           - AttributeName: storeNum
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
@@ -356,7 +358,7 @@ resources:
               - AttributeName: userId
                 KeyType: HASH
             Projection:
-              ProjectionType: ALL # What attributes will be copied to an index
+              ProjectionType: ALL # What attributes will be copied to an index 
           
     ItemImageBucket:
       Type: AWS::S3::Bucket

@@ -8,6 +8,11 @@ OrderTbl:
 Pk: orderId (storeNum + orderNum, see getOrderId() )
 */
 
+// KeySchema:
+// - AttributeName: orderId
+//   KeyType: HASH
+
+
 export class OrderTbl {
 
     constructor(private readonly dbDocClient: AWS.DynamoDB.DocumentClient = createDynamoDBClient(),

@@ -7,8 +7,13 @@ import {Cart} from '../models/Cart'
 Cart table.
 PK UserNum
 SortKey StoreNum
-
 */
+// KeySchema:
+// - AttributeName: userNum  // TODO: use UserId for better hash dist.
+//   KeyType: HASH
+// - AttributeName: storeNum
+//   KeyType: RANGE
+
 export class CartTbl {
     constructor( private readonly dbDocClient: AWS.DynamoDB.DocumentClient = createDynamoDBClient(),
         private readonly logger = createLogger("cartTbl") ) {}

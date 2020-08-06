@@ -5,4 +5,5 @@ export interface Cart {
     storeNum: number
     items : Array<OrderItem>
     totalPrice: number
+    lastUpdatedAt: string
 }

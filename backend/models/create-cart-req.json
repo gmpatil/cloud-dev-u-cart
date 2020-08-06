@@ -3,28 +3,32 @@
     "title": "create-cart-req",
     "type": "object",
     "properties": {
-      "storeId": {"type": "integer"},
+      "userNum": {"type": "integer"},
+      "storeNum": {"type": "integer"},
       "itms": {
         "type": "array",
         "items": {
           "type": "object",
           "properties": {
-            "itemId" : { "type": "integer"},
+            "itemId" : { "type": "string"},
             "unitType": {
               "type": "string",
               "enum": ["num", "gm", "oz", "lbs", "kg"]
             },      
             "qty" : { "type": "integer"},
             "price" : {"type" : "number"}
-          }
+          },
+          "required": [
+            "itemId",      
+            "qty"
+          ]    
         }
       },
       "totalAmt" : { "type": "number"}
     },
     "required": [
-      "storeId",      
-      "itms",
-      "totalAmt"
+      "storeNum",      
+      "itms"
     ],
     "additionalProperties": false
   }

@@ -3,6 +3,11 @@ import { Store } from '../models/Store';
 import { TBL_STORE, LOCAL_DYNAMODB_EP } from '../utils/constants';
 import { createLogger } from '../utils/logger';
 
+// KeySchema:
+// - AttributeName: storeNum  //TODO make key better hash distributed or move table to RDBMS
+//   KeyType: HASH
+
+
 export class StoreTbl {
     constructor(private readonly dbDocClient: AWS.DynamoDB.DocumentClient = createDynamoDBClient(),
         private readonly logger = createLogger("storeTbl")) { }

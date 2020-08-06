@@ -6,8 +6,12 @@ import {Item} from '../models/Item'
 /*
 ItemTbl:
 PK: ItemId (storeNum+ItemNum, see getItemId())
-
 */
+
+// KeySchema:
+// - AttributeName: itemId
+//   KeyType: HASH
+
 export class ItemTbl {
     constructor( private readonly dbDocClient: AWS.DynamoDB.DocumentClient = createDynamoDBClient(),
         private readonly logger = createLogger("itemTble") ) {}
@@ -18,6 +22,9 @@ export class ItemTbl {
     
     async createItem(item :Item): Promise<Item> {
         this.logger.debug("itemTble.createItem - in");
+        
+        const itemId = this.getItemId(item.storeNum, item.itemNum);
+        item.itemId = itemId;
 
         await this.dbDocClient.put({
             TableName: c.TBL_ITEM,
@@ -31,7 +38,10 @@ export class ItemTbl {
     // update everything
     async updateItem(item :Item): Promise<Item> {
         this.logger.debug("itemTble.updateItem - in");
-    
+
+        const itemId = this.getItemId(item.storeNum, item.itemNum);
+        item.itemId = itemId;
+        
         await this.dbDocClient.put({
             TableName: c.TBL_ITEM,
             Item: item

@@ -3,7 +3,6 @@ import { UpdateItemRequest } from '../requests/UpdateItemRequest';
 import { Item } from '../models/Item';
 import { ItemTbl } from '../dataLayer/ItemTbl';
 import { SeqTbl } from '../dataLayer/SeqTbl';
-import { ENT_ITEM} from '../utils/constants'
 import { createLogger } from '../utils/logger';
 
 const logger = createLogger("ItemBl");
@@ -12,7 +11,7 @@ const logger = createLogger("ItemBl");
 export async function createItem(itemReq: CreateItemRequest): Promise<Item> {
     logger.debug("createItem - in");
 
-    const ItemNum: number = await new SeqTbl().getNextSeqForEntity(ENT_ITEM);
+    const ItemNum: number = await new SeqTbl().getNextSeqForStoreItem(itemReq.storeNum);
 
     const itm: Item = {
         storeNum: itemReq.storeNum,
@@ -46,7 +45,31 @@ export async function updateItem(itemReq: UpdateItemRequest): Promise<Item> {
         createdAt: new Date().toISOString(),        
     }
 
-    const item: Item = await new ItemTbl().createItem(itm);
+    const item: Item = await new ItemTbl().updateItem(itm);
     logger.debug("updateItem - out");
     return item;
+}
+
+export async function getItem(storeNum: number, itemNum: number): Promise<Item> {
+    logger.debug("updateItem - in");
+    var item1: Item = await new ItemTbl().getItem(storeNum, itemNum);
+
+    if (item1 == null) {
+        item1 = null;
+    }
+
+    logger.debug("updateItem - out");
+    return item1;
+}
+
+export async function getItemById(itemId: string): Promise<Item> {
+    logger.debug("updateItem - in");
+    var item1: Item = await new ItemTbl().getItemById(itemId);
+
+    if (item1 == null) {
+        item1 = null;
+    }
+
+    logger.debug("updateItem - out");
+    return item1;
 }

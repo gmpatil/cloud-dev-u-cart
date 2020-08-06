@@ -38,3 +38,15 @@ export async function updateStore(storeReq: CreateStoreRequest): Promise<Store> 
     logger.debug("storeBl.createStore - out");
     return item;
 }
+
+export async function getStore(storeNum: number): Promise<Store> {
+    logger.debug("getStore - in");
+    var store: Store = await new StoreTbl().getStore(storeNum);
+
+    if (store == null) {
+        store = null;
+    }
+
+    logger.debug("getStore - out");
+    return store;
+}

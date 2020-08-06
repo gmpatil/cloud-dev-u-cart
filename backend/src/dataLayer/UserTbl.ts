@@ -9,6 +9,10 @@ PK: userNum
 GlobalIndex Key: userId: (from 0Auth)
 */
 
+// KeySchema:
+// - AttributeName: userNum //TODO make key better hash distributed or move table to RDBMS
+//   KeyType: HASH
+
 export class UserTbl {
     constructor( private readonly dbDocClient: AWS.DynamoDB.DocumentClient = createDynamoDBClient(),
         private readonly logger = createLogger("userTbl") ) {}
