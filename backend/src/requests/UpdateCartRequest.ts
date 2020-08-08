@@ -1,3 +1,6 @@
+/**
+ * Fields in a request to create a single User-Store-Cart.
+ */
 import {OrderItem} from '../models/OrderItem'
 // export interface OrderItem {
 //     itemId: string

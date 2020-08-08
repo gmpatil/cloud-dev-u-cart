@@ -10,9 +10,11 @@ export interface Address {
 export interface User {
     userNum: number
     userId: string
-    name: string
-    address: Address
+    name?: string
+    address?: Address
     storeAdmin?: boolean
     storeNum?: number
-
+    contactPhone?: string
+    createdAt?:string
+    lastUpdatedAt?:string
 }

@@ -3,7 +3,9 @@
     "title": "create-user-req",
     "type": "object",
     "properties": {
+      "userId" : {"type": "string"},
       "name": { "type" : "string"},
+      "contactPhone":{"type": "string"},    
       "address": {
         "type": "object",
         "properties": {
@@ -12,12 +14,17 @@
           "city" : { "type": "string"},          
           "zip" : { "type": "string"},
           "state" : { "type": "string"}          
-        }
+        },
+        "required":[
+          "addressLine1",
+          "city",
+          "zip",
+          "state"                    
+        ]
       }
     },
     "required": [
-      "address",
-      "name"
+      "userId"
     ],
     "additionalProperties": false
   }

@@ -1,16 +1,19 @@
 import { UpdateCartRequest } from '../requests/UpdateCartRequest';
 import { Cart } from '../models/Cart';
 import { CartTbl } from '../dataLayer/CartTbl';
+import { UserTbl } from '../dataLayer/UserTbl';
 import { createLogger } from '../utils/logger';
 
 const logger = createLogger("CartBl");
 // Can not delete Item once created, only deactivation allowed.
 
-export async function createCart(cartReq: UpdateCartRequest): Promise<Cart> {
+export async function createCart(cartReq: UpdateCartRequest, uid: string): Promise<Cart> {
     logger.debug("createItem - in");
 
+    const unum: number = (await new UserTbl().getUserById(uid)).userNum;
+
     const cart: Cart = {
-        userNum: cartReq.userNum,        
+        userNum: unum,        
         storeNum: cartReq.storeNum,
         items: cartReq.itms,
         totalPrice: cartReq.totalAmt,
@@ -22,11 +25,11 @@ export async function createCart(cartReq: UpdateCartRequest): Promise<Cart> {
     return cart1;
 }
 
-export async function updateCart(cartReq: UpdateCartRequest): Promise<Cart> {
+export async function updateCart(uid: string, cartReq: UpdateCartRequest): Promise<Cart> {
     logger.debug("updateItem - in");
-
+    const uNum: number = (await new UserTbl().getUserById(uid)).userNum;
     const cart: Cart = {
-        userNum: cartReq.userNum,        
+        userNum: uNum,        
         storeNum: cartReq.storeNum,
         items: cartReq.itms,
         totalPrice: cartReq.totalAmt,
@@ -39,13 +42,15 @@ export async function updateCart(cartReq: UpdateCartRequest): Promise<Cart> {
     return cart1;
 }
 
-export async function getCart(userNum: number, storeNum: number): Promise<Cart> {
+export async function getCart(uid: string, storeNum: number): Promise<Cart> {
     logger.debug("updateItem - in");
-    var cart1: Cart = await new CartTbl().getCart(userNum, storeNum);
+    const uNum: number = (await new UserTbl().getUserById(uid)).userNum;
+
+    var cart1: Cart = await new CartTbl().getCart(uNum, storeNum);
 
     if (cart1 == null) {
         cart1 = {
-            userNum: userNum,        
+            userNum: uNum,        
             storeNum: storeNum,
             items: null,
             totalPrice: 0,

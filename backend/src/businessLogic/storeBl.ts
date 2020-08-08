@@ -50,3 +50,15 @@ export async function getStore(storeNum: number): Promise<Store> {
     logger.debug("getStore - out");
     return store;
 }
+
+export async function getStores(): Promise<Array<Store>> {
+    logger.debug("getStore - in");
+    var stores: Array<Store> = await new StoreTbl().getStores();
+
+    if (stores == null) {
+        stores = null;
+    }
+
+    logger.debug("getStore - out");
+    return stores;
+}

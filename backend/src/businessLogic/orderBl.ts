@@ -46,6 +46,7 @@ export async function updateOrder(orderReq: CreateOrderRequest): Promise<Order> 
 
 export async function getOrder(storeNum: number, orderNum:number): Promise<Order> {
     logger.debug("getOrder - in");
+    // TODO check user is authorized.
     var order1: Order = await new OrderTbl().getOrder(storeNum, orderNum);
 
     if (order1 == null) {

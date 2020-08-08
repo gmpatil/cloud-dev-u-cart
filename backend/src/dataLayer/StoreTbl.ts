@@ -52,6 +52,17 @@ export class StoreTbl {
         return result.Item as Store;
     }
 
+    async getStores(): Promise<Array<Store>> {
+        this.logger.debug("storeTbl.getStore - in");
+
+        const result = await this.dbDocClient.scan({
+            TableName: TBL_STORE
+        }).promise();
+
+        this.logger.debug("storeTbl.getStore - out");
+        return result.Items as Store[];
+    }
+
     // Once created, can not be deleted.
     // async deleteStore(storeNum: number): Promise<void> {
     //     this.logger.debug("storeTbl.deleteStore - in");

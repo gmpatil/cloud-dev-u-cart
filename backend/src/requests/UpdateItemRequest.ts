@@ -1,5 +1,5 @@
 /**
- * Fields in a request to update a single store catalog Item.
+ * Fields in a request to update a single Store catalog Item.
  */
 export interface UpdateItemRequest {
   itemId?: string // i-storeNum(5)-itemNum(10)  
