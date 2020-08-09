@@ -67,7 +67,7 @@ export const handlerGetForUser: APIGatewayProxyHandler = async (event: APIGatewa
   logger.debug("http-order-get-for-user - in"); 
   
   const uid = getUserId(event);
-  const orderStatus:string  = event.pathParameters.status
+  const orderStatus:string  = event.queryParameters.status
   var err : string = null;
   var os : OrderStatus = null;
 
@@ -111,7 +111,7 @@ export const handlerGetForStore: APIGatewayProxyHandler = async (event: APIGatew
   
   //const userId = getUserId(event);
   const storeNum = event.pathParameters.storeNum
-  const orderStatus:string  = event.pathParameters.status
+  const orderStatus:string  = event.queryParameters.status
   var err : string = null;
   var os : OrderStatus = null;
 
