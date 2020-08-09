@@ -62,18 +62,21 @@ provider:
       Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.ITEM_TABLE}
     - Effect: Allow
       Action:
-        - dynamodb:Scan
         - dynamodb:PutItem
         - dynamodb:GetItem
         - dynamodb:Query
       Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.ORDER_TABLE}
     - Effect: Allow
       Action:
+        - dynamodb:GetItem
         - dynamodb:Query
+        - dynamodb:Scan        
       Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.ORDER_TABLE}/index/${self:provider.environment.ORDER_GSI1_UID}
     - Effect: Allow
       Action:
+        - dynamodb:GetItem
         - dynamodb:Query
+        - dynamodb:Scan        
       Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.ORDER_TABLE}/index/${self:provider.environment.ORDER_GSI2_STR_STS}
     - Effect: Allow
       Action:
@@ -128,8 +131,8 @@ custom:
     api:
       info:
         version: v1.0.0
-        title: Todo API
-        description: Serverless application for Todo API
+        title: UCart API
+        description: Serverless application for UCart online stores.
     models:
       - name: CartReq
         contentType: application/json
@@ -151,103 +154,129 @@ functions:
   Auth:
     handler: src/lambda/auth/auth0Authorizer.handler
 
-  GetTodos:
-    handler: src/lambda/http/getTodos.handler
-    events:
-      - http:
-          method: get
-          path: todos
-          cors: true  
-          authorizer: Auth          
-    iamRoleStatementsInherit: true                      
-    iamRoleStatements:
-      - Effect: Allow
-        Action:
-          - dynamodb:Query
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
-      - Effect: Allow
-        Action:
-          - dynamodb:Query
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}/index/${self:provider.environment.TODOS_USR_INDEX}
-      - Effect: Allow
-        Action:
-          - s3:GetObject
-        Resource: arn:aws:s3:::${self:provider.environment.ITEM_IMG_S3_BUCKET}/*
-      - Effect: Allow
-        Action:
-          - xray:PutTraceSegments
-          - xray:PutTelemetryRecords
-        Resource: "*"  
-
-  CreateTodo:
-    handler: src/lambda/http/createTodo.handler
+  CreateCart:
+    handler: src/lambda/http/cart.handlerCreate
     events:
       - http:
           method: post
-          path: todos
+          path: store/{storeNum}/cart
           cors: true          
           authorizer: Auth                    
           request:
             # Schema that will validate the incoming requests
             schema:
-              application/json: ${file(models/create-todo-req.json)}
+              application/json: ${file(models/create-cart-req.json)}
 
-  UpdateTodo:
-    handler: src/lambda/http/updateTodo.handler
+  UpdateCart:
+    handler: src/lambda/http/cart.handlerUpdate
     events:
       - http:
           method: patch
-          path: todos/{todoId}
+          path: store/{storeNum}/cart
           cors: true 
           authorizer: Auth                                                 
           request:
             # Schema that will validate the incoming requests
             schema:
-              application/json: ${file(models/update-todo-req.json)}
-    iamRoleStatementsInherit: true
-    iamRoleStatementsName: updateTodoRole
-    iamRoleStatements:
-      - Effect: Allow
-        Action:
-          - dynamodb:UpdateItem
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
+              application/json: ${file(models/create-cart-req.json)}
 
-  DeleteTodo:
-    handler: src/lambda/http/deleteTodo.handler
+  GetCart:
+    handler: src/lambda/http/item.handlerGet
     events:
       - http:
-          method: delete
-          path: todos/{todoId}
-          cors: true                    
-          authorizer: Auth                    
-    iamRoleStatementsInherit: true
-    iamRoleStatementsName: deleteTodoRole
-    iamRoleStatements:
-      - Effect: Allow
-        Action:
-          - dynamodb:DeleteItem
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
+          method: get
+          path: store/{storeNum}/cart
+          cors: true 
+          authorizer: Auth        
 
-  GenerateUploadUrl:
-    handler: src/lambda/http/generateUploadUrl.handler
+  CreateItem:
+    handler: src/lambda/http/item.handlerCreate
     events:
       - http:
           method: post
-          path: todos/{todoId}/attachment
-          cors: true                    
-          authorizer: Auth     
-    iamRoleStatementsInherit: true
-    iamRoleStatementsName: generateUrlTodoRole
-    iamRoleStatements:
-      - Effect: Allow
-        Action:
-          - dynamodb:UpdateItem
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}  
-      - Effect: Allow
-        Action:
-          - s3:PutObject
-        Resource: arn:aws:s3:::${self:provider.environment.ITEM_IMG_S3_BUCKET}/*
+          path: store/{storeNum}/item
+          cors: true          
+          authorizer: Auth                    
+          request:
+            # Schema that will validate the incoming requests
+            schema:
+              application/json: ${file(models/create-item-req.json)}
 
+  UpdateItem:
+    handler: src/lambda/http/item.handlerUpdate
+    events:
+      - http:
+          method: patch
+          path: store/{storeNum}/item
+          cors: true 
+          authorizer: Auth                                                 
+          request:
+            # Schema that will validate the incoming requests
+            schema:
+              application/json: ${file(models/create-item-req.json)}
+
+  GetItem:
+    handler: src/lambda/http/item.handlerGet
+    events:
+      - http:
+          method: get
+          path: storeItem/{itemId}
+          cors: true 
+          authorizer: Auth                                                 
+
+  CreateOrder:
+    handler: src/lambda/http/order.handlerCreate
+    events:
+      - http:
+          method: post
+          path: store/{storeNum}/order
+          cors: true          
+          authorizer: Auth                    
+          request:
+            # Schema that will validate the incoming requests
+            schema:
+              application/json: ${file(models/create-order-req.json)}
+
+  UpdateOrder:
+    handler: src/lambda/http/order.handlerUpdate
+    events:
+      - http:
+          method: patch
+          path: store/{storeNum}/order
+          cors: true 
+          authorizer: Auth                                                 
+          request:
+            # Schema that will validate the incoming requests
+            schema:
+              application/json: ${file(models/create-order-req.json)}
+
+  GetOrder:
+    handler: src/lambda/http/order.handlerGetById
+    events:
+      - http:
+          method: get
+          path: storeOrder/{orderId}
+          cors: true 
+          authorizer: Auth                                                 
+
+  GetOrderForUser:
+    handler: src/lambda/http/order.handlerGetForUser
+    events:
+      - http:
+          method: get
+          path: user/order/
+          cors: true 
+          authorizer: Auth  
+
+  GetOrderForStore:
+    handler: src/lambda/http/order.handlerGetForStore
+    events:
+      - http:
+          method: get
+          path: store/{storeNum}/order/
+          cors: true 
+          authorizer: Auth                    
+                  
   # ResizeImage:
   #   handler: src/lambda/s3/resizeImage.handler
   #   events:
