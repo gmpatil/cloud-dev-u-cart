@@ -11,7 +11,7 @@ export class SeqTbl {
     async getNextSeqForEntity(entityName: string): Promise<number> {
         this.logger.debug("seqTbl.getNextSeqForEntity - in");
         const upd = await this.dbClient.update({
-            TableName: c.TBL_SEQ,
+            TableName: c.SEQ_TBL,
             Key: { entity: entityName},
             UpdateExpression: "set seq = if_not_exists(seq, 0) + 1",
             ReturnValues: "UPDATED_NEW"

@@ -27,7 +27,7 @@ export class ItemTbl {
         item.itemId = itemId;
 
         await this.dbDocClient.put({
-            TableName: c.TBL_ITEM,
+            TableName: c.ITEM_TBL,
             Item: item
         }).promise();
     
@@ -43,7 +43,7 @@ export class ItemTbl {
         item.itemId = itemId;
         
         await this.dbDocClient.put({
-            TableName: c.TBL_ITEM,
+            TableName: c.ITEM_TBL,
             Item: item
         }).promise();
     
@@ -60,7 +60,7 @@ export class ItemTbl {
         this.logger.debug("itemTble.getItem - in");
 
         const result = await this.dbDocClient.get({
-            TableName: c.TBL_ITEM,
+            TableName: c.ITEM_TBL,
             Key: {
                 itemId: itemId            
             }
@@ -78,7 +78,7 @@ export class ItemTbl {
     async deleteItemById(itemId: string): Promise<void> {
         this.logger.debug("itemTble.deleteItem - in");
     
-        await this.dbDocClient.delete({ TableName: c.TBL_ITEM, Key: { itemId: itemId } }).promise();
+        await this.dbDocClient.delete({ TableName: c.ITEM_TBL, Key: { itemId: itemId } }).promise();
     
         this.logger.debug("itemTble.deleteItem - out");
     }

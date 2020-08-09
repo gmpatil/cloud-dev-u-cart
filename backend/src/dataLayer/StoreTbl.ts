@@ -1,6 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { Store } from '../models/Store';
-import { TBL_STORE, LOCAL_DYNAMODB_EP } from '../utils/constants';
+import { STORE_TBL, LOCAL_DYNAMODB_EP } from '../utils/constants';
 import { createLogger } from '../utils/logger';
 
 // KeySchema:
@@ -17,7 +17,7 @@ export class StoreTbl {
         this.logger.debug("storeTbl.createStore - in");
 
         await this.dbDocClient.put({
-            TableName: TBL_STORE,
+            TableName: STORE_TBL,
             Item: store,
             ConditionExpression: 'attribute_not_exists(storeNum)'
         }).promise();
@@ -30,7 +30,7 @@ export class StoreTbl {
         this.logger.debug("storeTbl.updateStore - in");
 
         await this.dbDocClient.put({
-            TableName: TBL_STORE,
+            TableName: STORE_TBL,
             Item: store
         }).promise();
 
@@ -42,7 +42,7 @@ export class StoreTbl {
         this.logger.debug("storeTbl.getStore - in");
 
         const result = await this.dbDocClient.get({
-            TableName: TBL_STORE,
+            TableName: STORE_TBL,
             Key: {
                 storeNum: storeNum
             }
@@ -56,11 +56,11 @@ export class StoreTbl {
         this.logger.debug("storeTbl.getStore - in");
 
         const result = await this.dbDocClient.scan({
-            TableName: TBL_STORE
+            TableName: STORE_TBL
         }).promise();
 
         this.logger.debug("storeTbl.getStore - out");
-        return result.Items as Store[];
+        return result.Items as Array<Store>;
     }
 
     // Once created, can not be deleted.

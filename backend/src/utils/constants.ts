@@ -1,13 +1,15 @@
 
 // For DynamoDB
 export const LOCAL_DYNAMODB_EP :string  = 'http://localhost:8000'
-export const TBL_CART :string  = `cart-${process.env.STAGE}`
-export const TBL_ITEM :string  = `item-${process.env.STAGE}`
-export const TBL_ORDER :string  = `order-${process.env.STAGE}`
-export const TBL_SEQ :string  = `seq-${process.env.STAGE}`
-export const TBL_STORE :string  = `store-${process.env.STAGE}`
-export const TBL_USER :string = `user-${process.env.STAGE}`
-export const TBL_USER_IDX :string = `user-index-${process.env.STAGE}` 
+export const CART_TBL :string  = `cart-${process.env.STAGE}`
+export const ITEM_TBL :string  = `item-${process.env.STAGE}`
+export const ORDER_TBL :string  = `order-${process.env.STAGE}`
+export const ORDER_GSI1 :string  = `order-gsi1-uid-${process.env.STAGE}`
+export const ORDER_GSI2 :string  = `order-gsi2-str-sts-gidx-${process.env.STAGE}`
+export const SEQ_TBL :string  = `seq-${process.env.STAGE}`
+export const STORE_TBL :string  = `store-${process.env.STAGE}`
+export const USER_TBL :string = `user-${process.env.STAGE}`
+export const USER_GSI1 :string = `user-gis1-uid-${process.env.STAGE}` 
 
 // For sequences
 export const ENT_CART :string = `cart` ;

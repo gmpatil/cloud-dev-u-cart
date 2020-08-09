@@ -21,7 +21,7 @@ export class UserTbl {
         this.logger.debug("UserTbl.upsertUser - in");
     
         await this.dbDocClient.put({
-            TableName: c.TBL_USER,
+            TableName: c.USER_TBL,
             Item: user
         }).promise();
     
@@ -33,7 +33,7 @@ export class UserTbl {
         this.logger.debug("UserTbl.getUser - in");
     
         const result = await this.dbDocClient.get({
-            TableName: c.TBL_USER,
+            TableName: c.USER_TBL,
             Key: {
                 userNum: userNum
             }
@@ -47,8 +47,8 @@ export class UserTbl {
         this.logger.debug("UserTbl.getUserById - in");
     
         const result = await this.dbDocClient.get({
-            TableName: c.TBL_USER,
-            IndexName: c.TBL_USER_IDX,
+            TableName: c.USER_TBL,
+            IndexName: c.USER_GSI1,
             KeyConditionExpression: 'userId= :userId',
             ExpressionAttributeValues: { ':userId': userId}
         }).promise();
@@ -60,7 +60,7 @@ export class UserTbl {
     async deleteUser(userNum: number): Promise<void> {
         this.logger.debug("UserTbl.deleteUser - in");
     
-        await this.dbDocClient.delete({ TableName: c.TBL_USER, Key: { userNum: userNum } }).promise();
+        await this.dbDocClient.delete({ TableName: c.USER_TBL, Key: { userNum: userNum } }).promise();
     
         this.logger.debug("UserTbl.deleteUser - out");
     }

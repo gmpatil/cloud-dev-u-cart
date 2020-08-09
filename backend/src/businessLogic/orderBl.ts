@@ -1,5 +1,5 @@
 import { CreateOrderRequest } from '../requests/CreateOrderRequest';
-import { Order } from '../models/Order';
+import { Order, OrderStatus } from '../models/Order';
 import { OrderTbl } from '../dataLayer/OrderTbl';
 import { SeqTbl } from '../dataLayer/SeqTbl';
 import { createLogger } from '../utils/logger';
@@ -17,8 +17,7 @@ export async function createOrder(orderReq: CreateOrderRequest): Promise<Order> 
         storeNum: orderReq.storeNum,
         orderNum: newOrderNum,
         items: orderReq.itms,
-        totalPrice: orderReq.totalAmt,
-        lastUpdatedAt: new Date().toISOString(),        
+        totalPrice: orderReq.totalAmt
     }
 
     const order1: Order = await new OrderTbl().createOrder(order);
@@ -63,6 +62,30 @@ export async function getOrderById(orderId: string): Promise<Order> {
 
     if (order1 == null) {
         order1 = null;
+    }
+
+    logger.debug("getOrderById - out");
+    return order1;
+}
+
+export async function getOrdersByUser(uid: string, sts: OrderStatus): Promise<Array<Order>> {
+    logger.debug("getOrderById - in");
+    var order1: Array<Order> = await new OrderTbl().getOrdersByUserId(uid, sts);
+
+    if (order1 == null) {
+        order1 = [];
+    }
+
+    logger.debug("getOrderById - out");
+    return order1;
+}
+
+export async function getOrdersByStore(storeNum: number, sts: OrderStatus): Promise<Array<Order>> {
+    logger.debug("getOrderById - in");
+    var order1: Array<Order> = await new OrderTbl().getOrdersByStore(storeNum, sts);
+
+    if (order1 == null) {
+        order1 = [];
     }
 
     logger.debug("getOrderById - out");

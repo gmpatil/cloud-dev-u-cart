@@ -17,7 +17,7 @@ export async function createCart(cartReq: UpdateCartRequest, uid: string): Promi
         storeNum: cartReq.storeNum,
         items: cartReq.itms,
         totalPrice: cartReq.totalAmt,
-        lastUpdatedAt: new Date().toISOString(),        
+        lastUpdatedAt: new Date().toISOString()        
     }
 
     const cart1: Cart = await new CartTbl().upsertCart(cart);
@@ -33,7 +33,7 @@ export async function updateCart(uid: string, cartReq: UpdateCartRequest): Promi
         storeNum: cartReq.storeNum,
         items: cartReq.itms,
         totalPrice: cartReq.totalAmt,
-        lastUpdatedAt: new Date().toISOString(),        
+        lastUpdatedAt: new Date().toISOString()    
     }
 
 
