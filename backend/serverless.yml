@@ -407,8 +407,8 @@ resources:
             AttributeType: N
           - AttributeName: storeNum
             AttributeType: N
-          - AttributeName: createdAt
-            AttributeType: S
+          # - AttributeName: createdAt
+          #   AttributeType: S
         KeySchema:
           - AttributeName: userNum
             KeyType: HASH
@@ -423,14 +423,14 @@ resources:
         AttributeDefinitions:
           - AttributeName: itemId
             AttributeType: S
-          - AttributeName: storeNum
-            AttributeType: N
-          - AttributeName: itemNum
-            AttributeType: N            
-          - AttributeName: name
-            AttributeType: S
-          - AttributeName: desc
-            AttributeType: S
+          # - AttributeName: storeNum
+          #   AttributeType: N
+          # - AttributeName: itemNum
+          #   AttributeType: N            
+          # - AttributeName: name
+          #   AttributeType: S
+          # - AttributeName: desc
+          #   AttributeType: S
         KeySchema:
           - AttributeName: itemId
             KeyType: HASH
@@ -443,16 +443,16 @@ resources:
         AttributeDefinitions:
           - AttributeName: orderId
             AttributeType: S
-          - AttributeName: userId
-            AttributeType: S
-          - AttributeName: storeNum
-            AttributeType: N
-          - AttributeName: orderNum
-            AttributeType: N            
-          - AttributeName: userNum
-            AttributeType: N
-          - AttributeName: status
-            AttributeType: S 
+          # - AttributeName: userId
+          #   AttributeType: S
+          # - AttributeName: storeNum
+          #   AttributeType: N
+          # - AttributeName: orderNum
+          #   AttributeType: N            
+          # - AttributeName: userNum
+          #   AttributeType: N
+          # - AttributeName: status
+          #   AttributeType: S 
           # uid#status
           - AttributeName: gsi1pk
             AttributeType: S                        
@@ -465,8 +465,8 @@ resources:
           # orderNum#
           - AttributeName: gsi2sk
             AttributeType: S                        
-          - AttributeName: createdAt
-            AttributeType: S
+          # - AttributeName: createdAt
+          #   AttributeType: S
         KeySchema:
           - AttributeName: orderId
             KeyType: HASH
@@ -499,12 +499,12 @@ resources:
         AttributeDefinitions:
           - AttributeName: storeNum
             AttributeType: N
-          - AttributeName: name
-            AttributeType: S
-          - AttributeName: desc
-            AttributeType: S
-          - AttributeName: createdAt
-            AttributeType: S
+          # - AttributeName: name
+          #   AttributeType: S
+          # - AttributeName: desc
+          #   AttributeType: S
+          # - AttributeName: createdAt
+          #   AttributeType: S
         KeySchema:
           # TODO make key better hash distributed  or move table to RDBMS       
           - AttributeName: storeNum
@@ -520,10 +520,10 @@ resources:
             AttributeType: N
           - AttributeName: userId
             AttributeType: S
-          - AttributeName: name
-            AttributeType: S         
-          - AttributeName: createdAt
-            AttributeType: S
+          # - AttributeName: name
+          #   AttributeType: S         
+          # - AttributeName: createdAt
+          #   AttributeType: S
         KeySchema:
           - AttributeName: userNum
             KeyType: HASH
