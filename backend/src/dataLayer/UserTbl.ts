@@ -72,18 +72,21 @@ export class UserTbl {
         
 }
 
+
 function createDynamoDBClient() {
     // const AWSXRay = require('aws-xray-sdk');
     // const AWS = AWSXRay.captureAWS(AWSb)
 
-    let dbDocClient: AWS.DynamoDB.DocumentClient;
+    let dbDocClient: AWS.DynamoDB.DocumentClient = null;
     if (process.env.IS_OFFLINE) {
-        return dbDocClient = new AWS.DynamoDB.DocumentClient({ 
-            region: 'localhost', 
+        dbDocClient = new AWS.DynamoDB.DocumentClient({
+            region: 'localhost',
             endpoint: c.LOCAL_DYNAMODB_EP
         });
     } else {
-        return dbDocClient = new AWS.DynamoDB.DocumentClient();
+        dbDocClient = new AWS.DynamoDB.DocumentClient();
     }
+
+    return dbDocClient;
 }
   

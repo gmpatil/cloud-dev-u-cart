@@ -75,7 +75,7 @@ export async function getItemById(itemId: string): Promise<Item> {
 }
 
 
-export async function getSignedUrl(userId: string, todoId: string)
+export async function getSignedUrl(_userId: string, _todoId: string)
     :Promise<string> {
     logger.debug("ucartBl.getSignedUrl - in");
     logger.debug("NOT Implemented");    

@@ -1,4 +1,4 @@
-import * as AWS from 'aws-sdk';
+//import * as AWS from 'aws-sdk';
 //import * as elasticsearch from 'elasticsearch'
 import {Client, SearchResponse} from 'elasticsearch'
 import * as httpAwsEs from 'http-aws-es'
