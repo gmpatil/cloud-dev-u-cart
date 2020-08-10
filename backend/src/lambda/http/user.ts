@@ -49,25 +49,15 @@ export const handlerUpdate: APIGatewayProxyHandler = async (event: APIGatewayPro
 export const handlerGet: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent)
   : Promise<APIGatewayProxyResult> => {
   logger.debug("In getUser - in");
-  const uid = getUserId(event);
+  // TODO add role check if user is allowed to query other user's info.
+  let uid = event.pathParameters.userId
+
+  if (uid == null) {
+    uid = getUserId(event);
+  }
+
   const ret: User = await bl.getUserId(uid);
   logger.debug("In getUser - out");
-  return {
-    statusCode: 200,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Credentials': true
-    },
-    body: JSON.stringify({"user": ret})
-  };
-}
-
-export const handlerGetbyId: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent)
-  : Promise<APIGatewayProxyResult> => {
-  logger.debug("In getUserById - in");
-  const uid = event.pathParameters.userId
-  const ret: User = await bl.getUserId(uid);
-  logger.debug("In getUserById - out");
   return {
     statusCode: 200,
     headers: {

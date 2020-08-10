@@ -276,7 +276,92 @@ functions:
           path: store/{storeNum}/order/
           cors: true 
           authorizer: Auth                    
+
+  CreateStore:
+    handler: src/lambda/http/store.handlerCreate
+    events:
+      - http:
+          method: post
+          path: store/
+          cors: true          
+          authorizer: Auth                    
+          request:
+            # Schema that will validate the incoming requests
+            schema:
+              application/json: ${file(models/create-store-req.json)}
+
+  UpdateStore:
+    handler: src/lambda/http/store.handlerUpdate
+    events:
+      - http:
+          method: patch
+          path: store/
+          cors: true 
+          authorizer: Auth                                                 
+          request:
+            # Schema that will validate the incoming requests
+            schema:
+              application/json: ${file(models/create-store-req.json)}
+
+  GetStore:
+    handler: src/lambda/http/store.handlerGet
+    events:
+      - http:
+          method: get
+          path: store/{storeNum}
+          cors: true 
+          authorizer: Auth      
+  GetStores:
+    handler: src/lambda/http/store.handlerGetStores
+    events:
+      - http:
+          method: get
+          path: store/
+          cors: true 
+          authorizer: Auth                                                      
                   
+  CreateUser:
+    handler: src/lambda/http/user.handlerCreate
+    events:
+      - http:
+          method: post
+          path: user/
+          cors: true          
+          authorizer: Auth                    
+          request:
+            # Schema that will validate the incoming requests
+            schema:
+              application/json: ${file(models/create-user-req.json)}
+
+  UpdateUser:
+    handler: src/lambda/http/user.handlerUpdate
+    events:
+      - http:
+          method: patch
+          path: user/
+          cors: true 
+          authorizer: Auth                                                 
+          request:
+            # Schema that will validate the incoming requests
+            schema:
+              application/json: ${file(models/create-user-req.json)}
+  GetUser:
+    handler: src/lambda/http/user.handlerGet
+    events:
+      - http:
+          method: get
+          path: user/
+          cors: true 
+          authorizer: Auth     
+  GetUser2:
+    handler: src/lambda/http/user.handlerGetByNum
+    events:
+      - http:
+          method: get
+          path: user/{userNum}
+          cors: true 
+          authorizer: Auth  
+          
   # ResizeImage:
   #   handler: src/lambda/s3/resizeImage.handler
   #   events:
