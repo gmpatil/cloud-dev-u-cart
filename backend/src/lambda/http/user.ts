@@ -71,8 +71,9 @@ export const handlerGet: APIGatewayProxyHandler = async (event: APIGatewayProxyE
 export const handlerGetbyNum: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent)
   : Promise<APIGatewayProxyResult> => {
   logger.debug("In getUserByNum - in");
-  const userNum = event.pathParameters.userNum
-  const ret: User = await bl.getUser(userNum);
+  // TODO check for Number
+  const userNum:string = event.pathParameters.userNum
+  const ret: User = await bl.getUser(Number(userNum));
   logger.debug("In getUserByNum - out");
   return {
     statusCode: 200,

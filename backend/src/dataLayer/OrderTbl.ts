@@ -1,6 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { createLogger } from '../utils/logger';
-import * as c from '../utils/constants';
+import { ORDER_TBL, ORDER_GSI1, ORDER_GSI2, LOCAL_DYNAMODB_EP} from '../utils/constants';
 import { Order, OrderStatus } from '../models/Order'
 
 /*
@@ -66,7 +66,7 @@ export class OrderTbl {
         order.gsi2sk = this.getGSI2SK(order.orderNum);
 
         await this.dbDocClient.put({
-            TableName: c.ORDER_TBL,
+            TableName: ORDER_TBL,
             Item: order,
             ConditionExpression: "attribute_not_exists(orderNum)"
         }).promise();
@@ -83,7 +83,7 @@ export class OrderTbl {
         order.lastUpdatedAt = new Date().toISOString();
 
         await this.dbDocClient.update({
-            TableName: c.ORDER_TBL,
+            TableName: ORDER_TBL,
             Key: { orderId: order.orderId},
             UpdateExpression: "set status = :val1",
             ExpressionAttributeValues: {
@@ -102,7 +102,7 @@ export class OrderTbl {
         const orderId = this.getOrderId(storeNum, orderNum);
 
         const result = await this.dbDocClient.get({
-            TableName: c.ORDER_TBL,
+            TableName: ORDER_TBL,
             Key: {
                 orderId: orderId
             }
@@ -116,7 +116,7 @@ export class OrderTbl {
        this.logger.debug("orderTbl.getOrderById - in");
 
        const result = await this.dbDocClient.get({
-            TableName: c.ORDER_TBL,
+            TableName: ORDER_TBL,
             Key: {
                 orderId: orderId
             }
@@ -132,8 +132,8 @@ export class OrderTbl {
         const pk : string = this.getGSI1PK(uid, sts);
 
         const result = await this.dbDocClient.query({
-             TableName: c.ORDER_TBL,
-             IndexName: c.ORDER_GSI1,
+             TableName: ORDER_TBL,
+             IndexName: ORDER_GSI1,
             //  KeyConditionExpression: 'gsi1pk = :pk and gsi1sk = :sts',
             KeyConditionExpression: 'gsi1pk = :pk ',            
              ExpressionAttributeValues: { 
@@ -151,8 +151,8 @@ export class OrderTbl {
         const pk : string = this.getGSI2PK(storeNum, sts);
 
         const result = await this.dbDocClient.query({
-             TableName: c.ORDER_TBL,
-             IndexName: c.ORDER_GSI2,
+             TableName: ORDER_TBL,
+             IndexName: ORDER_GSI2,
              KeyConditionExpression: 'gsi2pk = :storeSts ',
              ExpressionAttributeValues: { 
                  ':storeSts': { S: pk} 
@@ -179,13 +179,16 @@ function createDynamoDBClient() {
     // const AWSXRay = require('aws-xray-sdk');
     // const AWS = AWSXRay.captureAWS(AWSb)
 
-    let dbDocClient: AWS.DynamoDB.DocumentClient;
+    let dbDocClient: AWS.DynamoDB.DocumentClient = null;
     if (process.env.IS_OFFLINE) {
-        return dbDocClient = new AWS.DynamoDB.DocumentClient({
+        dbDocClient = new AWS.DynamoDB.DocumentClient({
             region: 'localhost',
-            endpoint: c.LOCAL_DYNAMODB_EP
+            endpoint: LOCAL_DYNAMODB_EP
         });
     } else {
-        return dbDocClient = new AWS.DynamoDB.DocumentClient();
+        dbDocClient = new AWS.DynamoDB.DocumentClient();
     }
+
+    return dbDocClient;
 }
+  

@@ -2,7 +2,7 @@ import { SNSEvent, SNSHandler, S3EventRecord } from 'aws-lambda'
 import 'source-map-support/register'
 import * as AWS from 'aws-sdk'
 // import * as AWSXRay from 'aws-xray-sdk'
-import Jimp from 'jimp/es'
+import * as Jimp  from 'jimp/es'
 import * as c from '../../utils/constants'
 import {createLogger} from '../../utils/logger'
 
@@ -39,11 +39,11 @@ async function processImage(record: S3EventRecord) {
     .promise()
 
   const body = response.Body
-  const image = await Jimp.read(body)
+  const image = await Jimp.read(body.toString())
 
   logger.debug('Resizing image')
   image.resize(150, Jimp.AUTO)
-  const convertedBuffer = await image.getBufferAsync(Jimp.AUTO)
+  const convertedBuffer = await image.getBufferAsync(Jimp.AUTO.toString())
 
   logger.debug(`Writing image back to S3 bucket: ${c.S3_BUCKET_ITEM_IMG_S}`)
   await s3

@@ -60,11 +60,9 @@ export async function getUser(userNum: number): Promise<User> {
 export async function getUserId(userId: string): Promise<User> {
     logger.debug("getUserId - in");
     var user: User = await new UserTbl().getUserById(userId);
-
-    if (user == null) {
+    if (user == null) { // null or undefined
         user = null;
     }
-
     logger.debug("getUserId - out");
     return user;
 }

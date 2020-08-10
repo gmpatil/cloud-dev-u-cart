@@ -75,23 +75,26 @@ export async function getItemById(itemId: string): Promise<Item> {
 }
 
 
-// export async function getSignedUrl(userId: string, todoId: string)
-//     :Promise<string> {
-//     logger.debug("ucartBl.getSignedUrl - in");
-//     const todoItm: TodoItem = await ddb.getTodo(userId, todoId);
+export async function getSignedUrl(userId: string, todoId: string)
+    :Promise<string> {
+    logger.debug("ucartBl.getSignedUrl - in");
+    logger.debug("NOT Implemented");    
+    // const todoItm: TodoItem = await ddb.getTodo(userId, todoId);
     
-//     //record/overwrite as a new attachment URL or update to existing one.    
-//     if (todoItm) {
-//         const downloadUrl :string = await s3Svc.getAttachementDownloadUrl(userId, todoId); 
-//         // Add/update attachementURL for Todo item in DB
-//         await ddb.updateTodoAttachement(userId, todoId, downloadUrl);
+    // //record/overwrite as a new attachment URL or update to existing one.    
+    // if (todoItm) {
+    //     const downloadUrl :string = await s3Svc.getAttachementDownloadUrl(userId, todoId); 
+    //     // Add/update attachementURL for Todo item in DB
+    //     await ddb.updateTodoAttachement(userId, todoId, downloadUrl);
 
-//         // get signed/upload URL from S3
-//         const uploadUrl :string = await s3Svc.getAttachementUploadUrl(userId, todoId);        
-//         logger.debug("ucartBl.getSignedUrl - out 1");        
-//         return uploadUrl;
-//     } else {
-//         logger.debug("ucartBl.getSignedUrl - out 2");        
-//         return null;
-//     }
-// }
+    //     // get signed/upload URL from S3
+    //     const uploadUrl :string = await s3Svc.getAttachementUploadUrl(userId, todoId);        
+    //     logger.debug("ucartBl.getSignedUrl - out 1");        
+    //     return uploadUrl;
+    // } else {
+    //     logger.debug("ucartBl.getSignedUrl - out 2");        
+    //     return null;
+    // }
+
+    return null;
+}

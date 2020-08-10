@@ -46,9 +46,10 @@ export const handlerUpdate: APIGatewayProxyHandler = async (event: APIGatewayPro
 export const handlerGet: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent)
   : Promise<APIGatewayProxyResult> => {
   logger.debug("In getStore - in");
-  const storeNum = event.pathParameters.storeNum
+  // TODO check for numeric value
+  const storeNum:string = event.pathParameters.storeNum
   //const uid = getUserId(event);
-  const ret: Store = await bl.getStore(storeNum);
+  const ret: Store = await bl.getStore(Number(storeNum));
   logger.debug("In getStore - out");
   return {
     statusCode: 200,
@@ -60,7 +61,7 @@ export const handlerGet: APIGatewayProxyHandler = async (event: APIGatewayProxyE
   };
 }
 
-export const handlerGetStores: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent)
+export const handlerGetStores: APIGatewayProxyHandler = async (_event: APIGatewayProxyEvent)
   : Promise<APIGatewayProxyResult> => {
   logger.debug("In getStores - in");
   //const uid = getUserId(event);

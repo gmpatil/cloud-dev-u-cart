@@ -46,7 +46,7 @@ export class UserTbl {
     async getUserById(userId: string): Promise<User> {
         this.logger.debug("UserTbl.getUserById - in");
     
-        const result = await this.dbDocClient.get({
+        const result = await this.dbDocClient.query({
             TableName: c.USER_TBL,
             IndexName: c.USER_GSI1,
             KeyConditionExpression: 'userId= :userId',
@@ -54,7 +54,12 @@ export class UserTbl {
         }).promise();
     
         this.logger.debug("UserTbl.getUserById - out");
-        return result.Item as User;
+        let users : Array<User> = result.Items as Array<User>;
+        let user: User = null;
+        if (users != null) {
+            user = users[0];
+        }
+        return user;
     }
     
     async deleteUser(userNum: number): Promise<void> {

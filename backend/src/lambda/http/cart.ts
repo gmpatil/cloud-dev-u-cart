@@ -30,8 +30,8 @@ export const handlerUpdate: APIGatewayProxyHandler = async (event: APIGatewayPro
   : Promise<APIGatewayProxyResult> => {
   logger.debug("In updateCart - in");
   const cart: UpdateCartRequest = JSON.parse(event.body)
-  //const uid = getUserId(event);
-  const ret: Cart = await bl.updateCart(cart);
+  const uid = getUserId(event);
+  const ret: Cart = await bl.updateCart(uid, cart);
   logger.debug("In updateCart - out");
   return {
     statusCode: 200,
@@ -47,8 +47,9 @@ export const handlerGetForStore: APIGatewayProxyHandler = async (event: APIGatew
   logger.debug("getTodos.handler - in"); 
   
   const userId = getUserId(event);
-  const storeNum = event.pathParameters.storeNum
-  const cart = await bl.getCart(userId, storeNum);
+  // TODO check for numeric value
+  const storeNum:string = event.pathParameters.storeNum
+  const cart = await bl.getCart(userId, Number(storeNum));
 
   logger.debug("getTodos.handler 1 - out");       
   return {

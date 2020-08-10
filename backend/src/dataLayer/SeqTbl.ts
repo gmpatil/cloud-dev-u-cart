@@ -1,5 +1,6 @@
 import * as AWS from 'aws-sdk';
 import { createLogger } from '../utils/logger';
+import {LOCAL_DYNAMODB_EP} from '../utils/constants'
 import * as c from '../utils/constants'
 
 export class SeqTbl {
@@ -10,7 +11,7 @@ export class SeqTbl {
     // For Entities like StoreNum, and UseNum
     async getNextSeqForEntity(entityName: string): Promise<number> {
         this.logger.debug("seqTbl.getNextSeqForEntity - in");
-        const upd = await this.dbClient.update({
+        const upd:AWS.DynamoDB.DocumentClient.UpdateItemOutput = await this.dbClient.update({
             TableName: c.SEQ_TBL,
             Key: { entity: entityName},
             UpdateExpression: "set seq = if_not_exists(seq, 0) + 1",
@@ -18,7 +19,7 @@ export class SeqTbl {
         }).promise();
     
         this.logger.debug("seqTbl.getNextSeqForEntity - out");
-        return upd.seq;
+        return upd.Attributes["seq"];
     } 
     
     //s-00001-item
@@ -36,15 +37,17 @@ function createDynamoDBClient() {
     // const AWSXRay = require('aws-xray-sdk');
     // const AWS = AWSXRay.captureAWS(AWSb)
 
-    let dbDocClient: AWS.DynamoDB.DocumentClient;
+    let dbDocClient: AWS.DynamoDB.DocumentClient = null;
     if (process.env.IS_OFFLINE) {
-        return dbDocClient = new AWS.DynamoDB.DocumentClient({ 
-            region: 'localhost', 
-            endpoint: c.LOCAL_DYNAMODB_EP
+        dbDocClient = new AWS.DynamoDB.DocumentClient({
+            region: 'localhost',
+            endpoint: LOCAL_DYNAMODB_EP
         });
     } else {
-        return dbDocClient = new AWS.DynamoDB.DocumentClient();
+        dbDocClient = new AWS.DynamoDB.DocumentClient();
     }
+
+    return dbDocClient;
 }
   
 
