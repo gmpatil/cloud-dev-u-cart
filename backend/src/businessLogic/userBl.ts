@@ -13,6 +13,8 @@ export async function createUser(userReq: CreateUserRequest): Promise<User> {
 
     const userNum: number = await new SeqTbl().getNextSeqForEntity(ENT_USER);
 
+    // logger.debug(` userNum got ${userNum} ${JSON.stringify(userNum)} `);
+
     const user: User = {
         userNum: userNum,
         userId: userReq.userId,
