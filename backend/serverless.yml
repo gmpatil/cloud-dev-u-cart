@@ -28,18 +28,20 @@ provider:
     # apiGateway: true
 
   environment:
+    STAGE: ${self:provider.stage}
     CART_TABLE: cart-${self:provider.stage}      
     ITEM_TABLE: item-${self:provider.stage}    
     ORDER_TABLE: order-${self:provider.stage}    
     ORDER_GSI1_UID: order-gsi1-uid-${self:provider.stage}    
     ORDER_GSI2_STR_STS: order-gsi2-str-sts-gidx-${self:provider.stage}    
-    SEQ_TABLE: seq-${self:provider.stage}                  
+    SEQ_TABLE: sequence-${self:provider.stage}                  
     STORE_TABLE: store-${self:provider.stage}  
     USER_TABLE: user-${self:provider.stage}      
     USER_GSI1_UID: user-gis1-uid-${self:provider.stage}
     ITEM_IMG_S3_BUCKET: gmp-ucart-img-${self:provider.stage}
     ITEM_IMG_S_S3_BUCKET: gmp-ucart-img-s-${self:provider.stage}    
     SIGNED_URL_EXPIRATION: 300
+    ES_ENDPOINT: https://elasticsearch.aws.com/
   #   AUTH_0_SECRET_ID: Auth0Secret-${self:provider.stage}
   #   AUTH_0_SECRET_FIELD: auth0Secret
 
@@ -106,6 +108,7 @@ provider:
 custom:
   serverless-offline:
     port: 3003
+    host: 0.0.0.0
 #    useChildProcesses: true    
   dynamodb:
     # noStart: true
@@ -491,7 +494,22 @@ resources:
             Projection:
               ProjectionType: INCLUDE 
               NonKeyAttributes:
-              - orderId                
+              - orderId     
+
+    SequenceTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.SEQ_TABLE}        
+        AttributeDefinitions:
+          - AttributeName: entity
+            AttributeType: S
+          # - AttributeName: seq
+          #   AttributeType: N            
+        KeySchema:
+          - AttributeName: entity
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+
     StoreTable:
       Type: AWS::DynamoDB::Table
       Properties:

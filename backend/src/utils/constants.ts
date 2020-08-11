@@ -6,7 +6,7 @@ export const ITEM_TBL :string  = `item-${process.env.STAGE}`
 export const ORDER_TBL :string  = `order-${process.env.STAGE}`
 export const ORDER_GSI1 :string  = `order-gsi1-uid-${process.env.STAGE}`
 export const ORDER_GSI2 :string  = `order-gsi2-str-sts-gidx-${process.env.STAGE}`
-export const SEQ_TBL :string  = `seq-${process.env.STAGE}`
+export const SEQ_TBL :string  = `sequence-${process.env.STAGE}`
 export const STORE_TBL :string  = `store-${process.env.STAGE}`
 export const USER_TBL :string = `user-${process.env.STAGE}`
 export const USER_GSI1 :string = `user-gis1-uid-${process.env.STAGE}` 
@@ -21,7 +21,7 @@ export const ENT_USER :string = `user` ;
 // For S3 buckets
 export const S3_BUCKET_ITEM_IMG :string = `gmp-ucart-img-${process.env.STAGE}`
 export const S3_BUCKET_ITEM_IMG_S :string = `gmp-ucart-img-s-${process.env.STAGE}`
-export const S3_SIGNED_URL_EXPIRATION :number = Number(process.env.SIGNED_URL_EXPIRATION)
+export const S3_SIGNED_URL_EXPIRATION :number = Number(`${process.env.SIGNED_URL_EXPIRATION}`)
 
 // Elastic search
-export const ES_EP :string = process.env.ES_ENDPOINT
+export const ES_EP :string = `${process.env.ES_ENDPOINT}`
