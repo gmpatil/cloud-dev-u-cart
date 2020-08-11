@@ -1,0 +1,692 @@
+{
+	"info": {
+		"_postman_id": "f0fc2148-46cb-429c-835d-4e32c7e0858e",
+		"name": "Udacity C4 Project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "TODOs",
+			"item": [
+				{
+					"name": "local",
+					"item": [
+						{
+							"name": "Get all todos",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "f0df250a-d269-4578-a41e-3efa0bd5531f",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"The post returns list has no item\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.items.length).to.equal(0);          ",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 900ms\", function () {",
+											"    //after warm start.",
+											"    pm.expect(pm.response.responseTime).to.be.below(300);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/test/todos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"test",
+										"todos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create todo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "ef0711cd-0956-4035-8bd2-495a405f4023",
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {",
+											"    pm.response.to.have.status(201);",
+											"});",
+											"",
+											"pm.test(\"The post returns a new item\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.todoId).to.not.eql(null);",
+											"    pm.expect(jsonData.userId).to.not.eql(null);    ",
+											"    pm.expect(jsonData.name).to.not.eql(null);        ",
+											"    pm.expect(jsonData.createdAt).to.not.eql(null);        ",
+											"    pm.expect(jsonData.dueDate).to.not.eql(null);            ",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 900ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(900);",
+											"});",
+											"",
+											"var jsonData = JSON.parse(responseBody);",
+											"postman.setEnvironmentVariable(\"newTodoId\", jsonData.todoId);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"createdAt\": \"2019-07-27T20:01:45.424Z\",\n  \"name\": \"Buy milk\",\n  \"dueDate\": \"2019-07-29T20:01:45.424Z\",\n  \"done\": false,\n  \"attachmentUrl\": \"http://example.com/image.png\"\n}",
+									"options": {
+										"raw": {}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/test/todos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"test",
+										"todos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all todo - 1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "1ab684a8-27c5-45c3-a26a-036f1ddc752b",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"The post returns list has one item\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.items.length).to.equal(1);          ",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 500ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/test/todos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"test",
+										"todos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update todo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "24a51e6e-c960-43ac-890a-aaf6f770aff5",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"The post returns a upd item\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.name).to.eql(\"Buy bread\");        ",
+											"    pm.expect(jsonData.dueDate).to.eql(\"2019-07-29T20:01:45.424Z\");            ",
+											"    pm.expect(jsonData.done).to.eql(true);      ",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 900ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(900);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Buy bread\",\n  \"dueDate\": \"2019-07-29T20:01:45.424Z\",\n  \"done\": true\n}",
+									"options": {
+										"raw": {}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/test/todos/{{newTodoId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"test",
+										"todos",
+										"{{newTodoId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get attachment URL-good",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "98dc0f5c-a89f-4356-9207-1f1262202d0c",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"The post returns a upd item\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.uploadUrl).to.not.eql(null);",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 900ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/test/todos/{{newTodoId}}/attachment",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"test",
+										"todos",
+										"{{newTodoId}}",
+										"attachment"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete todo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "2c122281-2294-48b8-8020-c0b51bee76b4",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 500ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/test/todos/{{newTodoId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"test",
+										"todos",
+										"{{newTodoId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get attachment URL-error",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "ce7f236d-250d-4620-8c17-62d5fdaa5ae9",
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {",
+											"    pm.response.to.have.status(404);",
+											"});",
+											"",
+											"pm.test(\"The post returns a upd item\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.uploadUrl).to.be.not.empty;",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 900ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(900);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/test/todos/{{newTodoId}}/attachment",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"test",
+										"todos",
+										"{{newTodoId}}",
+										"attachment"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Get all todos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos",
+							"protocol": "https",
+							"host": [
+								"{{apiId}}",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"dev",
+								"todos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create todo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Water flowers\",\n\t\"dueDate\": \"2019-06-11\"\n}"
+						},
+						"url": {
+							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos",
+							"protocol": "https",
+							"host": [
+								"{{apiId}}",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"dev",
+								"todos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update todo",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Change the world\",\n\t\"dueDate\": \"2019-12-11\",\n\t\"done\": true\n}"
+						},
+						"url": {
+							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos/35dd600f-43c2-4649-903c-615e1586a26f",
+							"protocol": "https",
+							"host": [
+								"{{apiId}}",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"dev",
+								"todos",
+								"35dd600f-43c2-4649-903c-615e1586a26f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete todo",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos/fe671583-4512-45f6-9475-4265c04362fb",
+							"protocol": "https",
+							"host": [
+								"{{apiId}}",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"dev",
+								"todos",
+								"fe671583-4512-45f6-9475-4265c04362fb"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get attachment URL",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos/3836b777-9bc4-4429-9b79-ba4e4f5f91c0/attachment",
+							"protocol": "https",
+							"host": [
+								"{{apiId}}",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"dev",
+								"todos",
+								"3836b777-9bc4-4429-9b79-ba4e4f5f91c0",
+								"attachment"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "28f80d75-858b-4543-8e84-9c25803d96af",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "48877b28-97ee-457e-9e74-36b8b8ae4716",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "83045d56-8747-4f86-8c2b-3f6bd8a3139d",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "e19c0598-c214-4b14-a247-b76643f7e026",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "c5387307-9de3-4ca1-bcbf-75c4335d91bb",
+			"key": "apiId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "6b2c5ace-d52e-4094-b3cf-784f62ebdd12",
+			"key": "authToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "adbe20d9-d0cd-4f76-8bc3-32bac2ddb819",
+			"key": "Authorization",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "d6b35364-03e1-470d-9711-f7479eceef63",
+			"key": "old_authToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "b9858312-70be-4fed-8ef4-d51ffd5fbfd7",
+			"key": "ddddd",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
