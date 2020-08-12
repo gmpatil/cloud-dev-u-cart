@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "f0fc2148-46cb-429c-835d-4e32c7e0858e",
-		"name": "Udacity C4 Project",
+		"_postman_id": "aa54ccf6-5e9c-405d-9ad0-fad5d65a387b",
+		"name": "UCart-REST-API-Tests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -17,7 +17,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "f0df250a-d269-4578-a41e-3efa0bd5531f",
+										"id": "58ffbcea-ba5b-4383-a80c-70c979260770",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
@@ -68,7 +68,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "ef0711cd-0956-4035-8bd2-495a405f4023",
+										"id": "4e92a8fa-02ea-42d1-96eb-7f32dfb5e730",
 										"exec": [
 											"pm.test(\"Status code is 201\", function () {",
 											"    pm.response.to.have.status(201);",
@@ -137,7 +137,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "1ab684a8-27c5-45c3-a26a-036f1ddc752b",
+										"id": "5940160f-22e2-4414-8e0e-186f2a66845f",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
@@ -187,7 +187,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "24a51e6e-c960-43ac-890a-aaf6f770aff5",
+										"id": "315f529f-96fd-4415-9cca-1f0c3ae12ea7",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
@@ -253,7 +253,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "98dc0f5c-a89f-4356-9207-1f1262202d0c",
+										"id": "afc146cf-517a-4ff2-a801-88f18c052292",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
@@ -311,7 +311,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "2c122281-2294-48b8-8020-c0b51bee76b4",
+										"id": "be8fe91c-5343-411a-bcb5-24ef84f48b06",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
@@ -369,7 +369,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "ce7f236d-250d-4620-8c17-62d5fdaa5ae9",
+										"id": "0899576f-1c4c-4fe5-ae34-f74774c4063c",
 										"exec": [
 											"pm.test(\"Status code is 404\", function () {",
 											"    pm.response.to.have.status(404);",
@@ -613,7 +613,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "28f80d75-858b-4543-8e84-9c25803d96af",
+						"id": "fe231966-5ccd-46c5-bbd0-d3a47a38da60",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -623,12 +623,579 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "48877b28-97ee-457e-9e74-36b8b8ae4716",
+						"id": "261c8ede-3fa4-4c5f-b605-d86c9ebe133f",
 						"type": "text/javascript",
 						"exec": [
 							""
 						]
 					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "01_Users",
+			"item": [
+				{
+					"name": "01_UserCreateAdmin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "41b4230f-ef88-42cd-b662-c1b1f20eabde",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// pm.test(\"The post returns list has no item\", function () {",
+									"//     var jsonData = pm.response.json();",
+									"//     pm.expect(jsonData.items.length).to.equal(0);          ",
+									"// });",
+									"",
+									"pm.test(\"Response time is less than 300ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(1200);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{AdminAuthToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"auth0|5f31c210022f3a003d37ad02\",\r\n    \"name\": \"admin@test.com\",\r\n    \"contactPhone\": \"888-123-4567\",\r\n    \"address\": {\r\n        \"addressLine1\": \"\",\r\n        \"addressLine2\": \"\",\r\n        \"city\": \"San Fransisco\",\r\n        \"zip\": \"900123\",\r\n        \"state\": \"ca\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HostPrefix}}/user",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "02_UserGetUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a9fd337f-2f42-42bf-8d8f-a11e7053010d",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"// pm.test(\"The post returns list has no item\", function () {",
+									"//     var jsonData = pm.response.json();",
+									"//     pm.expect(jsonData.items.length).to.equal(0);          ",
+									"// });",
+									"",
+									"pm.test(\"Response time is less than 300ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(300);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{UserAuthToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{HostPrefix}}/user",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "03_UserCreateUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b74d9189-f754-4d15-8314-bd33e923c9b4",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// pm.test(\"The post returns list has no item\", function () {",
+									"//     var jsonData = pm.response.json();",
+									"//     pm.expect(jsonData.items.length).to.equal(0);          ",
+									"// });",
+									"",
+									"pm.test(\"Response time is less than 300ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(300);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{UserAuthToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"auth0|5f31c2ea8817010037fdcf73\",\r\n    \"name\": \"user@test.com\",\r\n    \"contactPhone\": \"888-123-4568\",\r\n    \"address\": {\r\n        \"addressLine1\": \"1234 El Camino Real\",\r\n        \"addressLine2\": \"\",\r\n        \"city\": \"Santa Clara\",\r\n        \"zip\": \"900125\",\r\n        \"state\": \"ca\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HostPrefix}}/user",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "04_UserGetUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2a350b67-5fb6-463b-8869-82314c788bbe",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"The returned User object has same userId\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.user.userId).to.equal(\"auth0|5f31c2ea8817010037fdcf73\");          ",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 300ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(300);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{UserAuthToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{HostPrefix}}/user",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "05_UserUpdateUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4222c827-6517-4820-9621-25206e3927ad",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"The returned User object has same userId\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.user.userId).to.equal(\"auth0|5f31c2ea8817010037fdcf73\");          ",
+									"});",
+									"",
+									"pm.test(\"The returned User object has update to contact phone\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.user.contactPhone).to.equal(\"888-123-4567\");          ",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 300ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(300);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{UserAuthToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"auth0|5f31c2ea8817010037fdcf73\",\r\n    \"userNum\": 2,\r\n    \"name\": \"user@test.com\",\r\n    \"contactPhone\": \"888-123-4567\",\r\n    \"address\": {\r\n        \"addressLine1\": \"1234 El Camino Real\",\r\n        \"addressLine2\": \"\",\r\n        \"city\": \"Santa Clara\",\r\n        \"zip\": \"900125\",\r\n        \"state\": \"ca\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HostPrefix}}/user",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "02_Stores",
+			"item": [
+				{
+					"name": "01_StoreCreateStore1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "97b73705-26a0-4987-a98a-a382c70e43bc",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// pm.test(\"The post returns list has no item\", function () {",
+									"//     var jsonData = pm.response.json();",
+									"//     pm.expect(jsonData.items.length).to.equal(0);          ",
+									"// });",
+									"",
+									"pm.test(\"Response time is less than 400ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(400);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{AdminAuthToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Super King Grocers\",\r\n    \"desc\": \"Bay Area's Fastest Growing Grocer\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HostPrefix}}/store",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"store"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "02_StoreCreateStore2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d79c1949-b6cc-4ccb-a231-7e9e35609b09",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// pm.test(\"The post returns list has no item\", function () {",
+									"//     var jsonData = pm.response.json();",
+									"//     pm.expect(jsonData.items.length).to.equal(0);          ",
+									"// });",
+									"",
+									"pm.test(\"Response time is less than 400ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(400);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{AdminAuthToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Ralphy General Stores\",\r\n    \"desc\": \"East Bay's Superfast Growing Store\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HostPrefix}}/store",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"store"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "03_StoreUpdateStore2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8ace2881-426b-490e-9be5-adf161c69346",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// pm.test(\"The post returns list has no item\", function () {",
+									"//     var jsonData = pm.response.json();",
+									"//     pm.expect(jsonData.items.length).to.equal(0);          ",
+									"// });",
+									"",
+									"pm.test(\"Response time is less than 400ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(400);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{AdminAuthToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"storeNum\": 1,\r\n    \"name\": \"Ralphy General Stores\",\r\n    \"desc\": \"East Bay's Superfast Growing Store\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HostPrefix}}/store",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"store"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "04_StoreGetStore1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0a632202-62ae-4753-bf0a-9fdb153d0492",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"The post returns storeNum 1\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.store.storeNum).to.equal(1);          ",
+									"});",
+									"",
+									"pm.test(\"The post returns name, desc, createdAt, lastUpdatedAt\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.store.name);          ",
+									"    pm.expect(jsonData.store.desc);              ",
+									"    pm.expect(jsonData.store.createdAt);              ",
+									"    pm.expect(jsonData.store.lastUpdatedAt);",
+									"    ",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 300ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(300);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{UserAuthToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{HostPrefix}}/store/1",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"store",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "05_StoreGetStores",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a53acf81-6301-4388-860c-1640556897dd",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"The post returns 2 stores\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.stores.length).to.equal(2);          ",
+									"});",
+									"",
+									"// pm.test(\"StoreNum 1 and 2 is returned\", function () {",
+									"//     var jsonData = pm.response.json();",
+									"//     pm.expect(jsonData.stores[0].storeNum).to.equal(1);          ",
+									"// });",
+									"",
+									"pm.test(\"Response time is less than 300ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(300);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{UserAuthToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{HostPrefix}}/store/",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"store",
+								""
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -638,7 +1205,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "83045d56-8747-4f86-8c2b-3f6bd8a3139d",
+				"id": "48fe39e8-94ec-40df-a192-e46bc78a8a81",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -648,7 +1215,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "e19c0598-c214-4b14-a247-b76643f7e026",
+				"id": "7f97a555-e9e7-443d-b6cb-a6d5a9ce1e52",
 				"type": "text/javascript",
 				"exec": [
 					""
