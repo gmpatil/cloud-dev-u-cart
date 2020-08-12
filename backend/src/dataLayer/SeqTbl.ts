@@ -14,7 +14,7 @@ export class SeqTbl {
         //const upd =  
         const upd: AWS.DynamoDB.UpdateItemOutput = await this.dbClient.updateItem({
             TableName: "sequence-test",
-            Key: { "entity": { "S": "user" } },
+            Key: { "entity": { "S": entityName } },
             ExpressionAttributeValues: {
                 ":incr": { "N": "1"},
                 ":init": { "N": "0" }
@@ -37,23 +37,6 @@ export class SeqTbl {
         return this.getNextSeqForEntity(`s-${String(storeNum).padStart(5)}-order`);
     }
 }
-
-// function createDynamoDBClient() {
-//     // const AWSXRay = require('aws-xray-sdk');
-//     // const AWS = AWSXRay.captureAWS(AWSb)
-
-//     let dbDocClient: AWS.DynamoDB.DocumentClient = null;
-//     if (process.env.IS_OFFLINE) {
-//         dbDocClient = new AWS.DynamoDB.DocumentClient({
-//             region: 'localhost',
-//             endpoint: c.LOCAL_DYNAMODB_EP
-//         });
-//     } else {
-//         dbDocClient = new AWS.DynamoDB.DocumentClient();
-//     }
-
-//     return dbDocClient;
-// }
 
 function createDynamoDB(): AWS.DynamoDB {
     // const AWSXRay = require('aws-xray-sdk');

@@ -12,6 +12,7 @@ const logger = createLogger("createStore");
 export const handlerCreate: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent)
   : Promise<APIGatewayProxyResult> => {
   logger.debug("In createStore - in");
+  // TODO verify user's role is Admin.  
   const store: CreateStoreRequest = JSON.parse(event.body)
   //const uid = getUserId(event);
   const ret: Store = await bl.createStore(store);

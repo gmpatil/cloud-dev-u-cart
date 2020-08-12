@@ -28,14 +28,26 @@ export class StoreTbl {
 
     async updateStore(store: Store): Promise<Store> {
         this.logger.debug("storeTbl.updateStore - in");
-
-        await this.dbDocClient.put({
+        var params = {
             TableName: STORE_TBL,
-            Item: store
-        }).promise();
+            Key:{
+                "storeNum": store.storeNum
+            },
+            UpdateExpression: "SET #name = :name, #desc = :desc, lastUpdatedAt = :lastUpdatedAt",
+            ExpressionAttributeNames: {"#name": "name", "#desc": "desc"},
+            ExpressionAttributeValues:{
+                ":name":store.name,
+                ":desc": store.desc,
+                ":lastUpdatedAt": store.lastUpdatedAt
+            },
+            ReturnValues:"UPDATED_NEW"
+        };        
 
+        const upd:AWS.DynamoDB.DocumentClient.UpdateItemOutput = await this.dbDocClient.update(params).promise();
+        //AWS.DynamoDB.DocumentClient.UpdateItemOutput
+        //AWS.AWSError
         this.logger.debug("storeTbl.updateStore - out");
-        return store;
+        return upd.Attributes as Store;
     }
 
     async getStore(storeNum: number): Promise<Store> {

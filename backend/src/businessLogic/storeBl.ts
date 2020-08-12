@@ -16,7 +16,8 @@ export async function createStore(storeReq: CreateStoreRequest): Promise<Store> 
         storeNum: storeNum,
         name: storeReq.name,
         desc: storeReq.desc,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        lastUpdatedAt: new Date().toISOString()
     }
 
     const item: Store = await new StoreTbl().createStore(store);
@@ -25,17 +26,17 @@ export async function createStore(storeReq: CreateStoreRequest): Promise<Store> 
 }
 
 export async function updateStore(storeReq: CreateStoreRequest): Promise<Store> {
-    logger.debug("sstoreBl.createStore - in");
+    logger.debug("updateStore - in");
 
     const store: Store = {
         storeNum: storeReq.storeNum,
         name: storeReq.name,
         desc: storeReq.desc,
-        createdAt: new Date().toISOString()
+        lastUpdatedAt: new Date().toISOString()
     }
 
-    const item: Store = await new StoreTbl().createStore(store);
-    logger.debug("storeBl.createStore - out");
+    const item: Store = await new StoreTbl().updateStore(store);
+    logger.debug("updateStore - out");
     return item;
 }
 
