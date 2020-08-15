@@ -4,17 +4,20 @@ import { CreateOrderRequest } from '../../requests/CreateOrderRequest'
 import { createLogger } from '../../utils/logger';
 import { getUserId } from '../../utils/utils';
 import { Order, OrderStatus } from '../../models/Order'
-import { UserProfile } from '../../models/UserProfile'
-
 import * as bl from '../../businessLogic/orderBl'
+
+import * as c  from '../../utils/constants';
+import * as utl from '../../utils/utils';
+import { UserProfile } from '../../models/UserProfile'
 
 const logger = createLogger("http-order");
 
 export const handlerCreate: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent)
   : Promise<APIGatewayProxyResult> => {
   logger.debug("In createOrder - in");
+
+  const up: UserProfile = utl.getUserId(event);
   const order: CreateOrderRequest = JSON.parse(event.body)
-  const up: UserProfile = getUserId(event);
   order.userId = up.uid;
   const ret: Order = await bl.createOrder(order);
   logger.debug("In createOrder - out");
@@ -49,7 +52,18 @@ export const handlerUpdate: APIGatewayProxyHandler = async (event: APIGatewayPro
 export const handlerGetById: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   logger.debug("http-order-get - in"); 
   
-  //const userId = getUserId(event);
+  const up: UserProfile = utl.getUserId(event);
+  if (!utl.actionAllowed(up, c.ACTION.QUERY_ANY_ORDER) ) {
+    return {
+      statusCode: 401,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
+      },
+      body: JSON.stringify({"error": "User is not authorized to get another User's info."})
+    };  
+  }
+
   const orderId = event.pathParameters.orderId
   const order = await bl.getOrderById(orderId);
 
@@ -112,8 +126,18 @@ export const handlerGetForUser: APIGatewayProxyHandler = async (event: APIGatewa
 export const handlerGetForStore: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   logger.debug("http-order-get-for-store - in"); 
   
-  //const userId = getUserId(event);
-  // TODO check for numeric value
+  const up: UserProfile = utl.getUserId(event);
+  if (!utl.actionAllowed(up, c.ACTION.QUERY_ANY_ORDER) ) {
+    return {
+      statusCode: 401,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
+      },
+      body: JSON.stringify({"error": "User is not authorized to query other user's orders."})
+    };  
+  }
+
   const storeNum:string = event.pathParameters.storeNum
   const orderStatus:string  = event.queryStringParameters.status
   var err : string = null;

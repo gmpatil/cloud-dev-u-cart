@@ -3,7 +3,8 @@ import { APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult } f
 import { CreateUserRequest } from '../../requests/CreateUserRequest'
 import { UpdateUserRequest } from '../../requests/UpdateUserRequest'
 import { createLogger } from '../../utils/logger';
-import { getUserId } from '../../utils/utils';
+import * as c  from '../../utils/constants';
+import * as utl from '../../utils/utils';
 import { User } from '../../models/User'
 import { UserProfile } from '../../models/UserProfile'
 
@@ -15,7 +16,7 @@ export const handlerCreate: APIGatewayProxyHandler = async (event: APIGatewayPro
   : Promise<APIGatewayProxyResult> => {
   logger.debug("In createUser - in");
   const user: CreateUserRequest = JSON.parse(event.body)
-  const up: UserProfile = getUserId(event);
+  const up: UserProfile = utl.getUserId(event);
   user.userId = up.uid;
   const ret: User = await bl.createUser(user);
   logger.debug("In crateTodo - out");
@@ -33,6 +34,19 @@ export const handlerUpdate: APIGatewayProxyHandler = async (event: APIGatewayPro
   : Promise<APIGatewayProxyResult> => {
   logger.debug("In updateUser - in");
   const user: UpdateUserRequest = JSON.parse(event.body)
+  const up: UserProfile = utl.getUserId(event);
+  user.userId = up.uid;
+
+  if (!utl.actionAllowed(up, c.ACTION.CREATE_UPDATE_ANOTHER_USER) ) {
+    return {
+      statusCode: 401,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
+      },
+      body: JSON.stringify({"error": "User is not authorized to update another User info."})
+    };  
+  }
 
   if ((user == null) || (user.userNum == null) ) {
     logger.debug("In updateUser - out - error UserNum");
@@ -46,8 +60,7 @@ export const handlerUpdate: APIGatewayProxyHandler = async (event: APIGatewayPro
     };
   } 
 
-  const up: UserProfile = getUserId(event);
-  user.userId = up.uid;
+
   const ret: User = await bl.updateUser(user);
   logger.debug("In updateUser - out");
   return {
@@ -63,20 +76,33 @@ export const handlerUpdate: APIGatewayProxyHandler = async (event: APIGatewayPro
 export const handlerGet: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent)
   : Promise<APIGatewayProxyResult> => {
   logger.debug("In getUser - in");
-  // TODO add role check if user is allowed to query other user's info.
+
   let uid = null;
   
+  const up: UserProfile = utl.getUserId(event);
+
   if ((event.queryStringParameters ! =null) && (event.queryStringParameters.userId != null)) {
     uid = event.pathParameters.userId ;
   }
 
-  if (uid == null) {
-    const up: UserProfile = getUserId(event);
-    uid = up.uid;
-  
+  if (uid == null) {  
+    uid = up.uid;  
+  } else {
+    if (uid != up.uid) {
+      if (!utl.actionAllowed(up, c.ACTION.GET_ANOTHER_USER) ) {
+        return {
+          statusCode: 401,
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': true
+          },
+          body: JSON.stringify({"error": "User is not authorized to get another User's info."})
+        };  
+      }
+    }
   }
 
-  const ret: User = await bl.getUserId(uid);
+  const ret: User = await bl.getUserById(uid);
   logger.debug("In getUser - out");
 
   if (ret != null) {
@@ -103,6 +129,19 @@ export const handlerGet: APIGatewayProxyHandler = async (event: APIGatewayProxyE
 export const handlerGetbyNum: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent)
   : Promise<APIGatewayProxyResult> => {
   logger.debug("In getUserByNum - in");
+
+  const up: UserProfile = utl.getUserId(event);
+  if (!utl.actionAllowed(up, c.ACTION.GET_ANOTHER_USER) ) {
+    return {
+      statusCode: 401,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
+      },
+      body: JSON.stringify({"error": "User is not authorized to get another User's info."})
+    };  
+  }
+  
   // TODO check for Number
   let userNum:string = null; 
   if ( (event.pathParameters != null) && (event.pathParameters.userNum != null)){

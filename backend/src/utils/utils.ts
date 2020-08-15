@@ -50,7 +50,8 @@ function userHasRole(up: UserProfile, role: ROLE):boolean {
 
 export function actionAllowed(up: UserProfile, act: ACTION): boolean {
 
-  if ((act == ACTION.CREATE_ANOTHER_USER) 
+  if ((act == ACTION.CREATE_UPDATE_ANOTHER_USER) 
+  || (act == ACTION.GET_ANOTHER_USER)  
   || (act == ACTION.CREATE_ITEM)
   || (act == ACTION.CREATE_STORE)
   || (act == ACTION.QUERY_ANY_ORDER)

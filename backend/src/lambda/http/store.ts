@@ -2,9 +2,10 @@ import 'source-map-support/register'
 import { APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda'
 import { CreateStoreRequest } from '../../requests/CreateStoreRequest'
 import { createLogger } from '../../utils/logger';
-//import { getUserId } from '../../utils/utils';
+import {UserProfile} from '../../models/UserProfile'
 import { Store } from '../../models/Store'
-
+import * as utl from '../../utils/utils';
+import * as c from '../../utils/constants';
 import * as bl from '../../businessLogic/storeBl'
 
 const logger = createLogger("createStore");
@@ -12,7 +13,19 @@ const logger = createLogger("createStore");
 export const handlerCreate: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent)
   : Promise<APIGatewayProxyResult> => {
   logger.debug("In createStore - in");
-  // TODO verify user's role is Admin.  
+
+  const up: UserProfile = utl.getUserId(event);
+  if (!utl.actionAllowed(up, c.ACTION.CREATE_STORE) ) {
+    return {
+      statusCode: 401,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
+      },
+      body: JSON.stringify({"error": "User is not authorized to create new Store."})
+    };  
+  }
+
   const store: CreateStoreRequest = JSON.parse(event.body)
   //const uid = getUserId(event);
   const ret: Store = await bl.createStore(store);
@@ -30,6 +43,17 @@ export const handlerCreate: APIGatewayProxyHandler = async (event: APIGatewayPro
 export const handlerUpdate: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent)
   : Promise<APIGatewayProxyResult> => {
   logger.debug("In updateStore - in");
+  const up: UserProfile = utl.getUserId(event);
+  if (!utl.actionAllowed(up, c.ACTION.CREATE_STORE) ) {
+    return {
+      statusCode: 401,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
+      },
+      body: JSON.stringify({"error": "User is not authorized to update Store info."})
+    };  
+  }  
   const store: CreateStoreRequest = JSON.parse(event.body)
   //const uid = getUserId(event);
   const ret: Store = await bl.updateStore(store);
