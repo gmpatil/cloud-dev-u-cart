@@ -4,6 +4,7 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult, APIGatewayProxyHandler } f
 import { getUserId } from "../../utils/utils";
 import { createLogger } from '../../utils/logger' ;
 import * as bld from '../../businessLogic/itemBl' ;
+import {UserProfile} from '../../models/UserProfile'
 
 const logger = createLogger("generateUploadUrl");
 
@@ -12,9 +13,9 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
 
   logger.debug("generateUploadUrl.handler - in"); 
 
-  const userId = getUserId(event);
+  const up: UserProfile = getUserId(event);  
   const todoId = event.pathParameters.todoId
-  const upldUrl :string = await bld.getSignedUrl(userId, todoId);
+  const upldUrl :string = await bld.getSignedUrl(up.uid, todoId);
 
   if (upldUrl) {
     logger.debug("generateUploadUrl.handler - out 1");       

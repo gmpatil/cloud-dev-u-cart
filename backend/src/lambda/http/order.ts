@@ -4,6 +4,7 @@ import { CreateOrderRequest } from '../../requests/CreateOrderRequest'
 import { createLogger } from '../../utils/logger';
 import { getUserId } from '../../utils/utils';
 import { Order, OrderStatus } from '../../models/Order'
+import { UserProfile } from '../../models/UserProfile'
 
 import * as bl from '../../businessLogic/orderBl'
 
@@ -13,8 +14,8 @@ export const handlerCreate: APIGatewayProxyHandler = async (event: APIGatewayPro
   : Promise<APIGatewayProxyResult> => {
   logger.debug("In createOrder - in");
   const order: CreateOrderRequest = JSON.parse(event.body)
-  const uid = getUserId(event);
-  order.userId = uid;
+  const up: UserProfile = getUserId(event);
+  order.userId = up.uid;
   const ret: Order = await bl.createOrder(order);
   logger.debug("In createOrder - out");
   return {
@@ -31,8 +32,8 @@ export const handlerUpdate: APIGatewayProxyHandler = async (event: APIGatewayPro
   : Promise<APIGatewayProxyResult> => {
   logger.debug("In updateOrder - in");
   const order: CreateOrderRequest = JSON.parse(event.body)
-  const uid = getUserId(event);
-  order.userId = uid;
+  const up: UserProfile = getUserId(event);
+  order.userId = up.uid;
   const ret: Order = await bl.updateOrder(order);
   logger.debug("In updateOrder - out");
   return {
@@ -66,7 +67,9 @@ export const handlerGetById: APIGatewayProxyHandler = async (event: APIGatewayPr
 export const handlerGetForUser: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   logger.debug("http-order-get-for-user - in"); 
   
-  const uid = getUserId(event);
+  const up: UserProfile = getUserId(event);
+  const uid = up.uid;
+
   const orderStatus:string  = event.queryStringParameters.status
   var err : string = null;
   var os : OrderStatus = null;

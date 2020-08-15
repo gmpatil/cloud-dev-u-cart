@@ -10,6 +10,8 @@ export const SEQ_TBL :string  = `sequence-${process.env.STAGE}`
 export const STORE_TBL :string  = `store-${process.env.STAGE}`
 export const USER_TBL :string = `user-${process.env.STAGE}`
 export const USER_GSI1 :string = `user-gis1-uid-${process.env.STAGE}` 
+export const USER_ACCESS_TBL :string = `user-access-${process.env.STAGE}`
+
 
 // For sequences
 export const ENT_CART :string = `cart` ;
@@ -25,3 +27,22 @@ export const S3_SIGNED_URL_EXPIRATION :number = Number(`${process.env.SIGNED_URL
 
 // Elastic search
 export const ES_EP :string = `${process.env.ES_ENDPOINT}`
+
+// Auth0 Id Token fields
+export const AUTH0_NS = "https://ucart.com"
+export const AUTH0_NS_ROLES = `${AUTH0_NS}/roles`
+export const AUTH0_NS_GEOIP = `${AUTH0_NS}/geoip`
+
+// Roles and Actions
+export enum ROLE {
+    USER = "USER", 
+    ADMIN = "ADMIN"
+} 
+
+export enum ACTION {
+    CREATE_ANOTHER_USER,
+    CREATE_STORE,
+    CREATE_ITEM,  
+    QUERY_ANY_ORDER, 
+    UPDATE_ORDER
+}

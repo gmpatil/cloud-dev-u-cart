@@ -5,6 +5,7 @@ import { UpdateUserRequest } from '../../requests/UpdateUserRequest'
 import { createLogger } from '../../utils/logger';
 import { getUserId } from '../../utils/utils';
 import { User } from '../../models/User'
+import { UserProfile } from '../../models/UserProfile'
 
 import * as bl from '../../businessLogic/userBl'
 
@@ -14,8 +15,8 @@ export const handlerCreate: APIGatewayProxyHandler = async (event: APIGatewayPro
   : Promise<APIGatewayProxyResult> => {
   logger.debug("In createUser - in");
   const user: CreateUserRequest = JSON.parse(event.body)
-  const uid = getUserId(event);
-  user.userId = uid;
+  const up: UserProfile = getUserId(event);
+  user.userId = up.uid;
   const ret: User = await bl.createUser(user);
   logger.debug("In crateTodo - out");
   return {
@@ -45,8 +46,8 @@ export const handlerUpdate: APIGatewayProxyHandler = async (event: APIGatewayPro
     };
   } 
 
-  const uid = getUserId(event);
-  user.userId = uid;
+  const up: UserProfile = getUserId(event);
+  user.userId = up.uid;
   const ret: User = await bl.updateUser(user);
   logger.debug("In updateUser - out");
   return {
@@ -70,7 +71,9 @@ export const handlerGet: APIGatewayProxyHandler = async (event: APIGatewayProxyE
   }
 
   if (uid == null) {
-    uid = getUserId(event);
+    const up: UserProfile = getUserId(event);
+    uid = up.uid;
+  
   }
 
   const ret: User = await bl.getUserId(uid);
