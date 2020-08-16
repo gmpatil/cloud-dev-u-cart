@@ -637,6 +637,63 @@
 			"name": "01_Users",
 			"item": [
 				{
+					"name": "00_UserCreateAdminNotAuth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "65c17b88-7767-4f55-95fe-86ce89fadd5d",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"",
+									"// pm.test(\"The post returns list has no item\", function () {",
+									"//     var jsonData = pm.response.json();",
+									"//     pm.expect(jsonData.items.length).to.equal(0);          ",
+									"// });",
+									"",
+									"pm.test(\"Response time is less than 300ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(1200);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{UserAuthToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"auth0|5f31c210022f3a003d37ad02\",\r\n    \"name\": \"admin@test.com\",\r\n    \"contactPhone\": \"888-123-4567\",\r\n    \"address\": {\r\n        \"addressLine1\": \"\",\r\n        \"addressLine2\": \"\",\r\n        \"city\": \"San Fransisco\",\r\n        \"zip\": \"900123\",\r\n        \"state\": \"ca\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HostPrefix}}/user",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "01_UserCreateAdmin",
 					"event": [
 						{
@@ -694,15 +751,70 @@
 					"response": []
 				},
 				{
-					"name": "02_UserGetUser",
+					"name": "02_UserGetAdminNoAuth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "31947412-49cb-47f7-95ef-09a2cc896784",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"",
+									"// pm.test(\"The post returns list has no item\", function () {",
+									"//     var jsonData = pm.response.json();",
+									"//     pm.expect(jsonData.items.length).to.equal(0);          ",
+									"// });",
+									"",
+									"pm.test(\"Response time is less than 300ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(300);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{UserAuthToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{HostPrefix}}/user?userId=auth0%7C5f31c210022f3a003d37ad02",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"user"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "auth0%7C5f31c210022f3a003d37ad02",
+									"description": "Admin user's Id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "02_UserGetUserEmpty",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"id": "a9fd337f-2f42-42bf-8d8f-a11e7053010d",
 								"exec": [
-									"pm.test(\"Status code is 400\", function () {",
-									"    pm.response.to.have.status(400);",
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
 									"});",
 									"",
 									"// pm.test(\"The post returns list has no item\", function () {",
@@ -847,7 +959,7 @@
 					"response": []
 				},
 				{
-					"name": "05_UserUpdateUser",
+					"name": "06_UserUpdateUser",
 					"event": [
 						{
 							"listen": "test",
@@ -890,6 +1002,58 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n    \"userId\": \"auth0|5f31c2ea8817010037fdcf73\",\r\n    \"userNum\": 2,\r\n    \"name\": \"user@test.com\",\r\n    \"contactPhone\": \"888-123-4567\",\r\n    \"address\": {\r\n        \"addressLine1\": \"1234 El Camino Real\",\r\n        \"addressLine2\": \"\",\r\n        \"city\": \"Santa Clara\",\r\n        \"zip\": \"900125\",\r\n        \"state\": \"ca\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HostPrefix}}/user",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "05_UserUpdateAdminNoAuth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fb99da6c-3e25-4ba9-b507-b5a7ebf91f73",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 300ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(300);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{UserAuthToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"auth0|5f31c210022f3a003d37ad02\",\r\n    \"userNum\": \"1\",\r\n    \"name\": \"admin@test.com\",\r\n    \"contactPhone\": \"888-123-4567\",\r\n    \"address\": {\r\n        \"addressLine1\": \"\",\r\n        \"addressLine2\": \"\",\r\n        \"city\": \"San Fransisco\",\r\n        \"zip\": \"900123\",\r\n        \"state\": \"ca\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1198,6 +1362,11 @@
 					"response": []
 				}
 			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "03_Items",
+			"item": [],
 			"protocolProfileBehavior": {}
 		}
 	],
