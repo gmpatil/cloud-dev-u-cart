@@ -30,11 +30,12 @@ export function getUserId(event: APIGatewayProxyEvent): UserProfile {
 
 
 function userHasRole(up: UserProfile, role: ROLE):boolean {
-  if (role == ROLE.ADMIN) {
+  logger.debug(`userHasRole - roles ${up.roles} Role: ${role}`);
+  if (role.toUpperCase() == ROLE.ADMIN) {
     if (up.roles) {
       let ret = false;
-      for( var val in up.roles) {
-        if (val.toUpperCase() == ROLE.ADMIN) {
+      for (const elem of up.roles) {
+        if (elem.toUpperCase() == role.toUpperCase() ) {
           ret = true;
         }
       };

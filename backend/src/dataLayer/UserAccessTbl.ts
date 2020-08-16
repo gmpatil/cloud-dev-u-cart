@@ -14,7 +14,7 @@ export class UserAccessTbl {
         private readonly logger = createLogger("userAccessTbl") ) {}
 
     async insertUserAccess(user :UserProfile): Promise<UserProfile> {
-        this.logger.debug("UserProfileAccessTbl.upsertUserProfile - in");
+        this.logger.debug("insertUserAccess - in");
     
         user.ts = new Date().toISOString() ;
         
@@ -23,7 +23,7 @@ export class UserAccessTbl {
             Item: user
         }).promise();
     
-        this.logger.debug("UserProfileAccessTbl.upsertUserProfile - out");
+        this.logger.debug("insertUserAccess - out");
         return user;
     }   
 }
