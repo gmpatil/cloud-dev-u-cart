@@ -9,10 +9,10 @@
       "desc": {"type": "string"},
       "unitType": {
         "type": "string",
-        "enum": ["num", "gm", "oz", "lbs", "kg"]
+        "enum": ["num", "gm", "mg", "oz", "lbs", "kg", "bunch", "dozen"]
       },
-      "minIncreament": {"type" : "integer"},
-      "maxUnits": { "type" : "integer"},
+      "minUnits": { "type" : "number"},      
+      "maxUnits": { "type" : "number"},
       "price": {"type": "number"},
       "acive": {"type": "boolean"},      
       "imageUploaded": { "type": "boolean" }
@@ -23,7 +23,10 @@
       "desc",
       "unitType",
       "minIncrement",
-      "price"
+      "minUnits",  
+      "maxUnits",    
+      "price",
+      "active"
     ],
     "additionalProperties": false
 }

@@ -8,7 +8,8 @@ export interface CreateItemRequest {
   desc: string
   unitType: string
   minIncrement: number
-  maxUnit?: number
+  minUnits: number  
+  maxUnits: number
   price: number
   active: boolean
   imageUploaded?: boolean  

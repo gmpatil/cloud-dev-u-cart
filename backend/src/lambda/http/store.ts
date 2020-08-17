@@ -15,9 +15,9 @@ export const handlerCreate: APIGatewayProxyHandler = async (event: APIGatewayPro
   logger.debug("In createStore - in");
 
   const up: UserProfile = utl.getUserId(event);
-  if (!utl.actionAllowed(up, c.ACTION.CREATE_STORE) ) {
+  if (!utl.actionAllowed(up, c.ACTION.CREATE_UPDATE_STORE) ) {
     return {
-      statusCode: 401,
+      statusCode: 403,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Credentials': true
@@ -44,9 +44,9 @@ export const handlerUpdate: APIGatewayProxyHandler = async (event: APIGatewayPro
   : Promise<APIGatewayProxyResult> => {
   logger.debug("In updateStore - in");
   const up: UserProfile = utl.getUserId(event);
-  if (!utl.actionAllowed(up, c.ACTION.CREATE_STORE) ) {
+  if (!utl.actionAllowed(up, c.ACTION.CREATE_UPDATE_STORE) ) {
     return {
-      statusCode: 401,
+      statusCode: 403,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Credentials': true

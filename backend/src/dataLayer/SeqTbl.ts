@@ -29,12 +29,12 @@ export class SeqTbl {
 
     //s-00001-item
     async getNextSeqForStoreItem(storeNum: number): Promise<number> {
-        return this.getNextSeqForEntity(`s-${String(storeNum).padStart(5)}-item`);
+        return this.getNextSeqForEntity(`s-${String(storeNum).padStart(5, '0')}-item`);
     }
 
     //s-00001-order
     async getNextSeqForStoreOrder(storeNum: number): Promise<number> {
-        return this.getNextSeqForEntity(`s-${String(storeNum).padStart(5)}-order`);
+        return this.getNextSeqForEntity(`s-${String(storeNum).padStart(5, '0')}-order`);
     }
 }
 

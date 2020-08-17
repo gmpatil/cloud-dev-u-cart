@@ -216,16 +216,34 @@ functions:
     events:
       - http:
           method: patch
-          path: store/{storeNum}/item
+          path: store/{storeNum}/item/{itemNum}
           cors: true 
           authorizer: Auth                                                 
           request:
-            # Schema that will validate the incoming requests
+            schema:
+              application/json: ${file(models/create-item-req.json)}
+  UpdateItemById:
+    handler: src/lambda/http/item.handlerUpdateById
+    events:
+      - http:
+          method: patch
+          path: storeItem/{itemId}
+          cors: true 
+          authorizer: Auth                                                 
+          request:
             schema:
               application/json: ${file(models/create-item-req.json)}
 
   GetItem:
     handler: src/lambda/http/item.handlerGet
+    events:
+      - http:
+          method: get
+          path: store/{storeNum}/item/{itemNum}
+          cors: true 
+          authorizer: Auth                                                 
+  GetItemById:
+    handler: src/lambda/http/item.handlerGetById
     events:
       - http:
           method: get

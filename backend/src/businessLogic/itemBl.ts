@@ -8,6 +8,15 @@ import { createLogger } from '../utils/logger';
 const logger = createLogger("ItemBl");
 // Can not delete Item once created, only deactivation allowed.
 
+function validate(_item: Item): Array<string> {
+    // TODO add validation for belw
+    // - if unittype is num, minincr has to be integer and > 0. minUnit and Max unit also integers > 0.
+    // - make sure unitType is one of ["num", "gm", "oz", "lbs", "kg"] better define enum
+    // - price always > 0.0
+    // 
+
+    return null;
+}
 export async function createItem(itemReq: CreateItemRequest): Promise<Item> {
     logger.debug("createItem - in");
 
@@ -19,12 +28,14 @@ export async function createItem(itemReq: CreateItemRequest): Promise<Item> {
         name: itemReq.name,
         desc: itemReq.desc,
         unitType: itemReq.unitType, 
+        minUnits: itemReq.minUnits,
+        maxUnits: itemReq.maxUnits,       
         minIncrement: itemReq.minIncrement, 
         price: itemReq.price, 
         active: itemReq.active,
-        createdAt: new Date().toISOString(),        
     }
 
+    validate(itm); // TODO based error return error code and msgs.
     const item: Item = await new ItemTbl().createItem(itm);
     logger.debug("createItem - out");
     return item;
@@ -39,7 +50,9 @@ export async function updateItem(itemReq: UpdateItemRequest): Promise<Item> {
         name: itemReq.name,
         desc: itemReq.desc,
         unitType: itemReq.unitType, 
-        minIncrement: itemReq.minIncrement, 
+        minUnits: itemReq.minUnits,
+        maxUnits: itemReq.maxUnits,       
+        minIncrement: itemReq.minIncrement,       
         price: itemReq.price, 
         active: itemReq.active,
         createdAt: new Date().toISOString(),        
@@ -47,6 +60,28 @@ export async function updateItem(itemReq: UpdateItemRequest): Promise<Item> {
 
     const item: Item = await new ItemTbl().updateItem(itm);
     logger.debug("updateItem - out");
+    return item;
+}
+
+export async function updateItemById(itemReq: UpdateItemRequest): Promise<Item> {
+    logger.debug("updateItemById - in");
+
+    const itm: Item = {
+        storeNum: itemReq.storeNum,
+        itemNum: itemReq.itemNum,
+        name: itemReq.name,
+        desc: itemReq.desc,
+        unitType: itemReq.unitType, 
+        minUnits: itemReq.minUnits,
+        maxUnits: itemReq.maxUnits,       
+        minIncrement: itemReq.minIncrement,       
+        price: itemReq.price, 
+        active: itemReq.active,
+        createdAt: new Date().toISOString(),        
+    }
+
+    const item: Item = await new ItemTbl().updateItemById(itm);
+    logger.debug("updateItemById - out");
     return item;
 }
 

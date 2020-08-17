@@ -21,7 +21,7 @@ export class OrderTbl {
 
     getOrderId(storeNum: number, orderNum: number): string {
         //storeNum(5)-ordernum(10)
-        return `${String(storeNum).padStart(5)}-${String(orderNum).padStart(10)}`;
+        return `${String(storeNum).padStart(5, '0')}-${String(orderNum).padStart(10, '0')}`;
     }
 
     getGSI1PK (uid: string, status: string):string {
@@ -33,19 +33,19 @@ export class OrderTbl {
 
     getGSI1SK (orderNum: number):string {
         // orderNum#
-        return `${String(orderNum).padStart(10)}#`;
+        return `${String(orderNum).padStart(10, '0')}#`;
     }
 
     getGSI2PK (storeNum: number, status: string):string {
         // storeNum#status 
         // TODO artificially increase partions by suffix random number/letter
         // 0-4/A-E. While querying query all 0-4 suffixes and aggregate the results.
-        return `${String(storeNum).padStart(5)}#${status}`;
+        return `${String(storeNum).padStart(5, '0')}#${status}`;
     }
 
     getGSI2SK (orderNum: number):string {
         // orderNum#
-        return `${String(orderNum).padStart(10)}#`;
+        return `${String(orderNum).padStart(10, '0')}#`;
     }
 
     async createOrder(order: Order): Promise<Order> {
