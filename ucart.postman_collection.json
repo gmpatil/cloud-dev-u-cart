@@ -653,9 +653,9 @@
 									"//     pm.expect(jsonData.items.length).to.equal(0);          ",
 									"// });",
 									"",
-									"pm.test(\"Response time is less than 300ms\", function () {",
+									"pm.test(\"Response time is less than 2000ms\", function () {",
 									"    //after warm start.",
-									"    pm.expect(pm.response.responseTime).to.be.below(1200);",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);",
 									"});",
 									""
 								],
@@ -822,9 +822,9 @@
 									"//     pm.expect(jsonData.items.length).to.equal(0);          ",
 									"// });",
 									"",
-									"pm.test(\"Response time is less than 300ms\", function () {",
+									"pm.test(\"Response time is less than 500ms\", function () {",
 									"    //after warm start.",
-									"    pm.expect(pm.response.responseTime).to.be.below(300);",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
 									"});",
 									""
 								],
@@ -1079,6 +1079,63 @@
 			"name": "02_Stores",
 			"item": [
 				{
+					"name": "00_StoreCreateStore1NoAuth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7de14abd-d77d-4b4d-a784-25b035d9207e",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"",
+									"// pm.test(\"The post returns list has no item\", function () {",
+									"//     var jsonData = pm.response.json();",
+									"//     pm.expect(jsonData.items.length).to.equal(0);          ",
+									"// });",
+									"",
+									"pm.test(\"Response time is less than 600ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(600);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{UserAuthToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Super King Grocers\",\r\n    \"desc\": \"Bay Area's Fastest Growing Grocer\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HostPrefix}}/store",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"store"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "01_StoreCreateStore1",
 					"event": [
 						{
@@ -1174,6 +1231,63 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n    \"name\": \"Ralphy General Stores\",\r\n    \"desc\": \"East Bay's Superfast Growing Store\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HostPrefix}}/store",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"store"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "03_StoreUpdateStore2NoAuth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1e66028d-b10c-4a7b-8808-18d1a2428314",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"",
+									"// pm.test(\"The post returns list has no item\", function () {",
+									"//     var jsonData = pm.response.json();",
+									"//     pm.expect(jsonData.items.length).to.equal(0);          ",
+									"// });",
+									"",
+									"pm.test(\"Response time is less than 400ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(400);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{UserAuthToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"storeNum\": 1,\r\n    \"name\": \"Ralphy General Stores\",\r\n    \"desc\": \"East Bay's Superfast Growing Store\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1366,7 +1480,780 @@
 		},
 		{
 			"name": "03_Items",
-			"item": [],
+			"item": [
+				{
+					"name": "00_ItemCreateS1I1NoAuth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "807a4fb3-d0d2-497c-9bf7-384fdc71bbd4",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"",
+									"// pm.test(\"The post returns list has no item\", function () {",
+									"//     var jsonData = pm.response.json();",
+									"//     pm.expect(jsonData.items.length).to.equal(0);          ",
+									"// });",
+									"",
+									"pm.test(\"Response time is less than 1500ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(1500);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{UserAuthToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n      \"storeNum\" : \"1\",\r\n      \"name\":\"Red Onions\",\r\n      \"desc\": \"Red Onions\",\r\n      \"unitType\": \"lb\",\r\n      \"minIncrement\": 0.25,\r\n      \"minUnits\": 1,      \r\n      \"maxUnits\": 100,\r\n      \"price\": 3,\r\n      \"acive\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HostPrefix}}/store/1/item",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"store",
+								"1",
+								"item"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "01_ItemCreateS1I1Red Onions",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b4f87840-7427-4c39-b39f-00997f44992e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// pm.test(\"The post returns list has no item\", function () {",
+									"//     var jsonData = pm.response.json();",
+									"//     pm.expect(jsonData.items.length).to.equal(0);          ",
+									"// });",
+									"",
+									"pm.test(\"Response time is less than 4000ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(4000);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{AdminAuthToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n      \"storeNum\" : \"1\",\r\n      \"name\":\"Red Onions\",\r\n      \"desc\": \"Red Onions\",\r\n      \"unitType\": \"lb\",\r\n      \"minIncrement\": 0.25,\r\n      \"minUnits\": 1,      \r\n      \"maxUnits\": 100,\r\n      \"price\": 3,\r\n      \"acive\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HostPrefix}}/store/1/item/",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"store",
+								"1",
+								"item",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "02_ItemCreateS1I2Green Onions",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e06d13e5-7e00-45eb-8f41-2aa8393a8926",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// pm.test(\"The post returns list has no item\", function () {",
+									"//     var jsonData = pm.response.json();",
+									"//     pm.expect(jsonData.items.length).to.equal(0);          ",
+									"// });",
+									"",
+									"pm.test(\"Response time is less than 400ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(400);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{AdminAuthToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n      \"storeNum\" : \"1\",\r\n      \"name\":\"Green Onions\",\r\n      \"desc\": \"Green Onions(Scallions bunch)\",\r\n      \"unitType\": \"num\",\r\n      \"minIncrement\": 1,\r\n      \"minUnits\": 1,      \r\n      \"maxUnits\": 100,\r\n      \"price\": 0.15,\r\n      \"acive\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HostPrefix}}/store/1/item/",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"store",
+								"1",
+								"item",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "03_ItemCreateS1I3Cauliflower",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c54553cf-3981-4a16-ad8e-fd8c179a824d",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// pm.test(\"The post returns list has no item\", function () {",
+									"//     var jsonData = pm.response.json();",
+									"//     pm.expect(jsonData.items.length).to.equal(0);          ",
+									"// });",
+									"",
+									"pm.test(\"Response time is less than 400ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(400);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{AdminAuthToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n      \"storeNum\" : \"1\",\r\n      \"name\":\"Cauliflower\",\r\n      \"desc\": \"Cauliflower\",\r\n      \"unitType\": \"lb\",\r\n      \"minIncrement\": 0.10,\r\n      \"minUnits\": 1,      \r\n      \"maxUnits\": 100,\r\n      \"price\": 0.95,\r\n      \"acive\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HostPrefix}}/store/1/item/",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"store",
+								"1",
+								"item",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "04_ItemCreateS1I4Green Bell Pepper",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "24400fb9-cab2-49a2-b02a-e1965d705296",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// pm.test(\"The post returns list has no item\", function () {",
+									"//     var jsonData = pm.response.json();",
+									"//     pm.expect(jsonData.items.length).to.equal(0);          ",
+									"// });",
+									"",
+									"pm.test(\"Response time is less than 400ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(400);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{AdminAuthToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n      \"storeNum\" : \"1\",\r\n      \"name\":\"Green Bell Pepper\",\r\n      \"desc\": \"Green Bell Pepper\",\r\n      \"unitType\": \"num\",\r\n      \"minIncrement\": 1,\r\n      \"minUnits\": 1,      \r\n      \"maxUnits\": 100,\r\n      \"price\": 0.59,\r\n      \"acive\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HostPrefix}}/store/1/item/",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"store",
+								"1",
+								"item",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "05_ItemCreateS1I5Tomato",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5def982a-cc2d-4c73-8176-563ba9882209",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// pm.test(\"The post returns list has no item\", function () {",
+									"//     var jsonData = pm.response.json();",
+									"//     pm.expect(jsonData.items.length).to.equal(0);          ",
+									"// });",
+									"",
+									"pm.test(\"Response time is less than 400ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(400);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{AdminAuthToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n      \"storeNum\" : \"1\",\r\n      \"name\":\"Tomato\",\r\n      \"desc\": \"Tomato\",\r\n      \"unitType\": \"num\",\r\n      \"minIncrement\": 1,\r\n      \"minUnits\": 1,      \r\n      \"maxUnits\": 100,\r\n      \"price\": 0.45,\r\n      \"acive\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HostPrefix}}/store/1/item/",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"store",
+								"1",
+								"item",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "06_ItemCreateS1I6Cilantro",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f5f4410f-89d3-47f9-8296-fdfa88ad5a48",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// pm.test(\"The post returns list has no item\", function () {",
+									"//     var jsonData = pm.response.json();",
+									"//     pm.expect(jsonData.items.length).to.equal(0);          ",
+									"// });",
+									"",
+									"pm.test(\"Response time is less than 800ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{AdminAuthToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n      \"storeNum\" : \"1\",\r\n      \"name\":\"Cilantro\",\r\n      \"desc\": \"Cilantro bunch\",\r\n      \"unitType\": \"num\",\r\n      \"minIncrement\": 1,\r\n      \"minUnits\": 1,      \r\n      \"maxUnits\": 100,\r\n      \"price\": 0.19,\r\n      \"acive\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HostPrefix}}/store/1/item/",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"store",
+								"1",
+								"item",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "07_ItemCreateS1I7Carrot",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f707e20b-9319-45a1-9748-a833f5d671dd",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// pm.test(\"The post returns list has no item\", function () {",
+									"//     var jsonData = pm.response.json();",
+									"//     pm.expect(jsonData.items.length).to.equal(0);          ",
+									"// });",
+									"",
+									"pm.test(\"Response time is less than 800ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{AdminAuthToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n      \"storeNum\" : \"1\",\r\n      \"name\":\"Carrot Bunch\",\r\n      \"desc\": \"Carrot Bunch\",\r\n      \"unitType\": \"num\",\r\n      \"minIncrement\": 1,\r\n      \"minUnits\": 1,      \r\n      \"maxUnits\": 100,\r\n      \"price\": 1.05,\r\n      \"acive\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HostPrefix}}/store/1/item/",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"store",
+								"1",
+								"item",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "08_ItemCreateS1I8OrgBrownEggs",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f2712219-36e3-47cd-8e38-b015bd3b0861",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// pm.test(\"The post returns list has no item\", function () {",
+									"//     var jsonData = pm.response.json();",
+									"//     pm.expect(jsonData.items.length).to.equal(0);          ",
+									"// });",
+									"",
+									"pm.test(\"Response time is less than 800ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{AdminAuthToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n      \"storeNum\" : \"1\",\r\n      \"name\":\"Organic Cage Free Grade A Brown Eggs Large\",\r\n      \"desc\": \"Organic Cage Free Grade A Brown Eggs Large\",\r\n      \"unitType\": \"dozen\",\r\n      \"minIncrement\": 1,\r\n      \"minUnits\": 1,      \r\n      \"maxUnits\": 10,\r\n      \"price\": 5.55,\r\n      \"acive\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HostPrefix}}/store/1/item/",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"store",
+								"1",
+								"item",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "09_ItemUpdateItemS1I7NoAuth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "09d9ad25-55f4-43f7-83fc-fcd2824dc6ab",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"",
+									"// pm.test(\"The post returns list has no item\", function () {",
+									"//     var jsonData = pm.response.json();",
+									"//     pm.expect(jsonData.items.length).to.equal(0);          ",
+									"// });",
+									"",
+									"pm.test(\"Response time is less than 400ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(400);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{UserAuthToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n      \"name\":\"Carrot Bunch\",\r\n      \"desc\": \"Carrot Bunch\",\r\n      \"unitType\": \"num\",\r\n      \"minIncrement\": 1,\r\n      \"minUnits\": 1,      \r\n      \"maxUnits\": 100,\r\n      \"price\": 1.05,\r\n      \"acive\": true\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HostPrefix}}/store/1/item/7",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"store",
+								"1",
+								"item",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "10_ItemUpdateUpdateItemS1I7Carrot",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6d0beaea-7a26-424a-9254-b4ebd90b2ade",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"The post returns list has no item\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.item.price).to.equal(0.99);          ",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 800ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(800);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{AdminAuthToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{        \r\n      \"name\":\"Carrot Bunch\",\r\n      \"desc\": \"Carrot Bunch\",\r\n      \"unitType\": \"num\",\r\n      \"minIncrement\": 1,\r\n      \"minUnits\": 1,      \r\n      \"maxUnits\": 100,\r\n      \"price\": 0.99,\r\n      \"acive\": true\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HostPrefix}}/store/1/item/7",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"store",
+								"1",
+								"item",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "11_ItemGetItemByNum",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0f5204d1-5e7e-4237-a2d0-ab7c68e6b522",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"The post returns storeNum, itemNum, price \", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.item.storeNum).to.equal(1);          ",
+									"    pm.expect(jsonData.item.itemNum).to.equal(7);              ",
+									"    pm.expect(jsonData.item.itemId).to.equal(\"i-00001-0000000007\");  ",
+									"    pm.expect(jsonData).to.have.property(\"lastUpdatedAt\");  ",
+									"});",
+									"",
+									"",
+									"",
+									"pm.test(\"Response time is less than 600ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(600);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{UserAuthToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{HostPrefix}}/store/1/item/7",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"store",
+								"1",
+								"item",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "12_ItemGetItemById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d51d216a-b60d-432f-ac19-87cf4c514a7b",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"The post returns storeNum, itemNum, price \", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.item.storeNum).to.equal(1);          ",
+									"    pm.expect(jsonData.item.itemNum).to.equal(7);              ",
+									"    pm.expect(jsonData.item.itemId).to.equal(\"i-00001-0000000007\");  ",
+									"    pm.expect(jsonData.item).to.have.property(\"lastUpdatedAt\");  ",
+									"});",
+									"",
+									"",
+									"",
+									"pm.test(\"Response time is less than 300ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(300);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{UserAuthToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{HostPrefix}}/storeItem/i-00001-0000000007",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"storeItem",
+								"i-00001-0000000007"
+							]
+						}
+					},
+					"response": []
+				}
+			],
 			"protocolProfileBehavior": {}
 		}
 	],
