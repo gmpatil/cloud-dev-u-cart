@@ -13,52 +13,102 @@ const logger = createLogger("http-cart");
 export const handlerCreate: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent)
   : Promise<APIGatewayProxyResult> => {
   logger.debug("In createCart - in");
-  const cart: UpdateCartRequest = JSON.parse(event.body)
-  const up: UserProfile = getUserId(event);
-  const ret: Cart = await bl.createCart(cart, up.uid);
-  logger.debug("In crateTodo - out");
-  return {
-    statusCode: 200,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Credentials': true
-    },
-    body: JSON.stringify({ "cart": ret })
-  };
+
+  if ((event.pathParameters) && (event.pathParameters.storeNum)) {
+    const storeNum:number = Number(event.pathParameters.storeNum);
+
+    const cart: UpdateCartRequest = JSON.parse(event.body)
+    const up: UserProfile = getUserId(event);
+    cart.storeNum = storeNum;
+    cart.userId = up.uid;
+
+    const ret: Cart = await bl.createCart(cart, up.uid);
+    logger.debug("In createCart - out");
+    return {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
+      },
+      body: JSON.stringify({ "cart": ret })
+    };    
+  } else {
+    logger.debug("In createCart 2 - out");
+    return {
+      statusCode: 400,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
+      },
+      body: JSON.stringify({ "error": "Path parameter storeNum is missing." })
+    };     
+  } 
 }
 
 export const handlerUpdate: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent)
   : Promise<APIGatewayProxyResult> => {
   logger.debug("In updateCart - in");
-  const cart: UpdateCartRequest = JSON.parse(event.body)
-  const up: UserProfile = getUserId(event);
-  const ret: Cart = await bl.updateCart(up.uid, cart);
-  logger.debug("In updateCart - out");
-  return {
-    statusCode: 200,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Credentials': true
-    },
-    body: JSON.stringify({ "cart": ret })
-  };
+  if ((event.pathParameters) && (event.pathParameters.storeNum)) {
+    const storeNum:number = Number(event.pathParameters.storeNum);
+
+    const cart: UpdateCartRequest = JSON.parse(event.body)
+    const up: UserProfile = getUserId(event);
+
+    cart.userId = up.uid ;
+    cart.storeNum = storeNum;
+
+    const ret: Cart = await bl.updateCart(up.uid, cart);
+    logger.debug("In updateCart - out");
+    return {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
+      },
+      body: JSON.stringify({ "cart": ret })
+    };
+  } else {
+    logger.debug("In updateCart 2 - out");
+    return {
+      statusCode: 400,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
+      },
+      body: JSON.stringify({ "error": "Pathparameter storeNum is missing." })
+    };
+  }
+
 }
 
-export const handlerGetForStore: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-  logger.debug("getTodos.handler - in");
+export const handlerGet: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+  logger.debug("handlerGet cart - in");
 
-  const up: UserProfile = getUserId(event);
   // TODO check for numeric value
-  const storeNum: string = event.pathParameters.storeNum
-  const cart = await bl.getCart(up.uid, Number(storeNum));
+  if ((event.pathParameters) && (event.pathParameters.storeNum)) {
+    const storeNum:number = Number(event.pathParameters.storeNum);
 
-  logger.debug("getTodos.handler 1 - out");
-  return {
-    statusCode: 200,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Credentials': true
-    },
-    body: JSON.stringify({ carts: cart })
-  };
+    const up: UserProfile = getUserId(event);  
+    const cart = await bl.getCart(up.uid, Number(storeNum));
+
+    logger.debug("handlerGet cart  1 - out");
+    return {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
+      },
+      body: JSON.stringify({ cart: cart })
+    };
+  } else {
+    logger.debug(" handlerGet 2 - out");
+    return {
+      statusCode: 400,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
+      },
+      body: JSON.stringify({ "error": "Pathparameter storeNum is missing." })
+    };
+  }
 }

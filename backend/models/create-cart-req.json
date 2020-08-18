@@ -3,7 +3,7 @@
     "title": "create-cart-req",
     "type": "object",
     "properties": {
-      "userNum": {"type": "integer"},
+      "userId": {"type": "string"},
       "storeNum": {"type": "integer"},
       "itms": {
         "type": "array",
@@ -13,15 +13,20 @@
             "itemId" : { "type": "string"},
             "unitType": {
               "type": "string",
-              "enum": ["num", "gm", "oz", "lbs", "kg"]
+              "enum": ["num", "gm", "oz", "lbs", "kg", "bunch", "dozen"]
             },      
             "qty" : { "type": "number"},
+            "unitPrice" : {"type" : "number"},
             "price" : {"type" : "number"}
           },
           "required": [
-            "itemId",      
-            "qty"
-          ]    
+            "itemId",
+            "unitType",
+            "qty",
+            "unitPrice",
+            "price"
+
+          ]
         }
       },
       "totalAmt" : { "type": "number"}

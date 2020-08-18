@@ -10,7 +10,7 @@ import {OrderItem} from '../models/OrderItem'
 // }
 
 export interface UpdateCartRequest {
-    userNum?: number    
+    userId?: string    
     storeNum: number
     itms: Array<OrderItem>
     totalAmt: number

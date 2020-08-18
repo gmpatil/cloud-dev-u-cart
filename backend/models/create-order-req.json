@@ -3,20 +3,30 @@
     "title": "create-order-req",
     "type": "object",
     "properties": {
-      "storeId": {"type": "integer"},
+      "userId": {"type" :"string"},
+      "storeNum": {"type": "number"},
       "itms": {
         "type": "array",
         "items": {
           "type": "object",
           "properties": {
-            "item_id" : { "type": "integer"},
+            "itemId" : { "type": "string"},
             "unitType": {
               "type": "string",
-              "enum": ["num", "gm", "oz", "lbs", "kg"]
+              "enum": ["num", "gm", "oz", "lbs", "kg", "bunch", "dozen"]
             },      
             "qty" : { "type": "number"},
+            "unitPrice" : {"type" : "number"},
             "price" : {"type" : "number"}
-          }
+          },
+          "required": [
+            "itemId",
+            "unitType",
+            "qty",
+            "unitPrice",
+            "price"
+
+          ]
         }
       },
       "totalAmt" : { "type": "number"},
@@ -24,7 +34,7 @@
       "completedAt": { "type": "string"}
     },
     "required": [
-      "storeId",
+      "storeNum",
       "itms",
       "totalAmt"
     ],

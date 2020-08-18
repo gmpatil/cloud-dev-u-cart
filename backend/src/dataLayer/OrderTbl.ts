@@ -5,7 +5,11 @@ import { Order, OrderStatus } from '../models/Order'
 
 /*
 OrderTbl:
-Pk: orderId (storeNum + orderNum, see getOrderId() )
+Pk: orderId - `${String(storeNum).padStart(5, '0')}-${String(orderNum).padStart(10, '0')}`
+
+GSI1PK: `${uid}#${status}`  GSI1SK: `orderId`
+
+GSI2PK: `${String(storeNum).padStart(5, '0')}#${status}`  GSI2SK: `${String(orderNum).padStart(10, '0')}#`
 */
 
 // KeySchema:
@@ -31,9 +35,9 @@ export class OrderTbl {
         return `${uid}#${status}`;
     }
 
-    getGSI1SK (orderNum: number):string {
-        // orderNum#
-        return `${String(orderNum).padStart(10, '0')}#`;
+    getGSI1SK (storeNum: number, orderNum: number):string {
+        // orderId
+        return this.getOrderId(storeNum, orderNum);
     }
 
     getGSI2PK (storeNum: number, status: string):string {
@@ -60,7 +64,7 @@ export class OrderTbl {
         order.lastUpdatedAt = new Date().toISOString();
 
         order.gsi1pk = this.getGSI1PK(order.userId, order.status.toString());
-        order.gsi1sk = this.getGSI1SK(order.orderNum);
+        order.gsi1sk = this.getGSI1SK(order.storeNum, order.orderNum);
 
         order.gsi2pk = this.getGSI2PK(order.storeNum, order.status.toString());
         order.gsi2sk = this.getGSI2SK(order.orderNum);
@@ -76,24 +80,28 @@ export class OrderTbl {
     }
 
     // Updates only status
-    async updateOrder(order: Order): Promise<Order> {
+    async updateOrder(orderId: string, status: string): Promise<Order> {
         this.logger.debug("orderTbl.updateOrder - in");
 
-        order.orderId = this.getOrderId(order.storeNum, order.orderNum);
-        order.lastUpdatedAt = new Date().toISOString();
 
-        await this.dbDocClient.update({
+        const lastUpdatedAt = new Date().toISOString();
+
+        const ret = await this.dbDocClient.update({
             TableName: ORDER_TBL,
-            Key: { orderId: order.orderId},
-            UpdateExpression: "set status = :val1",
+            Key: { orderId: orderId},
+            UpdateExpression: "set #status = :val1, lastUpdatedAt = :lu",
+            ExpressionAttributeNames: {
+                "#status": "status"
+            },
             ExpressionAttributeValues: {
-                ":val1": { "S": order.status }
+                ":val1": { "S": status },
+                ":lu": {"S": lastUpdatedAt}
             },
             ReturnValues: "ALL_NEW"
         }).promise();
 
         this.logger.debug("orderTbl.updateOrder - out");
-        return order;
+        return ret.Attributes as Order;
     }
 
     async getOrder(storeNum: number, orderNum: number): Promise<Order> {
@@ -134,14 +142,14 @@ export class OrderTbl {
         const result = await this.dbDocClient.query({
              TableName: ORDER_TBL,
              IndexName: ORDER_GSI1,
-            //  KeyConditionExpression: 'gsi1pk = :pk and gsi1sk = :sts',
-            KeyConditionExpression: 'gsi1pk = :pk ',            
+             //KeyConditionExpression: 'gsi1pk = :pk and gsi1sk = :sts',
+             KeyConditionExpression: 'gsi1pk = :pk ',            
              ExpressionAttributeValues: { 
                  ':pk': { S: pk} 
              }
         }).promise();
  
-         this.logger.debug("getOrderByUserId - out");
+         this.logger.debug(`getOrderByUserId - out.  ${result.Items}`);
          return result.Items as Array<Order>;
      }    
 

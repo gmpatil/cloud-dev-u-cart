@@ -1,7 +1,6 @@
 import { UpdateCartRequest } from '../requests/UpdateCartRequest';
 import { Cart } from '../models/Cart';
 import { CartTbl } from '../dataLayer/CartTbl';
-import { UserTbl } from '../dataLayer/UserTbl';
 import { createLogger } from '../utils/logger';
 
 const logger = createLogger("CartBl");
@@ -10,10 +9,8 @@ const logger = createLogger("CartBl");
 export async function createCart(cartReq: UpdateCartRequest, uid: string): Promise<Cart> {
     logger.debug("createItem - in");
 
-    const unum: number = (await new UserTbl().getUserById(uid)).userNum;
-
     const cart: Cart = {
-        userNum: unum,        
+        userId: uid,
         storeNum: cartReq.storeNum,
         items: cartReq.itms,
         totalPrice: cartReq.totalAmt,
@@ -27,9 +24,9 @@ export async function createCart(cartReq: UpdateCartRequest, uid: string): Promi
 
 export async function updateCart(uid: string, cartReq: UpdateCartRequest): Promise<Cart> {
     logger.debug("updateItem - in");
-    const uNum: number = (await new UserTbl().getUserById(uid)).userNum;
+
     const cart: Cart = {
-        userNum: uNum,        
+        userId: uid,        
         storeNum: cartReq.storeNum,
         items: cartReq.itms,
         totalPrice: cartReq.totalAmt,
@@ -44,13 +41,11 @@ export async function updateCart(uid: string, cartReq: UpdateCartRequest): Promi
 
 export async function getCart(uid: string, storeNum: number): Promise<Cart> {
     logger.debug("updateItem - in");
-    const uNum: number = (await new UserTbl().getUserById(uid)).userNum;
-
-    var cart1: Cart = await new CartTbl().getCart(uNum, storeNum);
+    var cart1: Cart = await new CartTbl().getCart(uid, storeNum);
 
     if (cart1 == null) {
         cart1 = {
-            userNum: uNum,        
+            userId: uid,        
             storeNum: storeNum,
             items: null,
             totalPrice: 0,

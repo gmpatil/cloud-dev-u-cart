@@ -30,13 +30,13 @@ export class CartTbl {
         return cart;
     }
 
-    async getCart(userNum: number, storeNum: number): Promise<Cart> {
+    async getCart(uid: string, storeNum: number): Promise<Cart> {
         this.logger.debug("cartTbl.getCart - in");
     
         const result = await this.dbDocClient.get({
             TableName: c.CART_TBL,
             Key: {
-                userId: userNum,
+                userId: uid,
                 storeNum: storeNum
             }
         }).promise();

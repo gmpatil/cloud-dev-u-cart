@@ -172,7 +172,6 @@ functions:
           cors: true          
           authorizer: Auth                    
           request:
-            # Schema that will validate the incoming requests
             schema:
               application/json: ${file(models/create-cart-req.json)}
 
@@ -185,12 +184,11 @@ functions:
           cors: true 
           authorizer: Auth                                                 
           request:
-            # Schema that will validate the incoming requests
             schema:
               application/json: ${file(models/create-cart-req.json)}
 
   GetCart:
-    handler: src/lambda/http/item.handlerGet
+    handler: src/lambda/http/cart.handlerGet
     events:
       - http:
           method: get
@@ -269,11 +267,10 @@ functions:
     events:
       - http:
           method: patch
-          path: store/{storeNum}/order
+          path: order/{orderId}
           cors: true 
           authorizer: Auth                                                 
           request:
-            # Schema that will validate the incoming requests
             schema:
               application/json: ${file(models/create-order-req.json)}
 
@@ -282,7 +279,7 @@ functions:
     events:
       - http:
           method: get
-          path: storeOrder/{orderId}
+          path: order/{orderId}
           cors: true 
           authorizer: Auth                                                 
 
@@ -430,14 +427,12 @@ resources:
         TableName: ${self:provider.environment.CART_TABLE}        
         AttributeDefinitions:
           # TODO: use UserId for better hash distributed or move table to RDBMS
-          - AttributeName: userNum
-            AttributeType: N
+          - AttributeName: userId
+            AttributeType: S
           - AttributeName: storeNum
             AttributeType: N
-          # - AttributeName: createdAt
-          #   AttributeType: S
         KeySchema:
-          - AttributeName: userNum
+          - AttributeName: userId
             KeyType: HASH
           - AttributeName: storeNum
             KeyType: RANGE
@@ -470,20 +465,10 @@ resources:
         AttributeDefinitions:
           - AttributeName: orderId
             AttributeType: S
-          # - AttributeName: userId
-          #   AttributeType: S
-          # - AttributeName: storeNum
-          #   AttributeType: N
-          # - AttributeName: orderNum
-          #   AttributeType: N            
-          # - AttributeName: userNum
-          #   AttributeType: N
-          # - AttributeName: status
-          #   AttributeType: S 
-          # uid#status
+            # uid#status
           - AttributeName: gsi1pk
             AttributeType: S                        
-          # orderNum#
+          # orderId, use gsi1sk for flexibility
           - AttributeName: gsi1sk
             AttributeType: S                        
             # storeNum#status
@@ -492,8 +477,6 @@ resources:
           # orderNum#
           - AttributeName: gsi2sk
             AttributeType: S                        
-          # - AttributeName: createdAt
-          #   AttributeType: S
         KeySchema:
           - AttributeName: orderId
             KeyType: HASH
@@ -506,9 +489,10 @@ resources:
               - AttributeName: gsi1sk
                 KeyType: RANGE
             Projection:
-              ProjectionType: INCLUDE 
-              NonKeyAttributes:
-                - orderId
+              ProjectionType: ALL 
+              # ProjectionType: INCLUDE 
+              # NonKeyAttributes:
+              #   - orderId
           - IndexName: ${self:provider.environment.ORDER_GSI2_STR_STS}
             KeySchema:
               - AttributeName: gsi2pk
@@ -516,9 +500,7 @@ resources:
               - AttributeName: gsi2sk
                 KeyType: RANGE
             Projection:
-              ProjectionType: INCLUDE 
-              NonKeyAttributes:
-              - orderId     
+              ProjectionType: ALL
 
     SequenceTable:
       Type: AWS::DynamoDB::Table

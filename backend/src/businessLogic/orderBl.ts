@@ -25,20 +25,10 @@ export async function createOrder(orderReq: CreateOrderRequest): Promise<Order> 
     return order1;
 }
 
-export async function updateOrder(orderReq: CreateOrderRequest): Promise<Order> {
+export async function updateOrder(orderId: string, status: string): Promise<Order> {
     logger.debug("updateOrder - in");
 
-    const order: Order = {
-        userId: orderReq.userId,        
-        storeNum: orderReq.storeNum,
-        orderNum: orderReq.orderNum,
-        items: orderReq.itms,
-        totalPrice: orderReq.totalAmt,
-        lastUpdatedAt: new Date().toISOString(),        
-    }
-
-
-    const order1: Order = await new OrderTbl().updateOrder(order);
+    const order1: Order = await new OrderTbl().updateOrder(orderId, status);
     logger.debug("updateOrder - out");
     return order1;
 }
@@ -69,25 +59,25 @@ export async function getOrderById(orderId: string): Promise<Order> {
 }
 
 export async function getOrdersByUser(uid: string, sts: OrderStatus): Promise<Array<Order>> {
-    logger.debug("getOrderById - in");
+    logger.debug("getOrdersByUser - in");
     var order1: Array<Order> = await new OrderTbl().getOrdersByUserId(uid, sts);
 
     if (order1 == null) {
         order1 = [];
     }
 
-    logger.debug("getOrderById - out");
+    logger.debug("getOrdersByUser - out");
     return order1;
 }
 
 export async function getOrdersByStore(storeNum: number, sts: OrderStatus): Promise<Array<Order>> {
-    logger.debug("getOrderById - in");
+    logger.debug("getOrdersByStore - in");
     var order1: Array<Order> = await new OrderTbl().getOrdersByStore(storeNum, sts);
 
     if (order1 == null) {
         order1 = [];
     }
 
-    logger.debug("getOrderById - out");
+    logger.debug("getOrdersByStore - out");
     return order1;
 }

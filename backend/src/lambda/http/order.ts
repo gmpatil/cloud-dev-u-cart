@@ -16,37 +16,81 @@ export const handlerCreate: APIGatewayProxyHandler = async (event: APIGatewayPro
   : Promise<APIGatewayProxyResult> => {
   logger.debug("In createOrder - in");
 
-  const up: UserProfile = utl.getUserId(event);
-  const order: CreateOrderRequest = JSON.parse(event.body)
-  order.userId = up.uid;
-  const ret: Order = await bl.createOrder(order);
-  logger.debug("In createOrder - out");
-  return {
-    statusCode: 200,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Credentials': true
-    },
-    body: JSON.stringify({"order": ret})
-  };
+  if ((event.pathParameters) && (event.pathParameters.storeNum)) {
+    const storeNum:number = Number(event.pathParameters.storeNum);
+
+    const up: UserProfile = utl.getUserId(event);
+    const order: CreateOrderRequest = JSON.parse(event.body)
+    order.userId = up.uid;
+    order.storeNum = storeNum;
+
+    const ret: Order = await bl.createOrder(order);
+    logger.debug("In createOrder - out");
+    return {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
+      },
+      body: JSON.stringify({"order": ret})
+    };
+  } else {
+    logger.debug("In createOrder 1 - out");
+    return {
+      statusCode: 400,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
+      },
+      body: JSON.stringify({"error": "missing path parameter storeNum"})
+    };    
+  }
 }
 
 export const handlerUpdate: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent)
   : Promise<APIGatewayProxyResult> => {
   logger.debug("In updateOrder - in");
-  const order: CreateOrderRequest = JSON.parse(event.body)
-  const up: UserProfile = getUserId(event);
-  order.userId = up.uid;
-  const ret: Order = await bl.updateOrder(order);
-  logger.debug("In updateOrder - out");
-  return {
-    statusCode: 200,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Credentials': true
-    },
-    body: JSON.stringify({"order": ret})
-  };    
+  if ((event.pathParameters) && (event.pathParameters.orderId) && 
+      (event.queryStringParameters) && (event.queryStringParameters.status)) {
+    const orderId:string = event.pathParameters.orderId;
+    const status:string = event.pathParameters.staus;
+
+    const up: UserProfile = utl.getUserId(event);
+    
+    if (utl.actionAllowed(up, c.ACTION.UPDATE_ORDER)) {
+      const ret: Order = await bl.updateOrder(orderId, status);
+      logger.debug("In createOrder - out");
+      return {
+        statusCode: 200,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true
+        },
+        body: JSON.stringify({"order": ret})
+      };  
+    } else {
+      logger.debug("In updateOrder 3 - out");
+      return {
+        statusCode: 403,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true
+        },
+        body: JSON.stringify({"error": "User does not access to update the order."})
+      };    
+  
+    }
+  } else {
+    logger.debug("In updateOrder 2 - out");
+    return {
+      statusCode: 400,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
+      },
+      body: JSON.stringify({"error": "Missing either path parameter orderId and/or queryString parameter status"})
+    };    
+  }   
 }
 
 export const handlerGetById: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
@@ -55,61 +99,40 @@ export const handlerGetById: APIGatewayProxyHandler = async (event: APIGatewayPr
   const up: UserProfile = utl.getUserId(event);
   if (!utl.actionAllowed(up, c.ACTION.QUERY_ANY_ORDER) ) {
     return {
-      statusCode: 401,
+      statusCode: 403,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Credentials': true
       },
-      body: JSON.stringify({"error": "User is not authorized to get another User's info."})
+      body: JSON.stringify({"error": "User is not authorized to get another User's info. or by OrderId"})
     };  
   }
 
-  const orderId = event.pathParameters.orderId
-  const order = await bl.getOrderById(orderId);
-
-  logger.debug("http-order-get - out");       
-  return {
-    statusCode: 200,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Credentials': true
-    },
-    body: JSON.stringify({ orders: order})      
-  };
-}
-
-export const handlerGetForUser: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-  logger.debug("http-order-get-for-user - in"); 
+  if ( (event.pathParameters) && (event.pathParameters.orderId)) {
+    const orderId = event.pathParameters.orderId
+    const order = await bl.getOrderById(orderId);
   
-  const up: UserProfile = getUserId(event);
-  const uid = up.uid;
-
-  const orderStatus:string  = event.queryStringParameters.status
-  var err : string = null;
-  var os : OrderStatus = null;
-
-  if (orderStatus == null) {
-    err = "status not present or value not one of expectected [CREATED, PROCESSING, READY, PICKED_UP, DELIVERED]" ;
-  } else {
-    os = OrderStatus[orderStatus.toUpperCase() as keyof typeof OrderStatus];
-    // if undefined    
-    if (os == null) {
-      err = "status not present or value not one of expectected [CREATED, PROCESSING, READY, PICKED_UP, DELIVERED]" ;
+    if (order) {
+      logger.debug("http-order-get - out");       
+      return {
+        statusCode: 200,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true
+        },
+        body: JSON.stringify({ order: order})      
+      };
+  
+    } else {
+      return {
+        statusCode: 204,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true
+        },
+        body: JSON.stringify({ "error": "No order for orderId requested found."})            
+      }
     }
-  }
-
-  if (err == null) {
-    const order = await bl.getOrdersByUser(uid, os);
-
-    logger.debug("http-order-get-for-user - out");       
-    return {
-      statusCode: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': true
-      },
-      body: JSON.stringify({ orders: order})      
-    };
   } else {
     return {
       statusCode: 400,
@@ -117,7 +140,51 @@ export const handlerGetForUser: APIGatewayProxyHandler = async (event: APIGatewa
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Credentials': true
       },
-      body: err      
+      body: JSON.stringify({ "error": "Missing path parameter orderId."})      
+    };
+
+  }
+}
+
+export const handlerGetForUser: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+  logger.debug("http-order-get-for-user - in"); 
+  
+  if ( (event.queryStringParameters) && (event.queryStringParameters.status)) {  
+    const up: UserProfile = getUserId(event);
+    const uid = up.uid;
+    const orderStatus:string  = event.queryStringParameters.status
+    var os : OrderStatus =  OrderStatus[orderStatus.toUpperCase() as keyof typeof OrderStatus];
+  
+    if (os) {
+      const orders = await bl.getOrdersByUser(uid, os);
+      
+      return {
+        statusCode: 200,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true
+        },
+        body: JSON.stringify({ orders: orders})      
+      };      
+    } else {
+      return {
+        statusCode: 400,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true
+        },
+        body: JSON.stringify({ "error": "Invalid value for status"})      
+      };    
+  
+    }
+  } else {
+    return {
+      statusCode: 400,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true
+      },
+      body: JSON.stringify({ "error": "Missing query string  parameter stauts"})      
     };    
   }
   
@@ -129,7 +196,7 @@ export const handlerGetForStore: APIGatewayProxyHandler = async (event: APIGatew
   const up: UserProfile = utl.getUserId(event);
   if (!utl.actionAllowed(up, c.ACTION.QUERY_ANY_ORDER) ) {
     return {
-      statusCode: 401,
+      statusCode: 403,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Credentials': true
@@ -138,33 +205,34 @@ export const handlerGetForStore: APIGatewayProxyHandler = async (event: APIGatew
     };  
   }
 
-  const storeNum:string = event.pathParameters.storeNum
-  const orderStatus:string  = event.queryStringParameters.status
-  var err : string = null;
-  var os : OrderStatus = null;
+  if ( (event.queryStringParameters) && (event.queryStringParameters.status) &&
+       (event.pathParameters) && (event.pathParameters.storeNum)) {  
 
-  if (orderStatus == null) {
-    err = "status not present or value not one of expectected [CREATED, PROCESSING, READY, PICKED_UP, DELIVERED]" ;
-  } else {
-    os = OrderStatus[orderStatus.toUpperCase() as keyof typeof OrderStatus];
-    // if undefined    
-    if (os == null) {
-      err = "status not present or value not one of expectected [CREATED, PROCESSING, READY, PICKED_UP, DELIVERED]" ;
+    const storeNum: number = Number(event.pathParameters.storeNum);
+    const orderStatus:string  = event.queryStringParameters.status;
+    var os : OrderStatus =  OrderStatus[orderStatus.toUpperCase() as keyof typeof OrderStatus];
+  
+    if (os) {
+      const orders = await bl.getOrdersByStore(storeNum, os);
+      return {
+        statusCode: 200,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true
+        },
+        body: JSON.stringify({ orders: orders})      
+      };      
+    } else {
+      return {
+        statusCode: 400,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true
+        },
+        body: JSON.stringify({ "error": "Invalid value for status. Expectected one of [CREATED, PROCESSING, READY, PICKED_UP, DELIVERED]"})      
+      };    
+  
     }
-  }
-
-  if (err == null) {
-    const order = await bl.getOrdersByStore(Number(storeNum), os);
-
-    logger.debug("http-order-get - out");       
-    return {
-      statusCode: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': true
-      },
-      body: JSON.stringify({ orders: order})      
-    };
   } else {
     return {
       statusCode: 400,
@@ -172,7 +240,7 @@ export const handlerGetForStore: APIGatewayProxyHandler = async (event: APIGatew
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Credentials': true
       },
-      body: err      
+      body: JSON.stringify({ "error": "Missing query string  parameter stauts and/or path parameter storeNum"})      
     };    
   }
   
