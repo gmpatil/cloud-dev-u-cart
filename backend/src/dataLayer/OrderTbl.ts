@@ -94,8 +94,8 @@ export class OrderTbl {
                 "#status": "status"
             },
             ExpressionAttributeValues: {
-                ":val1": { "S": status },
-                ":lu": {"S": lastUpdatedAt}
+                ":val1": status,
+                ":lu": lastUpdatedAt
             },
             ReturnValues: "ALL_NEW"
         }).promise();
@@ -105,9 +105,9 @@ export class OrderTbl {
     }
 
     async getOrder(storeNum: number, orderNum: number): Promise<Order> {
-        this.logger.debug("orderTbl.getOrder - in");
-
+        this.logger.debug(`orderTbl.getOrder - in `);
         const orderId = this.getOrderId(storeNum, orderNum);
+        this.logger.debug(`orderTbl.getOrder - orderId ${orderId}`);
 
         const result = await this.dbDocClient.get({
             TableName: ORDER_TBL,
@@ -122,6 +122,8 @@ export class OrderTbl {
 
     async getOrderById(orderId: string): Promise<Order> {
        this.logger.debug("orderTbl.getOrderById - in");
+
+       this.logger.debug(`orderTbl.getOrderById - orderId ${orderId}`);
 
        const result = await this.dbDocClient.get({
             TableName: ORDER_TBL,
@@ -139,13 +141,14 @@ export class OrderTbl {
  
         const pk : string = this.getGSI1PK(uid, sts);
 
+        this.logger.debug(`getOrdersByUserId - GSI1PK ${pk}`); 
+               
         const result = await this.dbDocClient.query({
              TableName: ORDER_TBL,
              IndexName: ORDER_GSI1,
-             //KeyConditionExpression: 'gsi1pk = :pk and gsi1sk = :sts',
-             KeyConditionExpression: 'gsi1pk = :pk ',            
+             KeyConditionExpression: "gsi1pk = :pk",            
              ExpressionAttributeValues: { 
-                 ':pk': { S: pk} 
+                 ":pk": pk 
              }
         }).promise();
  
@@ -163,7 +166,7 @@ export class OrderTbl {
              IndexName: ORDER_GSI2,
              KeyConditionExpression: 'gsi2pk = :storeSts ',
              ExpressionAttributeValues: { 
-                 ':storeSts': { S: pk} 
+                 ':storeSts': pk
              }
         }).promise();
  

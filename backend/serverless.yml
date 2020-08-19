@@ -32,8 +32,8 @@ provider:
     CART_TABLE: cart-${self:provider.stage}      
     ITEM_TABLE: item-${self:provider.stage}    
     ORDER_TABLE: order-${self:provider.stage}    
-    ORDER_GSI1_UID: order-gsi1-uid-${self:provider.stage}    
-    ORDER_GSI2_STR_STS: order-gsi2-str-sts-gidx-${self:provider.stage}    
+    ORDER_GSI1_UID: order-gsi1-uid-sts-${self:provider.stage}    
+    ORDER_GSI2_STR_STS: order-gsi2-str-sts-${self:provider.stage}    
     SEQ_TABLE: sequence-${self:provider.stage}                  
     STORE_TABLE: store-${self:provider.stage}  
     USER_TABLE: user-${self:provider.stage}      
