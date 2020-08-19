@@ -6,634 +6,6 @@
 	},
 	"item": [
 		{
-			"name": "TODOs",
-			"item": [
-				{
-					"name": "local",
-					"item": [
-						{
-							"name": "Get all todos",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "58ffbcea-ba5b-4383-a80c-70c979260770",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"The post returns list has no item\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.items.length).to.equal(0);          ",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 900ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(300);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"url": {
-									"raw": "http://localhost:3000/test/todos",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "3000",
-									"path": [
-										"test",
-										"todos"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Create todo",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "4e92a8fa-02ea-42d1-96eb-7f32dfb5e730",
-										"exec": [
-											"pm.test(\"Status code is 201\", function () {",
-											"    pm.response.to.have.status(201);",
-											"});",
-											"",
-											"pm.test(\"The post returns a new item\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.todoId).to.not.eql(null);",
-											"    pm.expect(jsonData.userId).to.not.eql(null);    ",
-											"    pm.expect(jsonData.name).to.not.eql(null);        ",
-											"    pm.expect(jsonData.createdAt).to.not.eql(null);        ",
-											"    pm.expect(jsonData.dueDate).to.not.eql(null);            ",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 900ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(900);",
-											"});",
-											"",
-											"var jsonData = JSON.parse(responseBody);",
-											"postman.setEnvironmentVariable(\"newTodoId\", jsonData.todoId);"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"name": "Content-Type",
-										"type": "text",
-										"value": "application/json"
-									},
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n  \"createdAt\": \"2019-07-27T20:01:45.424Z\",\n  \"name\": \"Buy milk\",\n  \"dueDate\": \"2019-07-29T20:01:45.424Z\",\n  \"done\": false,\n  \"attachmentUrl\": \"http://example.com/image.png\"\n}",
-									"options": {
-										"raw": {}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:3000/test/todos",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "3000",
-									"path": [
-										"test",
-										"todos"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Get all todo - 1",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "5940160f-22e2-4414-8e0e-186f2a66845f",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"The post returns list has one item\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.items.length).to.equal(1);          ",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 500ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(500);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"url": {
-									"raw": "http://localhost:3000/test/todos",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "3000",
-									"path": [
-										"test",
-										"todos"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Update todo",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "315f529f-96fd-4415-9cca-1f0c3ae12ea7",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"The post returns a upd item\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.name).to.eql(\"Buy bread\");        ",
-											"    pm.expect(jsonData.dueDate).to.eql(\"2019-07-29T20:01:45.424Z\");            ",
-											"    pm.expect(jsonData.done).to.eql(true);      ",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 900ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(900);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "PATCH",
-								"header": [
-									{
-										"key": "Content-Type",
-										"name": "Content-Type",
-										"type": "text",
-										"value": "application/json"
-									},
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n  \"name\": \"Buy bread\",\n  \"dueDate\": \"2019-07-29T20:01:45.424Z\",\n  \"done\": true\n}",
-									"options": {
-										"raw": {}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:3000/test/todos/{{newTodoId}}",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "3000",
-									"path": [
-										"test",
-										"todos",
-										"{{newTodoId}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Get attachment URL-good",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "afc146cf-517a-4ff2-a801-88f18c052292",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"The post returns a upd item\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.uploadUrl).to.not.eql(null);",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 900ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(500);",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:3000/test/todos/{{newTodoId}}/attachment",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "3000",
-									"path": [
-										"test",
-										"todos",
-										"{{newTodoId}}",
-										"attachment"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Delete todo",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "be8fe91c-5343-411a-bcb5-24ef84f48b06",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 500ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(500);",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "Content-Type",
-										"name": "Content-Type",
-										"type": "text",
-										"value": "application/json"
-									},
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:3000/test/todos/{{newTodoId}}",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "3000",
-									"path": [
-										"test",
-										"todos",
-										"{{newTodoId}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Get attachment URL-error",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "0899576f-1c4c-4fe5-ae34-f74774c4063c",
-										"exec": [
-											"pm.test(\"Status code is 404\", function () {",
-											"    pm.response.to.have.status(404);",
-											"});",
-											"",
-											"pm.test(\"The post returns a upd item\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.uploadUrl).to.be.not.empty;",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 900ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(900);",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:3000/test/todos/{{newTodoId}}/attachment",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "3000",
-									"path": [
-										"test",
-										"todos",
-										"{{newTodoId}}",
-										"attachment"
-									]
-								}
-							},
-							"response": []
-						}
-					],
-					"protocolProfileBehavior": {},
-					"_postman_isSubFolder": true
-				},
-				{
-					"name": "Get all todos",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos",
-							"protocol": "https",
-							"host": [
-								"{{apiId}}",
-								"execute-api",
-								"us-east-1",
-								"amazonaws",
-								"com"
-							],
-							"path": [
-								"dev",
-								"todos"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Create todo",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Water flowers\",\n\t\"dueDate\": \"2019-06-11\"\n}"
-						},
-						"url": {
-							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos",
-							"protocol": "https",
-							"host": [
-								"{{apiId}}",
-								"execute-api",
-								"us-east-1",
-								"amazonaws",
-								"com"
-							],
-							"path": [
-								"dev",
-								"todos"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update todo",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"type": "text",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Change the world\",\n\t\"dueDate\": \"2019-12-11\",\n\t\"done\": true\n}"
-						},
-						"url": {
-							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos/35dd600f-43c2-4649-903c-615e1586a26f",
-							"protocol": "https",
-							"host": [
-								"{{apiId}}",
-								"execute-api",
-								"us-east-1",
-								"amazonaws",
-								"com"
-							],
-							"path": [
-								"dev",
-								"todos",
-								"35dd600f-43c2-4649-903c-615e1586a26f"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete todo",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"name": "Content-Type",
-								"type": "text",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"type": "text",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos/fe671583-4512-45f6-9475-4265c04362fb",
-							"protocol": "https",
-							"host": [
-								"{{apiId}}",
-								"execute-api",
-								"us-east-1",
-								"amazonaws",
-								"com"
-							],
-							"path": [
-								"dev",
-								"todos",
-								"fe671583-4512-45f6-9475-4265c04362fb"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get attachment URL",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos/3836b777-9bc4-4429-9b79-ba4e4f5f91c0/attachment",
-							"protocol": "https",
-							"host": [
-								"{{apiId}}",
-								"execute-api",
-								"us-east-1",
-								"amazonaws",
-								"com"
-							],
-							"path": [
-								"dev",
-								"todos",
-								"3836b777-9bc4-4429-9b79-ba4e4f5f91c0",
-								"attachment"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "fe231966-5ccd-46c5-bbd0-d3a47a38da60",
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "261c8ede-3fa4-4c5f-b605-d86c9ebe133f",
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			],
-			"protocolProfileBehavior": {}
-		},
-		{
 			"name": "01_Users",
 			"item": [
 				{
@@ -1095,9 +467,9 @@
 									"//     pm.expect(jsonData.items.length).to.equal(0);          ",
 									"// });",
 									"",
-									"pm.test(\"Response time is less than 600ms\", function () {",
+									"pm.test(\"Response time is less than 900ms\", function () {",
 									"    //after warm start.",
-									"    pm.expect(pm.response.responseTime).to.be.below(600);",
+									"    pm.expect(pm.response.responseTime).to.be.below(900);",
 									"});",
 									""
 								],
@@ -2037,9 +1409,9 @@
 									"//     pm.expect(jsonData.items.length).to.equal(0);          ",
 									"// });",
 									"",
-									"pm.test(\"Response time is less than 400ms\", function () {",
+									"pm.test(\"Response time is less than 600ms\", function () {",
 									"    //after warm start.",
-									"    pm.expect(pm.response.responseTime).to.be.below(400);",
+									"    pm.expect(pm.response.responseTime).to.be.below(600);",
 									"});",
 									""
 								],
@@ -2743,7 +2115,7 @@
 					"response": []
 				},
 				{
-					"name": "03_GetOrderForUser",
+					"name": "04_GetOrderForUser",
 					"event": [
 						{
 							"listen": "test",
@@ -2756,16 +2128,16 @@
 									"",
 									"pm.test(\"The post returns storeNum 1\", function () {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.orders.storeNum).to.equal(1);",
+									"    pm.expect(jsonData.orders[0].storeNum).to.equal(1);",
 									"});",
 									"",
 									"pm.test(\"The post returns name, desc, createdAt, lastUpdatedAt\", function () {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.orders).to.have.property(\"userId\");",
-									"    pm.expect(jsonData.orders).to.have.property(\"items\");",
-									"    pm.expect(jsonData.orders.items).to.have.length(3);",
-									"    pm.expect(jsonData.orders).to.have.property(\"totalPrice\");    ",
-									"    pm.expect(jsonData.orders).to.have.property(\"lastUpdatedAt\");",
+									"    pm.expect(jsonData.orders[0]).to.have.property(\"userId\");",
+									"    pm.expect(jsonData.orders[0]).to.have.property(\"items\");",
+									"    pm.expect(jsonData.orders[0].items).to.have.length(3);",
+									"    pm.expect(jsonData.orders[0]).to.have.property(\"totalPrice\");    ",
+									"    pm.expect(jsonData.orders[0]).to.have.property(\"lastUpdatedAt\");",
 									"",
 									"",
 									"});",
@@ -2809,37 +2181,214 @@
 					"response": []
 				},
 				{
-					"name": "03_UpdateOrder",
+					"name": "05_GetOrderForStoreNoAuth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "848bbd58-ea46-403c-a027-0975d5c92a85",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 300ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(300);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{UserAuthToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{HostPrefix}}/store/1/order?status=CREATED",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"store",
+								"1",
+								"order"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "CREATED"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "06_GetOrderForStore",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5a56510f-b56b-4c61-99a8-93bdfc62a9b1",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"The post returns storeNum 1\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.orders[0].storeNum).to.equal(1);",
+									"});",
+									"",
+									"pm.test(\"The post returns name, desc, createdAt, lastUpdatedAt\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.orders[0]).to.have.property(\"userId\");",
+									"    pm.expect(jsonData.orders[0]).to.have.property(\"items\");",
+									"    pm.expect(jsonData.orders[0].items).to.have.length(3);",
+									"    pm.expect(jsonData.orders[0]).to.have.property(\"totalPrice\");    ",
+									"    pm.expect(jsonData.orders[0]).to.have.property(\"lastUpdatedAt\");",
+									"",
+									"",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 300ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(300);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{AdminAuthToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{HostPrefix}}/store/1/order?status=CREATED",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"store",
+								"1",
+								"order"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "CREATED"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "07_UpdateOrderNoAuth",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"id": "b141f1d0-a78a-403f-8918-12e0f01db6ae",
 								"exec": [
-									"// pm.test(\"Status code is 200\", function () {",
-									"//     pm.response.to.have.status(200);",
-									"// });",
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
 									"",
-									"// pm.test(\"The post returns storeNum 1\", function () {",
-									"//     var jsonData = pm.response.json();",
-									"//     pm.expect(jsonData.cart.storeNum).to.equal(1);",
-									"// });",
+									"pm.test(\"Response time is less than 300ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(300);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{UserAuthToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"itms\": [\r\n        {\r\n        \"itemId\" : \"i-00001-0000000001\",\r\n        \"name\": \"Red Onions\",        \r\n        \"unitType\" : \"lb\",\r\n        \"unitPrice\": 3,\r\n        \"qty\": 2,        \r\n        \"price\": 6\r\n        },\r\n        {\r\n        \"itemId\": \"i-00001-0000000002\",            \r\n        \"name\": \"Green Onions\",         \r\n        \"unitType\": \"num\",\r\n        \"unitPrice\": 0.15,\r\n        \"qty\": 2,        \r\n        \"price\": 0.30\r\n        },\r\n        {\r\n        \"unitType\": \"lb\",\r\n        \"itemId\": \"i-00001-0000000003\",\r\n        \"unitPrice\": 0.95,\r\n        \"name\": \"Cauliflower\",\r\n        \"qty\": 2,        \r\n        \"price\": 1.90\r\n        },\r\n        {\r\n        \"unitType\": \"num\",\r\n        \"itemId\": \"i-00001-0000000005\",\r\n        \"unitPrice\": 0.45,\r\n        \"name\": \"Tomato\",\r\n        \"qty\": 5,        \r\n        \"price\": 2.25\r\n        }                \r\n    ],\r\n    \"totalAmt\": 10.45\r\n}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HostPrefix}}/order/00001-0000000001?status=PROCESSED",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"order",
+								"00001-0000000001"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "PROCESSED"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "08_UpdateOrder",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "374a791a-7af2-4d55-ab81-d8e5cc41caab",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
 									"",
-									"// pm.test(\"The post returns name, desc, createdAt, lastUpdatedAt\", function () {",
-									"//     var jsonData = pm.response.json();",
-									"//     pm.expect(jsonData.cart).to.have.property(\"userId\");",
-									"//     pm.expect(jsonData.cart).to.have.property(\"items\");",
-									"//     pm.expect(jsonData.cart.items).to.have.length(4);",
-									"//     pm.expect(jsonData.cart).to.have.property(\"totalPrice\");    ",
-									"//     pm.expect(jsonData.cart).to.have.property(\"lastUpdatedAt\");",
+									"pm.test(\"The post returns storeNum 1\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.order.storeNum).to.equal(1);",
+									"});",
 									"",
+									"pm.test(\"The post returns name, desc, createdAt, lastUpdatedAt\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.order).to.have.property(\"userId\");",
+									"    pm.expect(jsonData.order).to.have.property(\"items\");",
+									"    pm.expect(jsonData.order.items).to.have.length(3);",
+									"    pm.expect(jsonData.order).to.have.property(\"totalPrice\");    ",
+									"    pm.expect(jsonData.order).to.have.property(\"status\");        ",
+									"    pm.expect(jsonData.order.status).to.equal(\"PROCESSED\");    ",
+									"    pm.expect(jsonData.order).to.have.property(\"lastUpdatedAt\");",
+									"});",
 									"",
-									"// });",
-									"",
-									"// pm.test(\"Response time is less than 300ms\", function () {",
-									"//     //after warm start.",
-									"//     pm.expect(pm.response.responseTime).to.be.below(300);",
-									"// });",
+									"pm.test(\"Response time is less than 300ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(300);",
+									"});",
 									""
 								],
 								"type": "text/javascript"
@@ -2884,12 +2433,12 @@
 					"response": []
 				},
 				{
-					"name": "04_GetOrder",
+					"name": "09_GetOrderById",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
-								"id": "c0d11174-af65-4147-92e4-7d0ff566882c",
+								"id": "1ac01547-c920-4c08-8bd9-fb10ed2c4645",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -2897,16 +2446,18 @@
 									"",
 									"pm.test(\"The post returns storeNum 1\", function () {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.store.storeNum).to.equal(1);          ",
+									"    pm.expect(jsonData.order.storeNum).to.equal(1);",
 									"});",
 									"",
 									"pm.test(\"The post returns name, desc, createdAt, lastUpdatedAt\", function () {",
 									"    var jsonData = pm.response.json();",
-									"    pm.expect(jsonData.store.name);          ",
-									"    pm.expect(jsonData.store.desc);              ",
-									"    pm.expect(jsonData.store.createdAt);              ",
-									"    pm.expect(jsonData.store.lastUpdatedAt);",
-									"    ",
+									"    pm.expect(jsonData.order).to.have.property(\"userId\");",
+									"    pm.expect(jsonData.order).to.have.property(\"items\");",
+									"    pm.expect(jsonData.order.items).to.have.length(3);",
+									"    pm.expect(jsonData.order).to.have.property(\"totalPrice\");    ",
+									"    pm.expect(jsonData.order).to.have.property(\"lastUpdatedAt\");",
+									"    pm.expect(jsonData.order).to.have.property(\"status\");",
+									"    pm.expect(jsonData.order.status).to.equal(\"PROCESSED\");",
 									"});",
 									"",
 									"pm.test(\"Response time is less than 300ms\", function () {",
@@ -2925,18 +2476,17 @@
 							{
 								"key": "Authorization",
 								"type": "text",
-								"value": "Bearer {{UserAuthToken}}"
+								"value": "Bearer {{AdminAuthToken}}"
 							}
 						],
 						"url": {
-							"raw": "{{HostPrefix}}/store/1/cart",
+							"raw": "{{HostPrefix}}/order/00001-0000000001",
 							"host": [
 								"{{HostPrefix}}"
 							],
 							"path": [
-								"store",
-								"1",
-								"cart"
+								"order",
+								"00001-0000000001"
 							]
 						}
 					},
