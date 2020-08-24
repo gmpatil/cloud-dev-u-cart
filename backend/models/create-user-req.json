@@ -4,22 +4,23 @@
     "type": "object",
     "properties": {
       "userId" : {"type": "string"},
+      "userNum": { "type" : "integer"},
       "name": { "type" : "string"},
-      "contactPhone":{"type": "string"},    
+      "contactPhone":{"type": "string"},
       "address": {
         "type": "object",
         "properties": {
           "addressLine1" : { "type": "string"},
-          "addressLine2" : { "type": "string"},          
-          "city" : { "type": "string"},          
+          "addressLine2" : { "type": "string"},
+          "city" : { "type": "string"},
           "zip" : { "type": "string"},
-          "state" : { "type": "string"}          
+          "state" : { "type": "string"}
         },
         "required":[
           "addressLine1",
           "city",
           "zip",
-          "state"                    
+          "state"
         ]
       }
     },

@@ -41,11 +41,10 @@ export class StoreTbl {
                 ":lastUpdatedAt": store.lastUpdatedAt
             },
             ReturnValues:"UPDATED_NEW"
-        };        
+        };
 
         const upd:AWS.DynamoDB.DocumentClient.UpdateItemOutput = await this.dbDocClient.update(params).promise();
-        //AWS.DynamoDB.DocumentClient.UpdateItemOutput
-        //AWS.AWSError
+
         this.logger.debug("storeTbl.updateStore - out");
         return upd.Attributes as Store;
     }

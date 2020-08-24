@@ -11,16 +11,18 @@
           "type": "object",
           "properties": {
             "itemId" : { "type": "string"},
+            "name": { "type" : "string"},
             "unitType": {
               "type": "string",
-              "enum": ["num", "gm", "oz", "lbs", "kg", "bunch", "dozen"]
-            },      
+              "enum": ["num", "gm", "oz", "lb", "kg", "bunch", "dozen"]
+            },
             "qty" : { "type": "number"},
             "unitPrice" : {"type" : "number"},
             "price" : {"type" : "number"}
           },
           "required": [
             "itemId",
+            "name",
             "unitType",
             "qty",
             "unitPrice",
@@ -34,7 +36,6 @@
       "completedAt": { "type": "string"}
     },
     "required": [
-      "storeNum",
       "itms",
       "totalAmt"
     ],

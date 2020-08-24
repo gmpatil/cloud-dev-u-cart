@@ -4,27 +4,27 @@
     "type": "object",
     "properties": {
       "storeNum" : {"type": "integer"},
-      "itemNum" : {"type": "integer"},      
+      "itemNum" : {"type": "integer"},
       "name": { "type": "string" },
       "desc": {"type": "string"},
       "unitType": {
         "type": "string",
-        "enum": ["num", "gm", "mg", "oz", "lbs", "kg", "bunch", "dozen"]
+        "enum": ["num", "gm", "mg", "oz", "lb", "kg", "bunch", "dozen"]
       },
-      "minUnits": { "type" : "number"},      
+      "minUnits": { "type" : "number"},
       "maxUnits": { "type" : "number"},
+      "minIncrement": { "type" : "number"},
       "price": {"type": "number"},
-      "acive": {"type": "boolean"},      
+      "active": {"type": "boolean"},
       "imageUploaded": { "type": "boolean" }
     },
     "required": [
-      "storeNum",
       "name",
       "desc",
       "unitType",
       "minIncrement",
-      "minUnits",  
-      "maxUnits",    
+      "minUnits",
+      "maxUnits",
       "price",
       "active"
     ],

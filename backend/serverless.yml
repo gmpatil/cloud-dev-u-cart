@@ -76,6 +76,7 @@ provider:
         - dynamodb:PutItem
         - dynamodb:GetItem
         - dynamodb:Query
+        - dynamodb:UpdateItem
         # For repeated testing
         - dynamodb:DescribeTable
         - dynamodb:Scan
@@ -107,6 +108,7 @@ provider:
       Action:
         - dynamodb:PutItem
         - dynamodb:GetItem
+        - dynamodb:UpdateItem
         # For repeated testing
         - dynamodb:DescribeTable
         - dynamodb:Scan
@@ -230,7 +232,6 @@ functions:
           cors: true
           authorizer: Auth
           request:
-            # Schema that will validate the incoming requests
             schema:
               application/json: ${file(models/create-item-req.json)}
 
@@ -283,7 +284,6 @@ functions:
           cors: true
           authorizer: Auth
           request:
-            # Schema that will validate the incoming requests
             schema:
               application/json: ${file(models/create-order-req.json)}
 
@@ -295,9 +295,6 @@ functions:
           path: order/{orderId}
           cors: true
           authorizer: Auth
-          request:
-            schema:
-              application/json: ${file(models/create-order-req.json)}
 
   GetOrder:
     handler: src/lambda/http/order.handlerGetById
@@ -348,7 +345,6 @@ functions:
           cors: true
           authorizer: Auth
           request:
-            # Schema that will validate the incoming requests
             schema:
               application/json: ${file(models/create-store-req.json)}
 
