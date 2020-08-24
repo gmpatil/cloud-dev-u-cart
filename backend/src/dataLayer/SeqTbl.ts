@@ -10,20 +10,20 @@ export class SeqTbl {
     // For Entities like StoreNum, and UseNum
     async getNextSeqForEntity(entityName: string): Promise<number> {
         this.logger.debug(`seqTbl.getNextSeqForEntity - in - ${c.SEQ_TBL}  entity: ${entityName}`);
-        //const upd:AWS.DynamoDB.DocumentClient.UpdateItemOutput = 
-        //const upd =  
+        //const upd:AWS.DynamoDB.DocumentClient.UpdateItemOutput =
+        //const upd =
         const upd: AWS.DynamoDB.UpdateItemOutput = await this.dbClient.updateItem({
-            TableName: "sequence-test",
+            TableName: c.SEQ_TBL,
             Key: { "entity": { "S": entityName } },
             ExpressionAttributeValues: {
                 ":incr": { "N": "1"},
                 ":init": { "N": "0" }
             },
             UpdateExpression: "SET seq = if_not_exists(seq, :init) + :incr",
-            ReturnValues: "UPDATED_NEW"            
+            ReturnValues: "UPDATED_NEW"
         }).promise();
 
-        this.logger.debug(`seqTbl.getNextSeqForEntity - out  ${JSON.stringify({"Attributes": upd.Attributes})} `); 
+        this.logger.debug(`seqTbl.getNextSeqForEntity - out  ${JSON.stringify({"Attributes": upd.Attributes})} `);
         return Promise.resolve(Number(upd.Attributes.seq.N));
     }
 

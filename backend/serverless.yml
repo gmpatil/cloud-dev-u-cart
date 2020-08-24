@@ -7,14 +7,14 @@ plugins:
   - serverless-reqvalidator-plugin
   - serverless-aws-documentation
   - serverless-plugin-canary-deployments
-  # - serverless-plugin-tracing  
-  - serverless-dynamodb-local  
+  # - serverless-plugin-tracing
+  - serverless-dynamodb-local
   - serverless-s3-local
   - serverless-offline
 
 # Uncomment to enable individual packaging
 # package:
-#   individually: true  
+#   individually: true
 
 provider:
   name: aws
@@ -29,18 +29,18 @@ provider:
 
   environment:
     STAGE: ${self:provider.stage}
-    CART_TABLE: cart-${self:provider.stage}      
-    ITEM_TABLE: item-${self:provider.stage}    
-    ORDER_TABLE: order-${self:provider.stage}    
-    ORDER_GSI1_UID: order-gsi1-uid-sts-${self:provider.stage}    
-    ORDER_GSI2_STR_STS: order-gsi2-str-sts-${self:provider.stage}    
-    SEQ_TABLE: sequence-${self:provider.stage}                  
-    STORE_TABLE: store-${self:provider.stage}  
-    USER_TABLE: user-${self:provider.stage}      
+    CART_TABLE: cart-${self:provider.stage}
+    ITEM_TABLE: item-${self:provider.stage}
+    ORDER_TABLE: order-${self:provider.stage}
+    ORDER_GSI1_UID: order-gsi1-uid-sts-${self:provider.stage}
+    ORDER_GSI2_STR_STS: order-gsi2-str-sts-${self:provider.stage}
+    SEQ_TABLE: sequence-${self:provider.stage}
+    STORE_TABLE: store-${self:provider.stage}
+    USER_TABLE: user-${self:provider.stage}
     USER_GSI1_UID: user-gis1-uid-${self:provider.stage}
-    USER_ACCS_TABLE: user-access-${self:provider.stage}          
+    USER_ACCS_TABLE: user-access-${self:provider.stage}
     ITEM_IMG_S3_BUCKET: gmp-ucart-img-${self:provider.stage}
-    ITEM_IMG_S_S3_BUCKET: gmp-ucart-img-s-${self:provider.stage}    
+    ITEM_IMG_S_S3_BUCKET: gmp-ucart-img-s-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
     ES_ENDPOINT: https://elasticsearch.aws.com/
   #   AUTH_0_SECRET_ID: Auth0Secret-${self:provider.stage}
@@ -59,7 +59,7 @@ provider:
         # For repeated testing
         - dynamodb:DescribeTable
         - dynamodb:Scan
-        - dynamodb:DeleteItem               
+        - dynamodb:DeleteItem
       Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.CART_TABLE}
     - Effect: Allow
       Action:
@@ -69,7 +69,7 @@ provider:
         # For repeated testing
         - dynamodb:DescribeTable
         - dynamodb:Scan
-        - dynamodb:DeleteItem               
+        - dynamodb:DeleteItem
       Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.ITEM_TABLE}
     - Effect: Allow
       Action:
@@ -79,28 +79,29 @@ provider:
         # For repeated testing
         - dynamodb:DescribeTable
         - dynamodb:Scan
-        - dynamodb:DeleteItem               
+        - dynamodb:DeleteItem
       Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.ORDER_TABLE}
     - Effect: Allow
       Action:
         - dynamodb:GetItem
         - dynamodb:Query
-        - dynamodb:Scan        
+        - dynamodb:Scan
       Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.ORDER_TABLE}/index/${self:provider.environment.ORDER_GSI1_UID}
     - Effect: Allow
       Action:
         - dynamodb:GetItem
         - dynamodb:Query
-        - dynamodb:Scan        
+        - dynamodb:Scan
       Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.ORDER_TABLE}/index/${self:provider.environment.ORDER_GSI2_STR_STS}
     - Effect: Allow
       Action:
         - dynamodb:PutItem
         - dynamodb:GetItem
+        - dynamodb:UpdateItem
         # For repeated testing
         - dynamodb:DescribeTable
         - dynamodb:Scan
-        - dynamodb:DeleteItem               
+        - dynamodb:DeleteItem
       Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.SEQ_TABLE}
     - Effect: Allow
       Action:
@@ -109,7 +110,7 @@ provider:
         # For repeated testing
         - dynamodb:DescribeTable
         - dynamodb:Scan
-        - dynamodb:DeleteItem               
+        - dynamodb:DeleteItem
       Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}
     - Effect: Allow
       Action:
@@ -118,7 +119,7 @@ provider:
         # For repeated testing
         - dynamodb:DescribeTable
         - dynamodb:Scan
-        - dynamodb:DeleteItem               
+        - dynamodb:DeleteItem
       Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USER_TABLE}
     - Effect: Allow
       Action:
@@ -129,7 +130,7 @@ provider:
         - dynamodb:PutItem
         - dynamodb:GetItem
       Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USER_ACCS_TABLE}
-    - Effect: "Allow" 
+    - Effect: "Allow"
       Action:
         - "xray:PutTraceSegments"
         - "xray:PutTelemetryRecords"
@@ -139,7 +140,7 @@ custom:
   serverless-offline:
     port: 3003
     host: 0.0.0.0
-#    useChildProcesses: true    
+#    useChildProcesses: true
   dynamodb:
     # noStart: true
     start:
@@ -152,13 +153,13 @@ custom:
           - table: ${self:provider.environment.SEQ_TABLE}
             sources: [./tst/seed-seq.json]
     stages:
-      - test 
-      - dev        
+      - test
+      - dev
   s3:
     host: localhost
     directory: /tmp
 
-  itemImageS3TopicName: item-image-topic-${self:provider.stage}    
+  itemImageS3TopicName: item-image-topic-${self:provider.stage}
 
   documentation:
     api:
@@ -193,8 +194,8 @@ functions:
       - http:
           method: post
           path: store/{storeNum}/cart
-          cors: true          
-          authorizer: Auth                    
+          cors: true
+          authorizer: Auth
           request:
             schema:
               application/json: ${file(models/create-cart-req.json)}
@@ -205,8 +206,8 @@ functions:
       - http:
           method: patch
           path: store/{storeNum}/cart
-          cors: true 
-          authorizer: Auth                                                 
+          cors: true
+          authorizer: Auth
           request:
             schema:
               application/json: ${file(models/create-cart-req.json)}
@@ -217,8 +218,8 @@ functions:
       - http:
           method: get
           path: store/{storeNum}/cart
-          cors: true 
-          authorizer: Auth        
+          cors: true
+          authorizer: Auth
 
   CreateItem:
     handler: src/lambda/http/item.handlerCreate
@@ -226,8 +227,8 @@ functions:
       - http:
           method: post
           path: store/{storeNum}/item
-          cors: true          
-          authorizer: Auth                    
+          cors: true
+          authorizer: Auth
           request:
             # Schema that will validate the incoming requests
             schema:
@@ -239,8 +240,8 @@ functions:
       - http:
           method: patch
           path: store/{storeNum}/item/{itemNum}
-          cors: true 
-          authorizer: Auth                                                 
+          cors: true
+          authorizer: Auth
           request:
             schema:
               application/json: ${file(models/create-item-req.json)}
@@ -250,8 +251,8 @@ functions:
       - http:
           method: patch
           path: storeItem/{itemId}
-          cors: true 
-          authorizer: Auth                                                 
+          cors: true
+          authorizer: Auth
           request:
             schema:
               application/json: ${file(models/create-item-req.json)}
@@ -262,16 +263,16 @@ functions:
       - http:
           method: get
           path: store/{storeNum}/item/{itemNum}
-          cors: true 
-          authorizer: Auth                                                 
+          cors: true
+          authorizer: Auth
   GetItemById:
     handler: src/lambda/http/item.handlerGetById
     events:
       - http:
           method: get
           path: storeItem/{itemId}
-          cors: true 
-          authorizer: Auth                                                 
+          cors: true
+          authorizer: Auth
 
   CreateOrder:
     handler: src/lambda/http/order.handlerCreate
@@ -279,8 +280,8 @@ functions:
       - http:
           method: post
           path: store/{storeNum}/order
-          cors: true          
-          authorizer: Auth                    
+          cors: true
+          authorizer: Auth
           request:
             # Schema that will validate the incoming requests
             schema:
@@ -292,8 +293,8 @@ functions:
       - http:
           method: patch
           path: order/{orderId}
-          cors: true 
-          authorizer: Auth                                                 
+          cors: true
+          authorizer: Auth
           request:
             schema:
               application/json: ${file(models/create-order-req.json)}
@@ -304,8 +305,8 @@ functions:
       - http:
           method: get
           path: order/{orderId}
-          cors: true 
-          authorizer: Auth                                                 
+          cors: true
+          authorizer: Auth
 
   GetOrderForUser:
     handler: src/lambda/http/order.handlerGetForUser
@@ -313,8 +314,8 @@ functions:
       - http:
           method: get
           path: user/order/
-          cors: true 
-          authorizer: Auth  
+          cors: true
+          authorizer: Auth
 
   GetOrderForStore:
     handler: src/lambda/http/order.handlerGetForStore
@@ -322,8 +323,8 @@ functions:
       - http:
           method: get
           path: store/{storeNum}/order/
-          cors: true 
-          authorizer: Auth                    
+          cors: true
+          authorizer: Auth
 
   CreateStore:
     handler: src/lambda/http/store.handlerCreate
@@ -331,8 +332,8 @@ functions:
       - http:
           method: post
           path: store/
-          cors: true          
-          authorizer: Auth                    
+          cors: true
+          authorizer: Auth
           request:
             # Schema that will validate the incoming requests
             schema:
@@ -344,8 +345,8 @@ functions:
       - http:
           method: patch
           path: store/
-          cors: true 
-          authorizer: Auth                                                 
+          cors: true
+          authorizer: Auth
           request:
             # Schema that will validate the incoming requests
             schema:
@@ -357,25 +358,25 @@ functions:
       - http:
           method: get
           path: store/{storeNum}
-          cors: true 
-          authorizer: Auth      
+          cors: true
+          authorizer: Auth
   GetStores:
     handler: src/lambda/http/store.handlerGetStores
     events:
       - http:
           method: get
           path: store/
-          cors: true 
-          authorizer: Auth                                                      
-                  
+          cors: true
+          authorizer: Auth
+
   CreateUser:
     handler: src/lambda/http/user.handlerCreate
     events:
       - http:
           method: post
           path: user/
-          cors: true          
-          authorizer: Auth                    
+          cors: true
+          authorizer: Auth
           request:
             # Schema that will validate the incoming requests
             schema:
@@ -387,8 +388,8 @@ functions:
       - http:
           method: patch
           path: user/
-          cors: true 
-          authorizer: Auth                                                 
+          cors: true
+          authorizer: Auth
           request:
             # Schema that will validate the incoming requests
             schema:
@@ -399,16 +400,16 @@ functions:
       - http:
           method: get
           path: user/
-          cors: true 
-          authorizer: Auth     
+          cors: true
+          authorizer: Auth
   GetUser2:
     handler: src/lambda/http/user.handlerGetByNum
     events:
       - http:
           method: get
           path: user/{userNum}
-          cors: true 
-          authorizer: Auth  
+          cors: true
+          authorizer: Auth
 
   TruncateTables:
     handler: src/lambda/http/ddbtables.handler
@@ -416,9 +417,9 @@ functions:
       - http:
           method: get
           path: ddtables/
-          cors: true 
-          authorizer: Auth  
-                    
+          cors: true
+          authorizer: Auth
+
   # ResizeImage:
   #   handler: src/lambda/s3/resizeImage.handler
   #   events:
@@ -433,7 +434,7 @@ functions:
   #         topicName: ${self:custom.itemImageS3TopicName}
 
 resources:
-  Resources:   
+  Resources:
     GatewayResponseDefault4XX:
       Type: AWS::ApiGateway::GatewayResponse
       Properties:
@@ -452,12 +453,12 @@ resources:
         RestApiId:
           Ref: ApiGatewayRestApi
         ValidateRequestBody: true
-        ValidateRequestParameters: false          
+        ValidateRequestParameters: false
 
     CartTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:provider.environment.CART_TABLE}        
+        TableName: ${self:provider.environment.CART_TABLE}
         AttributeDefinitions:
           # TODO: use UserId for better hash distributed or move table to RDBMS
           - AttributeName: userId
@@ -470,18 +471,18 @@ resources:
           - AttributeName: storeNum
             KeyType: RANGE
         BillingMode: PAY_PER_REQUEST
-    
+
     ItemTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:provider.environment.ITEM_TABLE}        
+        TableName: ${self:provider.environment.ITEM_TABLE}
         AttributeDefinitions:
           - AttributeName: itemId
             AttributeType: S
           # - AttributeName: storeNum
           #   AttributeType: N
           # - AttributeName: itemNum
-          #   AttributeType: N            
+          #   AttributeType: N
           # - AttributeName: name
           #   AttributeType: S
           # - AttributeName: desc
@@ -494,22 +495,22 @@ resources:
     OrderTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:provider.environment.ORDER_TABLE}        
+        TableName: ${self:provider.environment.ORDER_TABLE}
         AttributeDefinitions:
           - AttributeName: orderId
             AttributeType: S
             # uid#status
           - AttributeName: gsi1pk
-            AttributeType: S                        
+            AttributeType: S
           # orderId, use gsi1sk for flexibility
           - AttributeName: gsi1sk
-            AttributeType: S                        
+            AttributeType: S
             # storeNum#status
           - AttributeName: gsi2pk
-            AttributeType: S                        
+            AttributeType: S
           # orderNum#
           - AttributeName: gsi2sk
-            AttributeType: S                        
+            AttributeType: S
         KeySchema:
           - AttributeName: orderId
             KeyType: HASH
@@ -522,8 +523,8 @@ resources:
               - AttributeName: gsi1sk
                 KeyType: RANGE
             Projection:
-              ProjectionType: ALL 
-              # ProjectionType: INCLUDE 
+              ProjectionType: ALL
+              # ProjectionType: INCLUDE
               # NonKeyAttributes:
               #   - orderId
           - IndexName: ${self:provider.environment.ORDER_GSI2_STR_STS}
@@ -538,12 +539,12 @@ resources:
     SequenceTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:provider.environment.SEQ_TABLE}        
+        TableName: ${self:provider.environment.SEQ_TABLE}
         AttributeDefinitions:
           - AttributeName: entity
             AttributeType: S
           # - AttributeName: seq
-          #   AttributeType: N            
+          #   AttributeType: N
         KeySchema:
           - AttributeName: entity
             KeyType: HASH
@@ -552,7 +553,7 @@ resources:
     StoreTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:provider.environment.STORE_TABLE}        
+        TableName: ${self:provider.environment.STORE_TABLE}
         AttributeDefinitions:
           - AttributeName: storeNum
             AttributeType: N
@@ -563,7 +564,7 @@ resources:
           # - AttributeName: createdAt
           #   AttributeType: S
         KeySchema:
-          # TODO make key better hash distributed  or move table to RDBMS       
+          # TODO make key better hash distributed  or move table to RDBMS
           - AttributeName: storeNum
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
@@ -571,14 +572,14 @@ resources:
     UserTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:provider.environment.USER_TABLE}        
+        TableName: ${self:provider.environment.USER_TABLE}
         AttributeDefinitions:
           - AttributeName: userNum
             AttributeType: N
           - AttributeName: userId
             AttributeType: S
           # - AttributeName: name
-          #   AttributeType: S         
+          #   AttributeType: S
           # - AttributeName: createdAt
           #   AttributeType: S
         KeySchema:
@@ -591,11 +592,11 @@ resources:
               - AttributeName: userId
                 KeyType: HASH
             Projection:
-              ProjectionType: ALL # What attributes will be copied to an index 
+              ProjectionType: ALL # What attributes will be copied to an index
     UserAccessTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:provider.environment.USER_ACCS_TABLE}        
+        TableName: ${self:provider.environment.USER_ACCS_TABLE}
         AttributeDefinitions:
           - AttributeName: ts
             AttributeType: S
@@ -606,8 +607,8 @@ resources:
             KeyType: HASH
           - AttributeName: uid
             KeyType: RANGE
-        BillingMode: PAY_PER_REQUEST            
-          
+        BillingMode: PAY_PER_REQUEST
+
     ItemImageBucket:
       Type: AWS::S3::Bucket
       Properties:
@@ -615,7 +616,7 @@ resources:
         # NotificationConfiguration:
         #   TopicConfigurations:
         #     - Event: s3:ObjectCreated:Put
-        #       Topic: !Ref ItemImagesTopic        
+        #       Topic: !Ref ItemImagesTopic
         CorsConfiguration:
           CorsRules:
             -
@@ -629,7 +630,7 @@ resources:
                 - POST
                 - DELETE
                 - HEAD
-              MaxAge: 3000    
+              MaxAge: 3000
 
     # ItemImagesTopic:
     #   Type: AWS::SNS::Topic
@@ -640,7 +641,7 @@ resources:
     BucketPolicy1:
       Type: AWS::S3::BucketPolicy
       Properties:
-        Bucket: !Ref ItemImageBucket      
+        Bucket: !Ref ItemImageBucket
         PolicyDocument:
           Id: MyPolicy
           Version: "2012-10-17"
@@ -649,7 +650,7 @@ resources:
               Effect: Allow
               Principal: '*'
               Action: 's3:GetObject'
-              Resource: 'arn:aws:s3:::${self:provider.environment.ITEM_IMG_S3_BUCKET}/*'         
+              Resource: 'arn:aws:s3:::${self:provider.environment.ITEM_IMG_S3_BUCKET}/*'
 
 
     # SNSTopicPolicy:
@@ -687,7 +688,7 @@ resources:
                 - POST
                 - DELETE
                 - HEAD
-              MaxAge: 3000    
+              MaxAge: 3000
 
     BucketPolicy2:
       Type: AWS::S3::BucketPolicy
@@ -701,5 +702,5 @@ resources:
               Principal: '*'
               Action: 's3:GetObject'
               Resource: 'arn:aws:s3:::${self:provider.environment.ITEM_IMG_S_S3_BUCKET}/*'
-        Bucket: !Ref ItemImageThumbNailBucket      
+        Bucket: !Ref ItemImageThumbNailBucket
 
