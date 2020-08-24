@@ -1,14 +1,14 @@
 # U Cart
 Online Store of Stores for groceries and commodity consumer items.
 
-Below back-end REST services are implememented.
+Below back-end REST services are implemented.
 - User Service
 - Store Service
 - Store-Item Service (Catalogs)
 - Cart Service
 - Order Services
 
-Front-end, payment processing functionalities to be implemted.
+Front-end, payment processing functionalities are yet to be implemented.
 
 ## User Service
 Allows Auth0 authenticated user to self create, update details. Admin and User roles defined in Auth0 are used authorize/restrict services.
