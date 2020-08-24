@@ -6,6 +6,109 @@
 	},
 	"item": [
 		{
+			"name": "00_TruncateTables",
+			"item": [
+				{
+					"name": "01_DDBTablesTruncateNoAuth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e55f107d-ad25-420e-ae3b-d9c23e57e0fc",
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"",
+									"// pm.test(\"The post returns list has no item\", function () {",
+									"//     var jsonData = pm.response.json();",
+									"//     pm.expect(jsonData.items.length).to.equal(0);          ",
+									"// });",
+									"",
+									"pm.test(\"Response time is less than 900ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(900);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{UserAuthToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{HostPrefix}}/ddtables/",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"ddtables",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "02_DDBTablesTruncate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "582efbe9-cbea-4149-9b94-f2747f387d2e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// pm.test(\"The post returns list has no item\", function () {",
+									"//     var jsonData = pm.response.json();",
+									"//     pm.expect(jsonData.items.length).to.equal(0);          ",
+									"// });",
+									"",
+									"pm.test(\"Response time is less than 25000ms\", function () {",
+									"    //after warm start.",
+									"    pm.expect(pm.response.responseTime).to.be.below(25000);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{AdminAuthToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{HostPrefix}}/ddtables",
+							"host": [
+								"{{HostPrefix}}"
+							],
+							"path": [
+								"ddtables"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
 			"name": "01_Users",
 			"item": [
 				{
@@ -242,9 +345,9 @@
 									"//     pm.expect(jsonData.items.length).to.equal(0);          ",
 									"// });",
 									"",
-									"pm.test(\"Response time is less than 300ms\", function () {",
+									"pm.test(\"Response time is less than 600ms\", function () {",
 									"    //after warm start.",
-									"    pm.expect(pm.response.responseTime).to.be.below(300);",
+									"    pm.expect(pm.response.responseTime).to.be.below(600);",
 									"});",
 									""
 								],
@@ -989,9 +1092,9 @@
 									"//     pm.expect(jsonData.items.length).to.equal(0);          ",
 									"// });",
 									"",
-									"pm.test(\"Response time is less than 800ms\", function () {",
+									"pm.test(\"Response time is less than 1200ms\", function () {",
 									"    //after warm start.",
-									"    pm.expect(pm.response.responseTime).to.be.below(800);",
+									"    pm.expect(pm.response.responseTime).to.be.below(1200);",
 									"});",
 									""
 								],
@@ -1049,9 +1152,9 @@
 									"//     pm.expect(jsonData.items.length).to.equal(0);          ",
 									"// });",
 									"",
-									"pm.test(\"Response time is less than 800ms\", function () {",
+									"pm.test(\"Response time is less than 1200ms\", function () {",
 									"    //after warm start.",
-									"    pm.expect(pm.response.responseTime).to.be.below(800);",
+									"    pm.expect(pm.response.responseTime).to.be.below(1200);",
 									"});",
 									""
 								],
@@ -2082,9 +2185,9 @@
 									"",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 300ms\", function () {",
+									"pm.test(\"Response time is less than 900ms\", function () {",
 									"    //after warm start.",
-									"    pm.expect(pm.response.responseTime).to.be.below(300);",
+									"    pm.expect(pm.response.responseTime).to.be.below(900);",
 									"});",
 									""
 								],
@@ -2142,9 +2245,9 @@
 									"",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 300ms\", function () {",
+									"pm.test(\"Response time is less than 900ms\", function () {",
 									"    //after warm start.",
-									"    pm.expect(pm.response.responseTime).to.be.below(300);",
+									"    pm.expect(pm.response.responseTime).to.be.below(900);",
 									"});",
 									""
 								],
@@ -2192,9 +2295,9 @@
 									"    pm.response.to.have.status(403);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 300ms\", function () {",
+									"pm.test(\"Response time is less than 900ms\", function () {",
 									"    //after warm start.",
-									"    pm.expect(pm.response.responseTime).to.be.below(300);",
+									"    pm.expect(pm.response.responseTime).to.be.below(900);",
 									"});",
 									""
 								],
@@ -2259,9 +2362,9 @@
 									"",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 300ms\", function () {",
+									"pm.test(\"Response time is less than 900ms\", function () {",
 									"    //after warm start.",
-									"    pm.expect(pm.response.responseTime).to.be.below(300);",
+									"    pm.expect(pm.response.responseTime).to.be.below(900);",
 									"});",
 									""
 								],
@@ -2310,9 +2413,9 @@
 									"    pm.response.to.have.status(403);",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 300ms\", function () {",
+									"pm.test(\"Response time is less than 900ms\", function () {",
 									"    //after warm start.",
-									"    pm.expect(pm.response.responseTime).to.be.below(300);",
+									"    pm.expect(pm.response.responseTime).to.be.below(900);",
 									"});",
 									""
 								],
@@ -2385,9 +2488,9 @@
 									"    pm.expect(jsonData.order).to.have.property(\"lastUpdatedAt\");",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 300ms\", function () {",
+									"pm.test(\"Response time is less than 900ms\", function () {",
 									"    //after warm start.",
-									"    pm.expect(pm.response.responseTime).to.be.below(300);",
+									"    pm.expect(pm.response.responseTime).to.be.below(900);",
 									"});",
 									""
 								],
@@ -2460,9 +2563,9 @@
 									"    pm.expect(jsonData.order.status).to.equal(\"PROCESSED\");",
 									"});",
 									"",
-									"pm.test(\"Response time is less than 300ms\", function () {",
+									"pm.test(\"Response time is less than 900ms\", function () {",
 									"    //after warm start.",
-									"    pm.expect(pm.response.responseTime).to.be.below(300);",
+									"    pm.expect(pm.response.responseTime).to.be.below(900);",
 									"});",
 									""
 								],
