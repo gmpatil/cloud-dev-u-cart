@@ -6,2613 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "00_Local",
-			"item": [
-				{
-					"name": "00_TruncateTables",
-					"item": [
-						{
-							"name": "01_DDBTablesTruncateNoAuth",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "e55f107d-ad25-420e-ae3b-d9c23e57e0fc",
-										"exec": [
-											"pm.test(\"Status code is 403\", function () {",
-											"    pm.response.to.have.status(403);",
-											"});",
-											"",
-											"// pm.test(\"The post returns list has no item\", function () {",
-											"//     var jsonData = pm.response.json();",
-											"//     pm.expect(jsonData.items.length).to.equal(0);          ",
-											"// });",
-											"",
-											"pm.test(\"Response time is less than 900ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(900);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{UserAuthToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{HostPrefix}}/ddtables/",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"ddtables",
-										""
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "02_DDBTablesTruncate",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "582efbe9-cbea-4149-9b94-f2747f387d2e",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"// pm.test(\"The post returns list has no item\", function () {",
-											"//     var jsonData = pm.response.json();",
-											"//     pm.expect(jsonData.items.length).to.equal(0);          ",
-											"// });",
-											"",
-											"pm.test(\"Response time is less than 25000ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(25000);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{AdminAuthToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{HostPrefix}}/ddtables",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"ddtables"
-									]
-								}
-							},
-							"response": []
-						}
-					],
-					"protocolProfileBehavior": {},
-					"_postman_isSubFolder": true
-				},
-				{
-					"name": "01_Users",
-					"item": [
-						{
-							"name": "00_UserCreateAdminNotAuth",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "65c17b88-7767-4f55-95fe-86ce89fadd5d",
-										"exec": [
-											"pm.test(\"Status code is 403\", function () {",
-											"    pm.response.to.have.status(403);",
-											"});",
-											"",
-											"// pm.test(\"The post returns list has no item\", function () {",
-											"//     var jsonData = pm.response.json();",
-											"//     pm.expect(jsonData.items.length).to.equal(0);          ",
-											"// });",
-											"",
-											"pm.test(\"Response time is less than 2000ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(2000);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{UserAuthToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"userId\": \"auth0|5f31c210022f3a003d37ad02\",\r\n    \"name\": \"admin@test.com\",\r\n    \"contactPhone\": \"888-123-4567\",\r\n    \"address\": {\r\n        \"addressLine1\": \"\",\r\n        \"addressLine2\": \"\",\r\n        \"city\": \"San Fransisco\",\r\n        \"zip\": \"900123\",\r\n        \"state\": \"ca\"\r\n    }\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{HostPrefix}}/user",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"user"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "01_UserCreateAdmin",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "41b4230f-ef88-42cd-b662-c1b1f20eabde",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"// pm.test(\"The post returns list has no item\", function () {",
-											"//     var jsonData = pm.response.json();",
-											"//     pm.expect(jsonData.items.length).to.equal(0);          ",
-											"// });",
-											"",
-											"pm.test(\"Response time is less than 300ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(1200);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{AdminAuthToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"userId\": \"auth0|5f31c210022f3a003d37ad02\",\r\n    \"name\": \"admin@test.com\",\r\n    \"contactPhone\": \"888-123-4567\",\r\n    \"address\": {\r\n        \"addressLine1\": \"\",\r\n        \"addressLine2\": \"\",\r\n        \"city\": \"San Fransisco\",\r\n        \"zip\": \"900123\",\r\n        \"state\": \"ca\"\r\n    }\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{HostPrefix}}/user",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"user"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "02_UserGetAdminNoAuth",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "31947412-49cb-47f7-95ef-09a2cc896784",
-										"exec": [
-											"pm.test(\"Status code is 403\", function () {",
-											"    pm.response.to.have.status(403);",
-											"});",
-											"",
-											"// pm.test(\"The post returns list has no item\", function () {",
-											"//     var jsonData = pm.response.json();",
-											"//     pm.expect(jsonData.items.length).to.equal(0);          ",
-											"// });",
-											"",
-											"pm.test(\"Response time is less than 300ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(300);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{UserAuthToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{HostPrefix}}/user?userId=auth0%7C5f31c210022f3a003d37ad02",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"user"
-									],
-									"query": [
-										{
-											"key": "userId",
-											"value": "auth0%7C5f31c210022f3a003d37ad02",
-											"description": "Admin user's Id"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "02_UserGetUserEmpty",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "a9fd337f-2f42-42bf-8d8f-a11e7053010d",
-										"exec": [
-											"pm.test(\"Status code is 204\", function () {",
-											"    pm.response.to.have.status(204);",
-											"});",
-											"",
-											"// pm.test(\"The post returns list has no item\", function () {",
-											"//     var jsonData = pm.response.json();",
-											"//     pm.expect(jsonData.items.length).to.equal(0);          ",
-											"// });",
-											"",
-											"pm.test(\"Response time is less than 500ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(500);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{UserAuthToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{HostPrefix}}/user",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"user"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "03_UserCreateUser",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "b74d9189-f754-4d15-8314-bd33e923c9b4",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"// pm.test(\"The post returns list has no item\", function () {",
-											"//     var jsonData = pm.response.json();",
-											"//     pm.expect(jsonData.items.length).to.equal(0);          ",
-											"// });",
-											"",
-											"pm.test(\"Response time is less than 600ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(600);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{UserAuthToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"userId\": \"auth0|5f31c2ea8817010037fdcf73\",\r\n    \"name\": \"user@test.com\",\r\n    \"contactPhone\": \"888-123-4568\",\r\n    \"address\": {\r\n        \"addressLine1\": \"1234 El Camino Real\",\r\n        \"addressLine2\": \"\",\r\n        \"city\": \"Santa Clara\",\r\n        \"zip\": \"900125\",\r\n        \"state\": \"ca\"\r\n    }\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{HostPrefix}}/user",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"user"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "04_UserGetUser",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "2a350b67-5fb6-463b-8869-82314c788bbe",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"The returned User object has same userId\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.user.userId).to.equal(\"auth0|5f31c2ea8817010037fdcf73\");          ",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 300ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(300);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{UserAuthToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{HostPrefix}}/user",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"user"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "06_UserUpdateUser",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "4222c827-6517-4820-9621-25206e3927ad",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"The returned User object has same userId\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.user.userId).to.equal(\"auth0|5f31c2ea8817010037fdcf73\");          ",
-											"});",
-											"",
-											"pm.test(\"The returned User object has update to contact phone\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.user.contactPhone).to.equal(\"888-123-4567\");          ",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 300ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(300);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "PATCH",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{UserAuthToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"userId\": \"auth0|5f31c2ea8817010037fdcf73\",\r\n    \"userNum\": 2,\r\n    \"name\": \"user@test.com\",\r\n    \"contactPhone\": \"888-123-4567\",\r\n    \"address\": {\r\n        \"addressLine1\": \"1234 El Camino Real\",\r\n        \"addressLine2\": \"\",\r\n        \"city\": \"Santa Clara\",\r\n        \"zip\": \"900125\",\r\n        \"state\": \"ca\"\r\n    }\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{HostPrefix}}/user",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"user"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "05_UserUpdateAdminNoAuth",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "fb99da6c-3e25-4ba9-b507-b5a7ebf91f73",
-										"exec": [
-											"pm.test(\"Status code is 403\", function () {",
-											"    pm.response.to.have.status(403);",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 300ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(300);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "PATCH",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{UserAuthToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"userId\": \"auth0|5f31c210022f3a003d37ad02\",\r\n    \"userNum\": \"1\",\r\n    \"name\": \"admin@test.com\",\r\n    \"contactPhone\": \"888-123-4567\",\r\n    \"address\": {\r\n        \"addressLine1\": \"\",\r\n        \"addressLine2\": \"\",\r\n        \"city\": \"San Fransisco\",\r\n        \"zip\": \"900123\",\r\n        \"state\": \"ca\"\r\n    }\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{HostPrefix}}/user",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"user"
-									]
-								}
-							},
-							"response": []
-						}
-					],
-					"protocolProfileBehavior": {},
-					"_postman_isSubFolder": true
-				},
-				{
-					"name": "02_Stores",
-					"item": [
-						{
-							"name": "00_StoreCreateStore1NoAuth",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "7de14abd-d77d-4b4d-a784-25b035d9207e",
-										"exec": [
-											"pm.test(\"Status code is 403\", function () {",
-											"    pm.response.to.have.status(403);",
-											"});",
-											"",
-											"// pm.test(\"The post returns list has no item\", function () {",
-											"//     var jsonData = pm.response.json();",
-											"//     pm.expect(jsonData.items.length).to.equal(0);          ",
-											"// });",
-											"",
-											"pm.test(\"Response time is less than 900ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(900);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{UserAuthToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Super King Grocers\",\r\n    \"desc\": \"Bay Area's Fastest Growing Grocer\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{HostPrefix}}/store",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"store"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "01_StoreCreateStore1",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "97b73705-26a0-4987-a98a-a382c70e43bc",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"// pm.test(\"The post returns list has no item\", function () {",
-											"//     var jsonData = pm.response.json();",
-											"//     pm.expect(jsonData.items.length).to.equal(0);          ",
-											"// });",
-											"",
-											"pm.test(\"Response time is less than 400ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(400);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{AdminAuthToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Super King Grocers\",\r\n    \"desc\": \"Bay Area's Fastest Growing Grocer\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{HostPrefix}}/store",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"store"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "02_StoreCreateStore2",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "d79c1949-b6cc-4ccb-a231-7e9e35609b09",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"// pm.test(\"The post returns list has no item\", function () {",
-											"//     var jsonData = pm.response.json();",
-											"//     pm.expect(jsonData.items.length).to.equal(0);          ",
-											"// });",
-											"",
-											"pm.test(\"Response time is less than 400ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(400);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{AdminAuthToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Ralphy General Stores\",\r\n    \"desc\": \"East Bay's Superfast Growing Store\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{HostPrefix}}/store",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"store"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "03_StoreUpdateStore2NoAuth",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "1e66028d-b10c-4a7b-8808-18d1a2428314",
-										"exec": [
-											"pm.test(\"Status code is 403\", function () {",
-											"    pm.response.to.have.status(403);",
-											"});",
-											"",
-											"// pm.test(\"The post returns list has no item\", function () {",
-											"//     var jsonData = pm.response.json();",
-											"//     pm.expect(jsonData.items.length).to.equal(0);          ",
-											"// });",
-											"",
-											"pm.test(\"Response time is less than 400ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(400);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "PATCH",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{UserAuthToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"storeNum\": 1,\r\n    \"name\": \"Ralphy General Stores\",\r\n    \"desc\": \"East Bay's Superfast Growing Store\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{HostPrefix}}/store",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"store"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "03_StoreUpdateStore2",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "8ace2881-426b-490e-9be5-adf161c69346",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"// pm.test(\"The post returns list has no item\", function () {",
-											"//     var jsonData = pm.response.json();",
-											"//     pm.expect(jsonData.items.length).to.equal(0);          ",
-											"// });",
-											"",
-											"pm.test(\"Response time is less than 400ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(400);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "PATCH",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{AdminAuthToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"storeNum\": 1,\r\n    \"name\": \"Ralphy General Stores\",\r\n    \"desc\": \"East Bay's Superfast Growing Store\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{HostPrefix}}/store",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"store"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "04_StoreGetStore1",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "0a632202-62ae-4753-bf0a-9fdb153d0492",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"The post returns storeNum 1\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.store.storeNum).to.equal(1);          ",
-											"});",
-											"",
-											"pm.test(\"The post returns name, desc, createdAt, lastUpdatedAt\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.store.name);          ",
-											"    pm.expect(jsonData.store.desc);              ",
-											"    pm.expect(jsonData.store.createdAt);              ",
-											"    pm.expect(jsonData.store.lastUpdatedAt);",
-											"    ",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 300ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(300);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{UserAuthToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{HostPrefix}}/store/1",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"store",
-										"1"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "05_StoreGetStores",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "a53acf81-6301-4388-860c-1640556897dd",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"The post returns 2 stores\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.stores.length).to.equal(2);          ",
-											"});",
-											"",
-											"// pm.test(\"StoreNum 1 and 2 is returned\", function () {",
-											"//     var jsonData = pm.response.json();",
-											"//     pm.expect(jsonData.stores[0].storeNum).to.equal(1);          ",
-											"// });",
-											"",
-											"pm.test(\"Response time is less than 300ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(300);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{UserAuthToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{HostPrefix}}/store/",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"store",
-										""
-									]
-								}
-							},
-							"response": []
-						}
-					],
-					"protocolProfileBehavior": {},
-					"_postman_isSubFolder": true
-				},
-				{
-					"name": "03_Items",
-					"item": [
-						{
-							"name": "00_ItemCreateS1I1NoAuth",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "807a4fb3-d0d2-497c-9bf7-384fdc71bbd4",
-										"exec": [
-											"pm.test(\"Status code is 403\", function () {",
-											"    pm.response.to.have.status(403);",
-											"});",
-											"",
-											"// pm.test(\"The post returns list has no item\", function () {",
-											"//     var jsonData = pm.response.json();",
-											"//     pm.expect(jsonData.items.length).to.equal(0);          ",
-											"// });",
-											"",
-											"pm.test(\"Response time is less than 1500ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(1500);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{UserAuthToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n      \"storeNum\" : \"1\",\r\n      \"name\":\"Red Onions\",\r\n      \"desc\": \"Red Onions\",\r\n      \"unitType\": \"lb\",\r\n      \"minIncrement\": 0.25,\r\n      \"minUnits\": 1,      \r\n      \"maxUnits\": 100,\r\n      \"price\": 3,\r\n      \"acive\": true\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{HostPrefix}}/store/1/item",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"store",
-										"1",
-										"item"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "01_ItemCreateS1I1Red Onions",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "b4f87840-7427-4c39-b39f-00997f44992e",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"// pm.test(\"The post returns list has no item\", function () {",
-											"//     var jsonData = pm.response.json();",
-											"//     pm.expect(jsonData.items.length).to.equal(0);          ",
-											"// });",
-											"",
-											"pm.test(\"Response time is less than 4000ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(4000);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{AdminAuthToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n      \"storeNum\" : \"1\",\r\n      \"name\":\"Red Onions\",\r\n      \"desc\": \"Red Onions\",\r\n      \"unitType\": \"lb\",\r\n      \"minIncrement\": 0.25,\r\n      \"minUnits\": 1,      \r\n      \"maxUnits\": 100,\r\n      \"price\": 3,\r\n      \"acive\": true\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{HostPrefix}}/store/1/item/",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"store",
-										"1",
-										"item",
-										""
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "02_ItemCreateS1I2Green Onions",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "e06d13e5-7e00-45eb-8f41-2aa8393a8926",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"// pm.test(\"The post returns list has no item\", function () {",
-											"//     var jsonData = pm.response.json();",
-											"//     pm.expect(jsonData.items.length).to.equal(0);          ",
-											"// });",
-											"",
-											"pm.test(\"Response time is less than 1200ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(1200);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{AdminAuthToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n      \"storeNum\" : \"1\",\r\n      \"name\":\"Green Onions\",\r\n      \"desc\": \"Green Onions(Scallions bunch)\",\r\n      \"unitType\": \"num\",\r\n      \"minIncrement\": 1,\r\n      \"minUnits\": 1,      \r\n      \"maxUnits\": 100,\r\n      \"price\": 0.15,\r\n      \"acive\": true\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{HostPrefix}}/store/1/item/",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"store",
-										"1",
-										"item",
-										""
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "03_ItemCreateS1I3Cauliflower",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "c54553cf-3981-4a16-ad8e-fd8c179a824d",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"// pm.test(\"The post returns list has no item\", function () {",
-											"//     var jsonData = pm.response.json();",
-											"//     pm.expect(jsonData.items.length).to.equal(0);          ",
-											"// });",
-											"",
-											"pm.test(\"Response time is less than 1200ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(1200);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{AdminAuthToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n      \"storeNum\" : \"1\",\r\n      \"name\":\"Cauliflower\",\r\n      \"desc\": \"Cauliflower\",\r\n      \"unitType\": \"lb\",\r\n      \"minIncrement\": 0.10,\r\n      \"minUnits\": 1,      \r\n      \"maxUnits\": 100,\r\n      \"price\": 0.95,\r\n      \"acive\": true\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{HostPrefix}}/store/1/item/",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"store",
-										"1",
-										"item",
-										""
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "04_ItemCreateS1I4Green Bell Pepper",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "24400fb9-cab2-49a2-b02a-e1965d705296",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"// pm.test(\"The post returns list has no item\", function () {",
-											"//     var jsonData = pm.response.json();",
-											"//     pm.expect(jsonData.items.length).to.equal(0);          ",
-											"// });",
-											"",
-											"pm.test(\"Response time is less than 800ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(800);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{AdminAuthToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n      \"storeNum\" : \"1\",\r\n      \"name\":\"Green Bell Pepper\",\r\n      \"desc\": \"Green Bell Pepper\",\r\n      \"unitType\": \"num\",\r\n      \"minIncrement\": 1,\r\n      \"minUnits\": 1,      \r\n      \"maxUnits\": 100,\r\n      \"price\": 0.59,\r\n      \"acive\": true\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{HostPrefix}}/store/1/item/",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"store",
-										"1",
-										"item",
-										""
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "05_ItemCreateS1I5Tomato",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "5def982a-cc2d-4c73-8176-563ba9882209",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"// pm.test(\"The post returns list has no item\", function () {",
-											"//     var jsonData = pm.response.json();",
-											"//     pm.expect(jsonData.items.length).to.equal(0);          ",
-											"// });",
-											"",
-											"pm.test(\"Response time is less than 800ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(800);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{AdminAuthToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n      \"storeNum\" : \"1\",\r\n      \"name\":\"Tomato\",\r\n      \"desc\": \"Tomato\",\r\n      \"unitType\": \"num\",\r\n      \"minIncrement\": 1,\r\n      \"minUnits\": 1,      \r\n      \"maxUnits\": 100,\r\n      \"price\": 0.45,\r\n      \"acive\": true\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{HostPrefix}}/store/1/item/",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"store",
-										"1",
-										"item",
-										""
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "06_ItemCreateS1I6Cilantro",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "f5f4410f-89d3-47f9-8296-fdfa88ad5a48",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"// pm.test(\"The post returns list has no item\", function () {",
-											"//     var jsonData = pm.response.json();",
-											"//     pm.expect(jsonData.items.length).to.equal(0);          ",
-											"// });",
-											"",
-											"pm.test(\"Response time is less than 800ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(800);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{AdminAuthToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n      \"storeNum\" : \"1\",\r\n      \"name\":\"Cilantro\",\r\n      \"desc\": \"Cilantro bunch\",\r\n      \"unitType\": \"num\",\r\n      \"minIncrement\": 1,\r\n      \"minUnits\": 1,      \r\n      \"maxUnits\": 100,\r\n      \"price\": 0.19,\r\n      \"acive\": true\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{HostPrefix}}/store/1/item/",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"store",
-										"1",
-										"item",
-										""
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "07_ItemCreateS1I7Carrot",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "f707e20b-9319-45a1-9748-a833f5d671dd",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"// pm.test(\"The post returns list has no item\", function () {",
-											"//     var jsonData = pm.response.json();",
-											"//     pm.expect(jsonData.items.length).to.equal(0);          ",
-											"// });",
-											"",
-											"pm.test(\"Response time is less than 1600ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(1600);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{AdminAuthToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n      \"storeNum\" : \"1\",\r\n      \"name\":\"Carrot Bunch\",\r\n      \"desc\": \"Carrot Bunch\",\r\n      \"unitType\": \"num\",\r\n      \"minIncrement\": 1,\r\n      \"minUnits\": 1,      \r\n      \"maxUnits\": 100,\r\n      \"price\": 1.05,\r\n      \"acive\": true\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{HostPrefix}}/store/1/item/",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"store",
-										"1",
-										"item",
-										""
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "08_ItemCreateS1I8OrgBrownEggs",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "f2712219-36e3-47cd-8e38-b015bd3b0861",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"// pm.test(\"The post returns list has no item\", function () {",
-											"//     var jsonData = pm.response.json();",
-											"//     pm.expect(jsonData.items.length).to.equal(0);          ",
-											"// });",
-											"",
-											"pm.test(\"Response time is less than 1000ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{AdminAuthToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n      \"storeNum\" : \"1\",\r\n      \"name\":\"Organic Cage Free Grade A Brown Eggs Large\",\r\n      \"desc\": \"Organic Cage Free Grade A Brown Eggs Large\",\r\n      \"unitType\": \"dozen\",\r\n      \"minIncrement\": 1,\r\n      \"minUnits\": 1,      \r\n      \"maxUnits\": 10,\r\n      \"price\": 5.55,\r\n      \"acive\": true\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{HostPrefix}}/store/1/item/",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"store",
-										"1",
-										"item",
-										""
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "09_ItemUpdateItemS1I7NoAuth",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "09d9ad25-55f4-43f7-83fc-fcd2824dc6ab",
-										"exec": [
-											"pm.test(\"Status code is 403\", function () {",
-											"    pm.response.to.have.status(403);",
-											"});",
-											"",
-											"// pm.test(\"The post returns list has no item\", function () {",
-											"//     var jsonData = pm.response.json();",
-											"//     pm.expect(jsonData.items.length).to.equal(0);          ",
-											"// });",
-											"",
-											"pm.test(\"Response time is less than 600ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(600);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "PATCH",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{UserAuthToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n      \"name\":\"Carrot Bunch\",\r\n      \"desc\": \"Carrot Bunch\",\r\n      \"unitType\": \"num\",\r\n      \"minIncrement\": 1,\r\n      \"minUnits\": 1,      \r\n      \"maxUnits\": 100,\r\n      \"price\": 1.05,\r\n      \"acive\": true\r\n}\r\n",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{HostPrefix}}/store/1/item/7",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"store",
-										"1",
-										"item",
-										"7"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "10_ItemUpdateUpdateItemS1I7Carrot",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "6d0beaea-7a26-424a-9254-b4ebd90b2ade",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"The post returns list has no item\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.item.price).to.equal(0.99);          ",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 800ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(800);",
-											"});",
-											"",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "PATCH",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{AdminAuthToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{        \r\n      \"name\":\"Carrot Bunch\",\r\n      \"desc\": \"Carrot Bunch\",\r\n      \"unitType\": \"num\",\r\n      \"minIncrement\": 1,\r\n      \"minUnits\": 1,      \r\n      \"maxUnits\": 100,\r\n      \"price\": 0.99,\r\n      \"acive\": true\r\n}\r\n",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{HostPrefix}}/store/1/item/7",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"store",
-										"1",
-										"item",
-										"7"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "11_ItemGetItemByNum",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "0f5204d1-5e7e-4237-a2d0-ab7c68e6b522",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"The post returns storeNum, itemNum, price \", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.item.storeNum).to.equal(1);          ",
-											"    pm.expect(jsonData.item.itemNum).to.equal(7);              ",
-											"    pm.expect(jsonData.item.itemId).to.equal(\"i-00001-0000000007\");  ",
-											"    pm.expect(jsonData.item).to.have.property(\"lastUpdatedAt\");  ",
-											"});",
-											"",
-											"",
-											"",
-											"pm.test(\"Response time is less than 600ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(600);",
-											"});",
-											"",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{UserAuthToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{HostPrefix}}/store/1/item/7",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"store",
-										"1",
-										"item",
-										"7"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "11_ItemGetItemByNum Copy",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "cb0af3d2-5e46-41de-b616-b467da84ada9",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"The post returns storeNum, itemNum, price \", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.item.storeNum).to.equal(1);          ",
-											"    //pm.expect(jsonData.item.itemNum).to.equal(7);              ",
-											"    //pm.expect(jsonData.item.itemId).to.equal(\"i-00001-0000000007\");  ",
-											"    pm.expect(jsonData.item).to.have.property(\"lastUpdatedAt\");  ",
-											"});",
-											"",
-											"",
-											"",
-											"pm.test(\"Response time is less than 600ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(600);",
-											"});",
-											"",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{UserAuthToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{HostPrefix}}/store/1/item/5",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"store",
-										"1",
-										"item",
-										"5"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "12_ItemGetItemById",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "d51d216a-b60d-432f-ac19-87cf4c514a7b",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"The post returns storeNum, itemNum, price \", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.item.storeNum).to.equal(1);          ",
-											"    pm.expect(jsonData.item.itemNum).to.equal(7);              ",
-											"    pm.expect(jsonData.item.itemId).to.equal(\"i-00001-0000000007\");  ",
-											"    pm.expect(jsonData.item).to.have.property(\"lastUpdatedAt\");  ",
-											"});",
-											"",
-											"",
-											"",
-											"pm.test(\"Response time is less than 800ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(800);",
-											"});",
-											"",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{UserAuthToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{HostPrefix}}/storeItem/i-00001-0000000007",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"storeItem",
-										"i-00001-0000000007"
-									]
-								}
-							},
-							"response": []
-						}
-					],
-					"protocolProfileBehavior": {},
-					"_postman_isSubFolder": true
-				},
-				{
-					"name": "04_Cart",
-					"item": [
-						{
-							"name": "01_CreateCart",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "9f6f050e-63c7-4f99-a7a4-8d626f7e451f",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"The post returns list has 3 item\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.cart.items.length).to.equal(3);          ",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 800ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(800);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{UserAuthToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"itms\": [\r\n        {\r\n        \"itemId\" : \"i-00001-0000000001\",\r\n        \"name\": \"Red Onions\",        \r\n        \"unitType\" : \"lb\",\r\n        \"unitPrice\": 3,\r\n        \"qty\": 2,        \r\n        \"price\": 6\r\n        },\r\n        {\r\n        \"itemId\": \"i-00001-0000000002\",            \r\n        \"name\": \"Green Onions\",         \r\n        \"unitType\": \"num\",\r\n        \"unitPrice\": 0.15,\r\n        \"qty\": 2,        \r\n        \"price\": 0.30\r\n        },\r\n        {\r\n        \"unitType\": \"lb\",\r\n        \"itemId\": \"i-00001-0000000003\",\r\n        \"unitPrice\": 0.95,\r\n        \"name\": \"Cauliflower\",\r\n        \"qty\": 2,        \r\n        \"price\": 1.90\r\n        }        \r\n    ],\r\n    \"totalAmt\": 8.20\r\n}\r\n\r\n",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{HostPrefix}}/store/1/cart",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"store",
-										"1",
-										"cart"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "02_GetCart",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "b66659df-08bf-408c-8665-044861700efc",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"The post returns storeNum 1\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.cart.storeNum).to.equal(1);",
-											"});",
-											"",
-											"pm.test(\"The post returns name, desc, createdAt, lastUpdatedAt\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.cart).to.have.property(\"userId\");",
-											"    pm.expect(jsonData.cart).to.have.property(\"items\");",
-											"    pm.expect(jsonData.cart.items).to.have.length(3);",
-											"    pm.expect(jsonData.cart).to.have.property(\"totalPrice\");    ",
-											"    pm.expect(jsonData.cart).to.have.property(\"lastUpdatedAt\");",
-											"",
-											"",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 300ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(300);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{UserAuthToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{HostPrefix}}/store/1/cart",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"store",
-										"1",
-										"cart"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "03_UpdateCart",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "66a7d4fa-d375-437b-b818-48933ac5e0b2",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"The post returns storeNum 1\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.cart.storeNum).to.equal(1);",
-											"});",
-											"",
-											"pm.test(\"The post returns name, desc, createdAt, lastUpdatedAt\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.cart).to.have.property(\"userId\");",
-											"    pm.expect(jsonData.cart).to.have.property(\"items\");",
-											"    pm.expect(jsonData.cart.items).to.have.length(4);",
-											"    pm.expect(jsonData.cart).to.have.property(\"totalPrice\");    ",
-											"    pm.expect(jsonData.cart).to.have.property(\"lastUpdatedAt\");",
-											"",
-											"",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 300ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(300);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "PATCH",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{UserAuthToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"itms\": [\r\n        {\r\n        \"itemId\" : \"i-00001-0000000001\",\r\n        \"name\": \"Red Onions\",        \r\n        \"unitType\" : \"lb\",\r\n        \"unitPrice\": 3,\r\n        \"qty\": 2,        \r\n        \"price\": 6\r\n        },\r\n        {\r\n        \"itemId\": \"i-00001-0000000002\",            \r\n        \"name\": \"Green Onions\",         \r\n        \"unitType\": \"num\",\r\n        \"unitPrice\": 0.15,\r\n        \"qty\": 2,        \r\n        \"price\": 0.30\r\n        },\r\n        {\r\n        \"unitType\": \"lb\",\r\n        \"itemId\": \"i-00001-0000000003\",\r\n        \"unitPrice\": 0.95,\r\n        \"name\": \"Cauliflower\",\r\n        \"qty\": 2,        \r\n        \"price\": 1.90\r\n        },\r\n        {\r\n        \"unitType\": \"num\",\r\n        \"itemId\": \"i-00001-0000000005\",\r\n        \"unitPrice\": 0.45,\r\n        \"name\": \"Tomato\",\r\n        \"qty\": 5,        \r\n        \"price\": 2.25\r\n        }                \r\n    ],\r\n    \"totalAmt\": 10.45\r\n}\r\n\r\n",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{HostPrefix}}/store/1/cart",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"store",
-										"1",
-										"cart"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "04_GetCart",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "0fb01a14-334f-47a1-8b23-302c3affd9ac",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"The post returns storeNum 1\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.cart.storeNum).to.equal(1);          ",
-											"});",
-											"",
-											"pm.test(\"The post returns name, desc, createdAt, lastUpdatedAt\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.cart).to.have.property(\"userId\");",
-											"    pm.expect(jsonData.cart).to.have.property(\"items\");",
-											"    pm.expect(jsonData.cart.items).to.have.length(4);",
-											"    pm.expect(jsonData.cart).to.have.property(\"totalPrice\");    ",
-											"    pm.expect(jsonData.cart).to.have.property(\"lastUpdatedAt\");",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 300ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(300);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{UserAuthToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{HostPrefix}}/store/1/cart",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"store",
-										"1",
-										"cart"
-									]
-								}
-							},
-							"response": []
-						}
-					],
-					"protocolProfileBehavior": {},
-					"_postman_isSubFolder": true
-				},
-				{
-					"name": "05_Order",
-					"item": [
-						{
-							"name": "01_CreateOrder",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "806b22b6-3858-498f-b7bd-f8f155ff7e87",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"The post returns list has no item\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.order.storeNum).to.equal(1);    ",
-											"",
-											"    pm.expect(jsonData.order).to.have.property(\"userId\");",
-											"    pm.expect(jsonData.order).to.have.property(\"items\");",
-											"    pm.expect(jsonData.order.items).to.have.length(3);",
-											"    pm.expect(jsonData.order).to.have.property(\"totalPrice\");    ",
-											"    pm.expect(jsonData.order).to.have.property(\"lastUpdatedAt\");               ",
-											"    pm.expect(jsonData.order).to.have.property(\"gsi1pk\");                   ",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 4000ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(4000);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{UserAuthToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"itms\": [\r\n        {\r\n        \"itemId\" : \"i-00001-0000000001\",\r\n        \"name\": \"Red Onions\",        \r\n        \"unitType\" : \"lb\",\r\n        \"unitPrice\": 3,\r\n        \"qty\": 2,        \r\n        \"price\": 6\r\n        },\r\n        {\r\n        \"itemId\": \"i-00001-0000000002\",            \r\n        \"name\": \"Green Onions\",         \r\n        \"unitType\": \"num\",\r\n        \"unitPrice\": 0.15,\r\n        \"qty\": 2,        \r\n        \"price\": 0.30\r\n        },\r\n        {\r\n        \"unitType\": \"lb\",\r\n        \"itemId\": \"i-00001-0000000003\",\r\n        \"unitPrice\": 0.95,\r\n        \"name\": \"Cauliflower\",\r\n        \"qty\": 2,        \r\n        \"price\": 1.90\r\n        }        \r\n    ],\r\n    \"totalAmt\": 8.20\r\n}\r\n\r\n",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{HostPrefix}}/store/1/order",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"store",
-										"1",
-										"order"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "02_GetOrderByIdNoAuth",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "6db608dc-97ff-4159-8abe-78ceebc7adfe",
-										"exec": [
-											"pm.test(\"Status code is 403\", function () {",
-											"    pm.response.to.have.status(403);",
-											"});",
-											"",
-											"",
-											"pm.test(\"Response time is less than 300ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(300);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{UserAuthToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{HostPrefix}}/order/00001-0000000003",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"order",
-										"00001-0000000003"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "03_GetOrderById",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "dd09b9e2-bd6c-4581-807d-8d85ab8f3df8",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"The post returns storeNum 1\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.order.storeNum).to.equal(1);",
-											"});",
-											"",
-											"pm.test(\"The post returns name, desc, createdAt, lastUpdatedAt\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.order).to.have.property(\"userId\");",
-											"    pm.expect(jsonData.order).to.have.property(\"items\");",
-											"    pm.expect(jsonData.order.items).to.have.length(3);",
-											"    pm.expect(jsonData.order).to.have.property(\"totalPrice\");    ",
-											"    pm.expect(jsonData.order).to.have.property(\"lastUpdatedAt\");",
-											"",
-											"",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 900ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(900);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{AdminAuthToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{HostPrefix}}/order/00001-0000000001",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"order",
-										"00001-0000000001"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "04_GetOrderForUser",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "193a944a-7727-430f-ae12-583f6cb7cbda",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"The post returns storeNum 1\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.orders[0].storeNum).to.equal(1);",
-											"});",
-											"",
-											"pm.test(\"The post returns name, desc, createdAt, lastUpdatedAt\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.orders[0]).to.have.property(\"userId\");",
-											"    pm.expect(jsonData.orders[0]).to.have.property(\"items\");",
-											"    pm.expect(jsonData.orders[0].items).to.have.length(3);",
-											"    pm.expect(jsonData.orders[0]).to.have.property(\"totalPrice\");    ",
-											"    pm.expect(jsonData.orders[0]).to.have.property(\"lastUpdatedAt\");",
-											"",
-											"",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 900ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(900);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{UserAuthToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{HostPrefix}}/user/order?status=CREATED",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"user",
-										"order"
-									],
-									"query": [
-										{
-											"key": "status",
-											"value": "CREATED"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "05_GetOrderForStoreNoAuth",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "848bbd58-ea46-403c-a027-0975d5c92a85",
-										"exec": [
-											"pm.test(\"Status code is 403\", function () {",
-											"    pm.response.to.have.status(403);",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 900ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(900);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{UserAuthToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{HostPrefix}}/store/1/order?status=CREATED",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"store",
-										"1",
-										"order"
-									],
-									"query": [
-										{
-											"key": "status",
-											"value": "CREATED"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "06_GetOrderForStore",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "5a56510f-b56b-4c61-99a8-93bdfc62a9b1",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"The post returns storeNum 1\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.orders[0].storeNum).to.equal(1);",
-											"});",
-											"",
-											"pm.test(\"The post returns name, desc, createdAt, lastUpdatedAt\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.orders[0]).to.have.property(\"userId\");",
-											"    pm.expect(jsonData.orders[0]).to.have.property(\"items\");",
-											"    pm.expect(jsonData.orders[0].items).to.have.length(3);",
-											"    pm.expect(jsonData.orders[0]).to.have.property(\"totalPrice\");    ",
-											"    pm.expect(jsonData.orders[0]).to.have.property(\"lastUpdatedAt\");",
-											"",
-											"",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 900ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(900);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{AdminAuthToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{HostPrefix}}/store/1/order?status=CREATED",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"store",
-										"1",
-										"order"
-									],
-									"query": [
-										{
-											"key": "status",
-											"value": "CREATED"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "07_UpdateOrderNoAuth",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "b141f1d0-a78a-403f-8918-12e0f01db6ae",
-										"exec": [
-											"pm.test(\"Status code is 403\", function () {",
-											"    pm.response.to.have.status(403);",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 900ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(900);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "PATCH",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{UserAuthToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"itms\": [\r\n        {\r\n        \"itemId\" : \"i-00001-0000000001\",\r\n        \"name\": \"Red Onions\",        \r\n        \"unitType\" : \"lb\",\r\n        \"unitPrice\": 3,\r\n        \"qty\": 2,        \r\n        \"price\": 6\r\n        },\r\n        {\r\n        \"itemId\": \"i-00001-0000000002\",            \r\n        \"name\": \"Green Onions\",         \r\n        \"unitType\": \"num\",\r\n        \"unitPrice\": 0.15,\r\n        \"qty\": 2,        \r\n        \"price\": 0.30\r\n        },\r\n        {\r\n        \"unitType\": \"lb\",\r\n        \"itemId\": \"i-00001-0000000003\",\r\n        \"unitPrice\": 0.95,\r\n        \"name\": \"Cauliflower\",\r\n        \"qty\": 2,        \r\n        \"price\": 1.90\r\n        },\r\n        {\r\n        \"unitType\": \"num\",\r\n        \"itemId\": \"i-00001-0000000005\",\r\n        \"unitPrice\": 0.45,\r\n        \"name\": \"Tomato\",\r\n        \"qty\": 5,        \r\n        \"price\": 2.25\r\n        }                \r\n    ],\r\n    \"totalAmt\": 10.45\r\n}\r\n\r\n",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{HostPrefix}}/order/00001-0000000001?status=PROCESSED",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"order",
-										"00001-0000000001"
-									],
-									"query": [
-										{
-											"key": "status",
-											"value": "PROCESSED"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "08_UpdateOrder",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "374a791a-7af2-4d55-ab81-d8e5cc41caab",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"The post returns storeNum 1\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.order.storeNum).to.equal(1);",
-											"});",
-											"",
-											"pm.test(\"The post returns name, desc, createdAt, lastUpdatedAt\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.order).to.have.property(\"userId\");",
-											"    pm.expect(jsonData.order).to.have.property(\"items\");",
-											"    pm.expect(jsonData.order.items).to.have.length(3);",
-											"    pm.expect(jsonData.order).to.have.property(\"totalPrice\");    ",
-											"    pm.expect(jsonData.order).to.have.property(\"status\");        ",
-											"    pm.expect(jsonData.order.status).to.equal(\"PROCESSED\");    ",
-											"    pm.expect(jsonData.order).to.have.property(\"lastUpdatedAt\");",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 900ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(900);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "PATCH",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{AdminAuthToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"itms\": [\r\n        {\r\n        \"itemId\" : \"i-00001-0000000001\",\r\n        \"name\": \"Red Onions\",        \r\n        \"unitType\" : \"lb\",\r\n        \"unitPrice\": 3,\r\n        \"qty\": 2,        \r\n        \"price\": 6\r\n        },\r\n        {\r\n        \"itemId\": \"i-00001-0000000002\",            \r\n        \"name\": \"Green Onions\",         \r\n        \"unitType\": \"num\",\r\n        \"unitPrice\": 0.15,\r\n        \"qty\": 2,        \r\n        \"price\": 0.30\r\n        },\r\n        {\r\n        \"unitType\": \"lb\",\r\n        \"itemId\": \"i-00001-0000000003\",\r\n        \"unitPrice\": 0.95,\r\n        \"name\": \"Cauliflower\",\r\n        \"qty\": 2,        \r\n        \"price\": 1.90\r\n        },\r\n        {\r\n        \"unitType\": \"num\",\r\n        \"itemId\": \"i-00001-0000000005\",\r\n        \"unitPrice\": 0.45,\r\n        \"name\": \"Tomato\",\r\n        \"qty\": 5,        \r\n        \"price\": 2.25\r\n        }                \r\n    ],\r\n    \"totalAmt\": 10.45\r\n}\r\n\r\n",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{HostPrefix}}/order/00001-0000000001?status=PROCESSED",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"order",
-										"00001-0000000001"
-									],
-									"query": [
-										{
-											"key": "status",
-											"value": "PROCESSED"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "09_GetOrderById",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "1ac01547-c920-4c08-8bd9-fb10ed2c4645",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"The post returns storeNum 1\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.order.storeNum).to.equal(1);",
-											"});",
-											"",
-											"pm.test(\"The post returns name, desc, createdAt, lastUpdatedAt\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.order).to.have.property(\"userId\");",
-											"    pm.expect(jsonData.order).to.have.property(\"items\");",
-											"    pm.expect(jsonData.order.items).to.have.length(3);",
-											"    pm.expect(jsonData.order).to.have.property(\"totalPrice\");    ",
-											"    pm.expect(jsonData.order).to.have.property(\"lastUpdatedAt\");",
-											"    pm.expect(jsonData.order).to.have.property(\"status\");",
-											"    pm.expect(jsonData.order.status).to.equal(\"PROCESSED\");",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 900ms\", function () {",
-											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(900);",
-											"});",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"type": "text",
-										"value": "Bearer {{AdminAuthToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{HostPrefix}}/order/00001-0000000001",
-									"host": [
-										"{{HostPrefix}}"
-									],
-									"path": [
-										"order",
-										"00001-0000000001"
-									]
-								}
-							},
-							"response": []
-						}
-					],
-					"protocolProfileBehavior": {},
-					"_postman_isSubFolder": true
-				}
-			],
-			"description": "Local SLS Offline tests",
-			"protocolProfileBehavior": {}
-		},
-		{
-			"name": "01_AWS",
+			"name": "01_Common_AWS_And_Local",
 			"item": [
 				{
 					"name": "00_TruncateTables",
@@ -2654,9 +48,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{AWSHostPrefix}}/ddtables/",
+									"raw": "{{HostPrefix}}/ddtables/",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"ddtables",
@@ -2703,9 +97,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{AWSHostPrefix}}/ddtables",
+									"raw": "{{HostPrefix}}/ddtables",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"ddtables"
@@ -2767,9 +161,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{AWSHostPrefix}}/user",
+									"raw": "{{HostPrefix}}/user",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"user"
@@ -2824,9 +218,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{AWSHostPrefix}}/user",
+									"raw": "{{HostPrefix}}/user",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"user"
@@ -2872,9 +266,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{AWSHostPrefix}}/user?userId=auth0%7C5f31c210022f3a003d37ad02",
+									"raw": "{{HostPrefix}}/user?userId=auth0%7C5f31c210022f3a003d37ad02",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"user"
@@ -2927,9 +321,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{AWSHostPrefix}}/user",
+									"raw": "{{HostPrefix}}/user",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"user"
@@ -2984,9 +378,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{AWSHostPrefix}}/user",
+									"raw": "{{HostPrefix}}/user",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"user"
@@ -3032,9 +426,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{AWSHostPrefix}}/user",
+									"raw": "{{HostPrefix}}/user",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"user"
@@ -3094,9 +488,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{AWSHostPrefix}}/user",
+									"raw": "{{HostPrefix}}/user",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"user"
@@ -3146,9 +540,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{AWSHostPrefix}}/user",
+									"raw": "{{HostPrefix}}/user",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"user"
@@ -3210,9 +604,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{AWSHostPrefix}}/store",
+									"raw": "{{HostPrefix}}/store",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"store"
@@ -3267,9 +661,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{AWSHostPrefix}}/store",
+									"raw": "{{HostPrefix}}/store",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"store"
@@ -3324,9 +718,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{AWSHostPrefix}}/store",
+									"raw": "{{HostPrefix}}/store",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"store"
@@ -3381,9 +775,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{AWSHostPrefix}}/store",
+									"raw": "{{HostPrefix}}/store",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"store"
@@ -3438,9 +832,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{AWSHostPrefix}}/store",
+									"raw": "{{HostPrefix}}/store",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"store"
@@ -3495,9 +889,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{AWSHostPrefix}}/store/1",
+									"raw": "{{HostPrefix}}/store/1",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"store",
@@ -3549,9 +943,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{AWSHostPrefix}}/store/",
+									"raw": "{{HostPrefix}}/store/",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"store",
@@ -3614,9 +1008,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{AWSHostPrefix}}/store/1/item",
+									"raw": "{{HostPrefix}}/store/1/item",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"store",
@@ -3673,9 +1067,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{AWSHostPrefix}}/store/1/item/",
+									"raw": "{{HostPrefix}}/store/1/item/",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"store",
@@ -3704,9 +1098,9 @@
 											"//     pm.expect(jsonData.items.length).to.equal(0);          ",
 											"// });",
 											"",
-											"pm.test(\"Response time is less than 1200ms\", function () {",
+											"pm.test(\"Response time is less than 2000 ms\", function () {",
 											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(1200);",
+											"    pm.expect(pm.response.responseTime).to.be.below(2000);",
 											"});",
 											""
 										],
@@ -3733,9 +1127,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{AWSHostPrefix}}/store/1/item/",
+									"raw": "{{HostPrefix}}/store/1/item/",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"store",
@@ -3764,9 +1158,9 @@
 											"//     pm.expect(jsonData.items.length).to.equal(0);          ",
 											"// });",
 											"",
-											"pm.test(\"Response time is less than 1200ms\", function () {",
+											"pm.test(\"Response time is less than 2000 ms\", function () {",
 											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(1200);",
+											"    pm.expect(pm.response.responseTime).to.be.below(2000);",
 											"});",
 											""
 										],
@@ -3793,9 +1187,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{AWSHostPrefix}}/store/1/item/",
+									"raw": "{{HostPrefix}}/store/1/item/",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"store",
@@ -3824,9 +1218,9 @@
 											"//     pm.expect(jsonData.items.length).to.equal(0);          ",
 											"// });",
 											"",
-											"pm.test(\"Response time is less than 800ms\", function () {",
+											"pm.test(\"Response time is less than 2000ms\", function () {",
 											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(800);",
+											"    pm.expect(pm.response.responseTime).to.be.below(2000);",
 											"});",
 											""
 										],
@@ -3853,9 +1247,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{AWSHostPrefix}}/store/1/item/",
+									"raw": "{{HostPrefix}}/store/1/item/",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"store",
@@ -3884,9 +1278,9 @@
 											"//     pm.expect(jsonData.items.length).to.equal(0);          ",
 											"// });",
 											"",
-											"pm.test(\"Response time is less than 800ms\", function () {",
+											"pm.test(\"Response time is less than 2000 ms\", function () {",
 											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(800);",
+											"    pm.expect(pm.response.responseTime).to.be.below(2000);",
 											"});",
 											""
 										],
@@ -3913,9 +1307,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{AWSHostPrefix}}/store/1/item/",
+									"raw": "{{HostPrefix}}/store/1/item/",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"store",
@@ -3944,9 +1338,9 @@
 											"//     pm.expect(jsonData.items.length).to.equal(0);          ",
 											"// });",
 											"",
-											"pm.test(\"Response time is less than 800ms\", function () {",
+											"pm.test(\"Response time is less than 2000 ms\", function () {",
 											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(800);",
+											"    pm.expect(pm.response.responseTime).to.be.below(2000);",
 											"});",
 											""
 										],
@@ -3973,9 +1367,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{AWSHostPrefix}}/store/1/item/",
+									"raw": "{{HostPrefix}}/store/1/item/",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"store",
@@ -4004,9 +1398,9 @@
 											"//     pm.expect(jsonData.items.length).to.equal(0);          ",
 											"// });",
 											"",
-											"pm.test(\"Response time is less than 1600ms\", function () {",
+											"pm.test(\"Response time is less than 2000 ms\", function () {",
 											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(1600);",
+											"    pm.expect(pm.response.responseTime).to.be.below(2000);",
 											"});",
 											""
 										],
@@ -4033,9 +1427,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{AWSHostPrefix}}/store/1/item/",
+									"raw": "{{HostPrefix}}/store/1/item/",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"store",
@@ -4064,9 +1458,9 @@
 											"//     pm.expect(jsonData.items.length).to.equal(0);          ",
 											"// });",
 											"",
-											"pm.test(\"Response time is less than 1000ms\", function () {",
+											"pm.test(\"Response time is less than 2000 ms\", function () {",
 											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+											"    pm.expect(pm.response.responseTime).to.be.below(2000);",
 											"});",
 											""
 										],
@@ -4093,9 +1487,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{AWSHostPrefix}}/store/1/item/",
+									"raw": "{{HostPrefix}}/store/1/item/",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"store",
@@ -4153,9 +1547,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{AWSHostPrefix}}/store/1/item/7",
+									"raw": "{{HostPrefix}}/store/1/item/7",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"store",
@@ -4184,9 +1578,9 @@
 											"    pm.expect(jsonData.item.price).to.equal(0.99);          ",
 											"});",
 											"",
-											"pm.test(\"Response time is less than 800ms\", function () {",
+											"pm.test(\"Response time is less than 2000 ms\", function () {",
 											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(800);",
+											"    pm.expect(pm.response.responseTime).to.be.below(2000);",
 											"});",
 											"",
 											""
@@ -4214,9 +1608,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{AWSHostPrefix}}/store/1/item/7",
+									"raw": "{{HostPrefix}}/store/1/item/7",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"store",
@@ -4250,9 +1644,9 @@
 											"",
 											"",
 											"",
-											"pm.test(\"Response time is less than 600ms\", function () {",
+											"pm.test(\"Response time is less than 2000 ms\", function () {",
 											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(600);",
+											"    pm.expect(pm.response.responseTime).to.be.below(2000);",
 											"});",
 											"",
 											""
@@ -4271,9 +1665,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{AWSHostPrefix}}/store/1/item/1",
+									"raw": "{{HostPrefix}}/store/1/item/1",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"store",
@@ -4307,9 +1701,9 @@
 											"",
 											"",
 											"",
-											"pm.test(\"Response time is less than 600ms\", function () {",
+											"pm.test(\"Response time is less than 2000 ms\", function () {",
 											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(600);",
+											"    pm.expect(pm.response.responseTime).to.be.below(2000);",
 											"});",
 											"",
 											""
@@ -4328,9 +1722,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{AWSHostPrefix}}/store/1/item/7",
+									"raw": "{{HostPrefix}}/store/1/item/7",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"store",
@@ -4364,7 +1758,7 @@
 											"",
 											"",
 											"",
-											"pm.test(\"Response time is less than 3000ms\", function () {",
+											"pm.test(\"Response time is less than 3000 ms\", function () {",
 											"    //after warm start.",
 											"    pm.expect(pm.response.responseTime).to.be.below(3000);",
 											"});",
@@ -4385,9 +1779,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{AWSHostPrefix}}/storeItem/i-00001-0000000007",
+									"raw": "{{HostPrefix}}/storeItem/i-00001-0000000007",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"storeItem",
@@ -4450,9 +1844,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{AWSHostPrefix}}/store/1/cart",
+									"raw": "{{HostPrefix}}/store/1/cart",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"store",
@@ -4511,9 +1905,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{AWSHostPrefix}}/store/1/cart",
+									"raw": "{{HostPrefix}}/store/1/cart",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"store",
@@ -4581,9 +1975,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{AWSHostPrefix}}/store/1/cart",
+									"raw": "{{HostPrefix}}/store/1/cart",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"store",
@@ -4620,9 +2014,9 @@
 											"    pm.expect(jsonData.cart).to.have.property(\"lastUpdatedAt\");",
 											"});",
 											"",
-											"pm.test(\"Response time is less than 300ms\", function () {",
+											"pm.test(\"Response time is less than 600ms\", function () {",
 											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(300);",
+											"    pm.expect(pm.response.responseTime).to.be.below(600);",
 											"});",
 											""
 										],
@@ -4640,9 +2034,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{AWSHostPrefix}}/store/1/cart",
+									"raw": "{{HostPrefix}}/store/1/cart",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"store",
@@ -4713,9 +2107,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{AWSHostPrefix}}/store/1/order",
+									"raw": "{{HostPrefix}}/store/1/order",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"store",
@@ -4739,9 +2133,9 @@
 											"});",
 											"",
 											"",
-											"pm.test(\"Response time is less than 300ms\", function () {",
+											"pm.test(\"Response time is less than 2000ms\", function () {",
 											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(300);",
+											"    pm.expect(pm.response.responseTime).to.be.below(2000);",
 											"});",
 											""
 										],
@@ -4759,9 +2153,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{AWSHostPrefix}}/order/00001-0000000003",
+									"raw": "{{HostPrefix}}/order/00001-0000000003",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"order",
@@ -4819,9 +2213,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{AWSHostPrefix}}/order/00001-0000000001",
+									"raw": "{{HostPrefix}}/order/00001-0000000001",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"order",
@@ -4879,9 +2273,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{AWSHostPrefix}}/user/order?status=CREATED",
+									"raw": "{{HostPrefix}}/user/order?status=CREATED",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"user",
@@ -4929,9 +2323,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{AWSHostPrefix}}/store/1/order?status=CREATED",
+									"raw": "{{HostPrefix}}/store/1/order?status=CREATED",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"store",
@@ -4996,9 +2390,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{AWSHostPrefix}}/store/1/order?status=CREATED",
+									"raw": "{{HostPrefix}}/store/1/order?status=CREATED",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"store",
@@ -5056,9 +2450,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{AWSHostPrefix}}/order/00001-0000000001?status=PROCESSED",
+									"raw": "{{HostPrefix}}/order/00001-0000000001?status=PROCESSED",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"order",
@@ -5102,9 +2496,9 @@
 											"    pm.expect(jsonData.order).to.have.property(\"lastUpdatedAt\");",
 											"});",
 											"",
-											"pm.test(\"Response time is less than 900ms\", function () {",
+											"pm.test(\"Response time is less than 2000 ms\", function () {",
 											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(900);",
+											"    pm.expect(pm.response.responseTime).to.be.below(2000);",
 											"});",
 											""
 										],
@@ -5131,9 +2525,9 @@
 									}
 								},
 								"url": {
-									"raw": "{{AWSHostPrefix}}/order/00001-0000000001?status=PROCESSED",
+									"raw": "{{HostPrefix}}/order/00001-0000000001?status=PROCESSED",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"order",
@@ -5177,9 +2571,9 @@
 											"    pm.expect(jsonData.order.status).to.equal(\"PROCESSED\");",
 											"});",
 											"",
-											"pm.test(\"Response time is less than 900ms\", function () {",
+											"pm.test(\"Response time is less than 2000 ms\", function () {",
 											"    //after warm start.",
-											"    pm.expect(pm.response.responseTime).to.be.below(900);",
+											"    pm.expect(pm.response.responseTime).to.be.below(2000);",
 											"});",
 											""
 										],
@@ -5197,9 +2591,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{AWSHostPrefix}}/order/00001-0000000001",
+									"raw": "{{HostPrefix}}/order/00001-0000000001",
 									"host": [
-										"{{AWSHostPrefix}}"
+										"{{HostPrefix}}"
 									],
 									"path": [
 										"order",
@@ -5214,7 +2608,29 @@
 					"_postman_isSubFolder": true
 				}
 			],
-			"description": "Local SLS Offline tests",
+			"description": "Tests common for both AWS and SLS Offline. \r\nUse appropriate environment.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a8700880-c03d-426d-9d44-a81722201435",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "7a37f142-504c-4a4a-af04-371b80e699e2",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
 			"protocolProfileBehavior": {}
 		}
 	],
