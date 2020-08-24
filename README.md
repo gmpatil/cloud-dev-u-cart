@@ -30,7 +30,8 @@ Lets user submit orders to stores. Store Admin users can get list of orders for 
 - Select Collection "Runner"
 - Select Collection "-1_Common_AWS-Local" in the Runner.
 - Select "AWS" environment.
-- Click Run
+- Click Run.
+
 See [screen-shots](https://github.com/gmpatil/cloud-dev-u-cart/tree/master/backend/screenshots) for more details.
 
 
