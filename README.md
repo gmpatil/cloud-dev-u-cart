@@ -8,7 +8,7 @@ Below back-end REST services are implemented.
 - Cart Service
 - Order Services
 
-Front-end, payment processing functionalities are yet to be implemented.
+Front-end, payment processing functionalities and refactoring to single table-design are yet to be implemented.
 
 ## User Service
 Allows Auth0 authenticated user to self create, update details. Admin and User roles defined in Auth0 are used authorize/restrict services.
